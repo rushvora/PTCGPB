@@ -2667,7 +2667,7 @@ PackOpening() {
 
     CheckPack()
 
-    FindImageAndClick(233, 486, 272, 519, , "Skip", 146, 494) ;click on next until skip button appears
+    ;FindImageAndClick(233, 486, 272, 519, , "Skip", 146, 494) ;click on next until skip button appears
 
     failSafe := A_TickCount
     failSafeTime := 0
@@ -2683,7 +2683,9 @@ PackOpening() {
             break
         } else if(FindOrLoseImage(178, 193, 251, 282, , "Hourglass", 0, failSafeTime)) {
             break
-        }
+		} else {
+			adbClick(146, 494) ;146, 494
+		} 
         failSafeTime := (A_TickCount - failSafe) // 1000
         CreateStatusMessage("Waiting for Home`n(" . failSafeTime . "/45 seconds)")
         if(failSafeTime > 45)
