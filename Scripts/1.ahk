@@ -18,7 +18,7 @@ CoordMode, Pixel, Screen
 DllCall("AllocConsole")
 WinHide % "ahk_id " DllCall("GetConsoleWindow", "ptr")
 
-global winTitle, changeDate, failSafe, openPack, Delay, failSafeTime, StartSkipTime, Columns, failSafe, scriptName, GPTest, StatusText, defaultLanguage, setSpeed, jsonFileName, pauseToggle, SelectedMonitorIndex, swipeSpeed, godPack, scaleParam, deleteMethod, packs, FriendID, friendIDs, Instances, username, friendCode, stopToggle, friended, runMain, Mains, showStatus, injectMethod, packMethod, loadDir, loadedAccount, nukeAccount, CheckShiningPackOnly, TrainerCheck, FullArtCheck, RainbowCheck, ShinyCheck, dateChange, foundGP, friendsAdded, minStars, PseudoGodPack, Palkia, Dialga, Mew, Pikachu, Charizard, Mewtwo, packArray, CrownCheck, ImmersiveCheck, InvalidCheck, slowMotion, screenShot, accountFile, invalid, starCount, keepAccount, minStarsA1Charizard, minStarsA1Mewtwo, minStarsA1Pikachu, minStarsA1a, minStarsA2Dialga, minStarsA2Palkia, minStarsA2a, minStarsA2b
+global winTitle, changeDate, failSafe, openPack, Delay, failSafeTime, StartSkipTime, Columns, failSafe, scriptName, GPTest, StatusText, defaultLanguage, setSpeed, jsonFileName, pauseToggle, SelectedMonitorIndex, swipeSpeed, godPack, scaleParam, deleteMethod, packs, FriendID, friendIDs, Instances, username, friendCode, stopToggle, friended, runMain, Mains, showStatus, injectMethod, packMethod, loadedAccount, nukeAccount, CheckShiningPackOnly, TrainerCheck, FullArtCheck, RainbowCheck, ShinyCheck, dateChange, foundGP, friendsAdded, minStars, PseudoGodPack, Palkia, Dialga, Mew, Pikachu, Charizard, Mewtwo, packArray, CrownCheck, ImmersiveCheck, InvalidCheck, slowMotion, screenShot, accountFile, invalid, starCount, keepAccount, minStarsA1Charizard, minStarsA1Mewtwo, minStarsA1Pikachu, minStarsA1a, minStarsA2Dialga, minStarsA2Palkia, minStarsA2a, minStarsA2b
 global DeadCheck
 global s4tEnabled, s4tSilent, s4t3Dmnd, s4t4Dmnd, s4t1Star, s4tGholdengo, s4tWP, s4tWPMinCards, s4tDiscordWebhookURL, s4tDiscordUserId, s4tSendAccountXml
 
@@ -235,8 +235,10 @@ if(DeadCheck = 1){
             Sleep, 5000
             dateChange := true
         }
-        if(dateChange)
-            createAccountList(scriptName)
+        
+		;always call it. it will updates the list every 1h
+        createAccountList(scriptName)
+        
         FindImageAndClick(65, 195, 100, 215, , "Platin", 18, 109, 2000) ; click mod settings
         if(setSpeed = 3)
             FindImageAndClick(182, 170, 194, 190, , "Three", 187, 180) ; click mod settings
@@ -284,7 +286,7 @@ if(DeadCheck = 1){
             ;                         just to get around the checking for a level after opening a pack. This change is made based on the
             ;                         5p-no delete community mod created by DietPepperPhD in the discord server.
 
-            if(deleteMethod != "5 Pack (Fast)") {
+            if(deleteMethod != "5 Pack (Fast)" && !injectMethod) {
                 friendsAdded := AddFriends(true)
             } else {
                 FindImageAndClick(120, 500, 155, 530, , "Social", 143, 518, 500)
@@ -1745,7 +1747,6 @@ GodPackFound(validity) {
 }
 
 loadAccount() {
-    global loadDir
     CreateStatusMessage("Loading account...",,,, false)
     currentDate := A_Now
     year := SubStr(currentDate, 1, 4)
@@ -1758,9 +1759,9 @@ loadAccount() {
 
     remainder := Mod(daysSinceBase, 3)
 
-    saveDir := A_ScriptDir "\..\Accounts\Saved\" . remainder . "\" . winTitle
+    saveDir := A_ScriptDir "\..\Accounts\Saved\" . winTitle
 
-    outputTxt := saveDir . "\list.txt"
+    outputTxt := saveDir . "\list_current.txt"
 
     if FileExist(outputTxt) {
         FileRead, fileContent, %outputTxt%  ; Read entire file
@@ -1770,22 +1771,22 @@ loadAccount() {
             cycle := 0
             Loop {
                 CreateStatusMessage("Making sure XML is > 24 hours old: " . cycle . " attempts")
-                loadDir := saveDir . "\" . fileLines[1]  ; Store the first line
-                test := fileExist(loadDir)
+                loadFile := saveDir . "\" . fileLines[1]  ; Store the first line
+                test := fileExist(loadFile)
 
-                if(!InStr(loadDir, "xml"))
+                if(!InStr(loadFile, "xml"))
                     return false
-                newContent := ""
-                Loop, % fileLines.MaxIndex() - 1  ; Start from the second line
-                    newContent .= fileLines[A_Index + 1] "`r`n"
+                newListContent := ""
+                Loop, % fileLines.MaxIndex() - 1  ; remove first line TODO improve
+                    newListContent .= fileLines[A_Index + 1] "`r`n"
 
-                FileDelete, %outputTxt%  ; Delete old file
-                FileAppend, %newContent%, %outputTxt%  ; Write back without the first line
+                FileDelete, %outputTxt%  ; Delete old file TODO improve
+                FileAppend, %newListContent%, %outputTxt%  ; Write back without the first line
 
-                FileGetTime, fileTime, %loadDir%, M  ; Get last modified time
-                timeDiff := A_Now - fileTime
-
-                if (timeDiff > 86400)
+                FileGetTime, accountFileTime, %loadFile%, M  ; Get last modified time of account file
+                accountModifiedTimeDiff := A_Now
+				EnvSub, accountModifiedTimeDiff, %accountFileTime%, Hours		
+				if (accountModifiedTimeDiff >= 24)
                     break
                 cycle++
                 Delay(1)
@@ -1795,7 +1796,7 @@ loadAccount() {
 
     adbShell.StdIn.WriteLine("am force-stop jp.pokemon.pokemontcgp")
 
-    RunWait, % adbPath . " -s 127.0.0.1:" . adbPort . " push " . loadDir . " /sdcard/deviceAccount.xml",, Hide
+    RunWait, % adbPath . " -s 127.0.0.1:" . adbPort . " push " . loadFile . " /sdcard/deviceAccount.xml",, Hide
 
     Sleep, 500
 
@@ -1807,27 +1808,17 @@ loadAccount() {
     waitadb()
     Sleep, 1000
 
-    FileSetTime,, %loadDir%
+    FileSetTime,, %loadFile%
 
-    return loadDir
+    return loadFile
 }
 
 saveAccount(file := "Valid", ByRef filePath := "", packDetails := "") {
-    currentDate := A_Now
-    year := SubStr(currentDate, 1, 4)
-    month := SubStr(currentDate, 5, 2)
-    day := SubStr(currentDate, 7, 2)
-
-    daysSinceBase := (year - 1900) * 365 + Floor((year - 1900) / 4)
-    daysSinceBase += MonthToDays(year, month)
-    daysSinceBase += day
-
-    remainder := Mod(daysSinceBase, 3)
 
     filePath := ""
 
     if (file = "All") {
-        saveDir := A_ScriptDir "\..\Accounts\Saved\" . remainder . "\" . winTitle
+        saveDir := A_ScriptDir "\..\Accounts\Saved\" . winTitle
         filePath := saveDir . "\" . A_Now . "_" . winTitle . ".xml"
     } else if (file = "Valid" || file = "Invalid") {
         saveDir := A_ScriptDir "\..\Accounts\GodPacks\"
@@ -2851,33 +2842,34 @@ getFriendCode() {
 }
 
 createAccountList(instance) {
-    currentDate := A_Now
-    year := SubStr(currentDate, 1, 4)
-    month := SubStr(currentDate, 5, 2)
-    day := SubStr(currentDate, 7, 2)
 
-    daysSinceBase := (year - 1900) * 365 + Floor((year - 1900) / 4)
-    daysSinceBase += MonthToDays(year, month)
-    daysSinceBase += day
-
-    remainder := Mod(daysSinceBase, 3)
-
-    saveDir := A_ScriptDir "\..\Accounts\Saved\" . remainder . "\" . instance
+    
+	saveDir := A_ScriptDir "\..\Accounts\Saved\" . instance
     outputTxt := saveDir . "\list.txt"
+    outputTxt_current := saveDir . "\list_current.txt"
 
     if FileExist(outputTxt) {
-        FileGetTime, fileTime, %outputTxt%, M  ; Get last modified time
-        timeDiff := A_Now - fileTime  ; Calculate time difference
-        if (timeDiff > 86400)  ; 24 hours in seconds (60 * 60 * 24)
+		fileModifiedTimeDiff := A_Now
+        FileGetTime, fileModifiedTime, %outputTxt%, M  ; Get last modified time
+		EnvSub, fileModifiedTimeDiff, %fileModifiedTime%, Hours
+        if (fileModifiedTimeDiff >= 1) {
+			; file modified 1 hours ago or more
             FileDelete, %outputTxt%
+            FileDelete, %outputTxt_current%
+		}
     }
     if (!FileExist(outputTxt)) {
+		if(FileExist(outputTxt_current))
+            FileDelete, %outputTxt_current%
+			
         Loop, %saveDir%\*.xml {
             xml := saveDir . "\" . A_LoopFileName
-            FileGetTime, fileTime, %xml%, M
-            timeDiff := A_Now - fileTime  ; Calculate time difference
-            if (timeDiff > 86400) {  ; 24 hours in seconds (60 * 60 * 24)
-                FileAppend, % A_LoopFileName "`n", %outputTxt%  ; Append file path to output.txt\
+			fileModifiedTimeDiff := A_Now
+            FileGetTime, fileModifiedTime, %xml%, M
+			EnvSub, fileModifiedTimeDiff, %fileModifiedTime%, Hours
+            if (fileModifiedTimeDiff >= 24) {  ; 24 hours
+                FileAppend, % A_LoopFileName "`n", %outputTxt%  ; Append file path to list.txt\
+                FileAppend, % A_LoopFileName "`n", %outputTxt_current%  ; Append file path to list_current.txt\
             }
         }
     }
