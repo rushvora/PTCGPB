@@ -12,7 +12,7 @@ global STATIC_BRUSH := 0
 
 githubUser := "Arturo-1212"
 repoName := "PTCGPB"
-localVersion := "v6.4.5Beta"
+localVersion := "v6.4.5mBeta"
 scriptFolder := A_ScriptDir
 zipPath := A_Temp . "\update.zip"
 extractPath := A_Temp . "\update"
@@ -1751,7 +1751,7 @@ Gui, Add, Checkbox, % (packMethod ? "Checked" : "") " vpackMethod x170 y195 Hidd
 Gui, Add, Checkbox, % (nukeAccount ? "Checked" : "") " vnukeAccount x300 y195 Hidden", Menu Delete
 
 ; Fourth row - Spend Hour Glass and Claim Special Missions
-Gui, Add, Checkbox, % (spendHourGlass ? "Checked" : "") " vspendHourGlass x170 y220 Hidden", Spend Hour Glass
+Gui, Add, Checkbox, % (spendHourGlass ? "Checked" : "") " vspendHourGlass x170 y220 Hidden", Spend Hourglass
 Gui, Add, Checkbox, % (claimSpecialMissions ? "Checked" : "") " vclaimSpecialMissions x300 y220 Hidden", Claim Special Missions
 
 SetNormalFont()
@@ -2854,7 +2854,7 @@ StartBot:
         additionalSettingsFound := true
     }
     if (spendHourGlass) {
-        confirmMsg .= "`n• Spend Hour Glass"
+        confirmMsg .= "`n• Spend Hourglass"
         additionalSettingsFound := true
     }
     if (claimSpecialMissions && InStr(deleteMethod, "Inject")) {
