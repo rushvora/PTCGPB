@@ -583,9 +583,18 @@ if(DeadCheck = 1 && !injectMethod){
         adbClick_wbb(250, 120)
         GoToMain()
         */
-                
-        ; ===== USER-CONTROLLED SPECIAL FEATURES =====
-        
+
+        if (deleteMethod = "Inject Missions" && accountOpenPacks >= maxAccountPackNum) {
+            if (injectMethod && loadedAccount) {
+                if (!keepAccount) {
+                    MarkAccountAsUsed() 
+                    LogToFile("Marked injected account as used: " . accountFileName)
+                }
+                loadedAccount := false
+                continue
+            }
+        }
+
         ; Special missions - user controlled
         IniRead, claimSpecialMissions, %A_ScriptDir%\..\Settings.ini, UserSettings, claimSpecialMissions, 0
         if (claimSpecialMissions = 1 && !specialMissionsDone) {
