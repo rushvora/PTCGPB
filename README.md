@@ -20,7 +20,7 @@ https://buymeacoffee.com/aarturoo
 *Special thanks to all [contributors](https://github.com/Arturo-1212/PTCGPB/graphs/contributors)! Thanks to everyone else who has helped test or has contributed their suggestions to make the bot better!*
 
 **__What does this do?__**
-- The focus is now to create accounts that are have at opened at least 35 packs with stamina. This rerolls accounts from your account pool to opening the daily 2 packs looking for god packs. It will add your main account and friends before opening a pack so if it finds a god pack it appears in your wonder pick.
+- The focus is now to create accounts that have opened at least 35 packs with stamina. This rerolls accounts from your account pool to opening the daily 2 packs looking for god packs. It will add your main account and friends before opening a pack so if it finds a god pack it appears in your wonder pick.
 
 Join the discord for an updated guide: https://discord.gg/C9Nyf7P4sT Translations are being worked on so if there isn't an updated guide in your language then use the express install English guide: https://discord.com/channels/1330305075393986703/1335717204989055087
 
