@@ -468,11 +468,11 @@ if(DeadCheck = 1 && !injectMethod){
         }
 
         MidOfRun:
-
+		
         if(deleteMethod = "Inject Missions" && accountOpenPacks >= maxAccountPackNum)
             Goto, EndOfRun
-        
-        ; ===== ENHANCED MISSION LOGIC WITH NEW OPTIONS =====
+			
+			
         if (checkShouldDoMissions()) {
             LogToFile("Starting mission sequence - Current pack count: " . accountOpenPacks)
             
@@ -586,21 +586,13 @@ if(DeadCheck = 1 && !injectMethod){
         adbClick_wbb(250, 120)
         GoToMain()
         */
-
-        if (deleteMethod = "Inject Missions" && accountOpenPacks >= maxAccountPackNum) {
-            if (injectMethod && loadedAccount) {
-                if (!keepAccount) {
-                    MarkAccountAsUsed() 
-                    LogToFile("Marked injected account as used: " . accountFileName)
-                }
-                loadedAccount := false
-                continue
-            }
-        }
-
+        
+                
+        ; ===== USER-CONTROLLED SPECIAL FEATURES =====
+        
         ; Special missions - user controlled
         IniRead, claimSpecialMissions, %A_ScriptDir%\..\Settings.ini, UserSettings, claimSpecialMissions, 0
-        if (claimSpecialMissions = 1 && !specialMissionsDone) {
+        if (claimSpecialMissions = 1 && !specialMissionsDone && !(deleteMethod = "Inject Missions" && accountOpenPacks >= maxAccountPackNum)) {
             LogToFile("Executing special missions - User setting enabled")
             GoToMain()
             HomeAndMission(1)
@@ -613,7 +605,7 @@ if(DeadCheck = 1 && !injectMethod){
         
         ; Hourglass spending - user controlled
         IniRead, spendHourGlass, %A_ScriptDir%\..\Settings.ini, UserSettings, spendHourGlass, 0
-        if (spendHourGlass = 1) {
+        if (spendHourGlass = 1 && !(deleteMethod = "Inject Missions" && accountOpenPacks >= maxAccountPackNum)) {
             LogToFile("Executing hourglass spending - User setting enabled")
             SpendAllHourglass()
         }
@@ -655,6 +647,17 @@ if(DeadCheck = 1 && !injectMethod){
         }
 
         AppendToJsonFile(packsThisRun)
+		
+        if (deleteMethod = "Inject Missions" && accountOpenPacks >= maxAccountPackNum) {
+            if (injectMethod && loadedAccount) {
+                if (!keepAccount) {
+                    MarkAccountAsUsed() 
+                    LogToFile("Marked injected account as used: " . accountFileName)
+                }
+                loadedAccount := false
+                continue
+            }
+        }		
 
         ; ===== ACCOUNT MANAGEMENT AT END OF RUN =====
         if (injectMethod && loadedAccount) {
