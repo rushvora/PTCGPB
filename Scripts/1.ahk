@@ -615,8 +615,6 @@ if(DeadCheck = 1 && !injectMethod){
             SpendAllHourglass()
         }
 
-        AppendToJsonFile(packsThisRun)
-
         ; ===== FRIEND REMOVAL FOR INJECTION METHODS =====
         if (injectMethod && friended && !keepAccount) {
             RemoveFriends()
