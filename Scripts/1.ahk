@@ -468,6 +468,9 @@ if(DeadCheck = 1 && !injectMethod){
         }
 
         MidOfRun:
+
+        if(deleteMethod = "Inject Missions" && accountOpenPacks >= maxAccountPackNum)
+            Goto, EndOfRun
         
         ; ===== ENHANCED MISSION LOGIC WITH NEW OPTIONS =====
         if (checkShouldDoMissions()) {
