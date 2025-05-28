@@ -467,7 +467,7 @@ if(DeadCheck = 1 && !injectMethod){
 
         MidOfRun:
 		
-        if(deleteMethod = "Inject Missions" && accountOpenPacks >= maxAccountPackNum)
+        if(deleteMethod = "Inject" || deleteMethod = "Inject Missions" && accountOpenPacks >= maxAccountPackNum)
             Goto, EndOfRun
 			
 			
@@ -590,8 +590,7 @@ if(DeadCheck = 1 && !injectMethod){
         
         ; Special missions - user controlled
         IniRead, claimSpecialMissions, %A_ScriptDir%\..\Settings.ini, UserSettings, claimSpecialMissions, 0
-        if (claimSpecialMissions = 1 && !specialMissionsDone && !(deleteMethod = "Inject Missions" && accountOpenPacks >= maxAccountPackNum)) {
-            LogToFile("Executing special missions - User setting enabled")
+        if (claimSpecialMissions = 1 && !specialMissionsDone && !(deleteMethod = "Inject" || deleteMethod = "Inject Missions" && accountOpenPacks >= maxAccountPackNum)) {
             GoToMain()
             HomeAndMission(1)
             GetEventRewards(true) ; collects all the Special mission hourglass
@@ -603,7 +602,7 @@ if(DeadCheck = 1 && !injectMethod){
         
         ; Hourglass spending - user controlled
         IniRead, spendHourGlass, %A_ScriptDir%\..\Settings.ini, UserSettings, spendHourGlass, 0
-        if (spendHourGlass = 1 && !(deleteMethod = "Inject Missions" && accountOpenPacks >= maxAccountPackNum)) {
+        if (spendHourGlass = 1 && !(deleteMethod = "Inject" || deleteMethod = "Inject Missions" && accountOpenPacks >= maxAccountPackNum)) {
             LogToFile("Executing hourglass spending - User setting enabled")
             SpendAllHourglass()
         }
@@ -646,7 +645,8 @@ if(DeadCheck = 1 && !injectMethod){
 
         AppendToJsonFile(packsThisRun)
 		
-        if (deleteMethod = "Inject Missions" && accountOpenPacks >= maxAccountPackNum) {
+        ; End sequences check for 40 first	
+        if (deleteMethod = "Inject" || deleteMethod = "Inject Missions" && accountOpenPacks >= maxAccountPackNum) {
             if (injectMethod && loadedAccount) {
                 if (!keepAccount) {
                     MarkAccountAsUsed() 
@@ -657,7 +657,6 @@ if(DeadCheck = 1 && !injectMethod){
             }
         }		
 
-        ; ===== ACCOUNT MANAGEMENT AT END OF RUN =====
         if (injectMethod && loadedAccount) {
             ; For injection methods, mark the account as used
             if (!keepAccount) {
