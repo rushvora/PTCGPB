@@ -37,7 +37,6 @@ global SaveForTradeDivider_1, SaveForTradeDivider_2
 global Discord_Divider3
 global tesseractPath, applyRoleFilters, debugMode, statusMessage
 global tesseractOption
-global variablePackCount
 global claimSpecialMissions, spendHourGlass
 global rowGap
 global injectSortMethodCreated := false
@@ -238,7 +237,7 @@ SaveAllSettings() {
     global useBackgroundImage, tesseractPath, applyRoleFilters, debugMode, tesseractOption, statusMessage
     global s4tEnabled, s4tSilent, s4t3Dmnd, s4t4Dmnd, s4t1Star, s4tGholdengo, s4tWP, s4tWPMinCards
     global s4tDiscordUserId, s4tDiscordWebhookURL, s4tSendAccountXml, minStarsShiny, instanceLaunchDelay, mainIdsURL, vipIdsURL
-    global variablePackCount, claimSpecialMissions, spendHourGlass, injectSortMethod, rowGap, SortByDropdown
+    global claimSpecialMissions, spendHourGlass, injectSortMethod, rowGap, SortByDropdown
     global injectMaxValue, injectMinValue, waitForEligibleAccounts, maxWaitHours, skipMissionsInjectMissions
     
     ; === MISSING ADVANCED SETTINGS VARIABLES ===
@@ -333,7 +332,6 @@ SaveAllSettings() {
     IniWrite, %vipIdsURL%, Settings.ini, UserSettings, vipIdsURL
     IniWrite, %autoLaunchMonitor%, Settings.ini, UserSettings, autoLaunchMonitor
     IniWrite, %instanceLaunchDelay%, Settings.ini, UserSettings, instanceLaunchDelay
-    IniWrite, %variablePackCount%, Settings.ini, UserSettings, variablePackCount
     IniWrite, %claimSpecialMissions%, Settings.ini, UserSettings, claimSpecialMissions
     IniWrite, %spendHourGlass%, Settings.ini, UserSettings, spendHourGlass
     IniWrite, %injectSortMethod%, Settings.ini, UserSettings, injectSortMethod
@@ -584,7 +582,7 @@ HideAllSections() {
     packControls .= "Pack_Divider2,PackSettingsSubHeading3,ShinyCheck,"
     packControls .= "FullArtCheck,TrainerCheck,RainbowCheck,PseudoGodPack,Txt_vector,InvalidCheck,"
     packControls .= "CheckShinyPackOnly,CrownCheck,ImmersiveCheck,Pack_Divider3,PackSettingsLabel"
-    packControls .= ",spendHourGlass,claimSpecialMissions" ; Removed variablePackCount controls
+    packControls .= ",spendHourGlass,claimSpecialMissions"
     s4tControls := "SaveForTradeHeading,s4tEnabled,s4tSilent,s4t3Dmnd,s4t4Dmnd,s4t1Star,"
     s4tControls .= "s4tGholdengo,s4tGholdengoEmblem,s4tGholdengoArrow,Txt_S4TSeparator,s4tWP,"
     s4tControls .= "s4tWPMinCardsLabel,s4tWPMinCards,S4TDiscordSettingsSubHeading,Txt_S4T_DiscordID,"
@@ -1276,7 +1274,6 @@ LoadSettingsFromIni() {
         IniRead, mainIdsURL, Settings.ini, UserSettings, mainIdsURL, ""
         IniRead, vipIdsURL, Settings.ini, UserSettings, vipIdsURL, ""
         IniRead, instanceLaunchDelay, Settings.ini, UserSettings, instanceLaunchDelay, 5
-        IniRead, variablePackCount, Settings.ini, UserSettings, variablePackCount, 15
         IniRead, claimSpecialMissions, Settings.ini, UserSettings, claimSpecialMissions, 0
         IniRead, spendHourGlass, Settings.ini, UserSettings, spendHourGlass, 0
         IniRead, injectSortMethod, Settings.ini, UserSettings, injectSortMethod, ModifiedAsc
@@ -1373,7 +1370,6 @@ CreateDefaultSettingsFile() {
         IniWrite, 1, Settings.ini, UserSettings, isDarkTheme
         IniWrite, 1, Settings.ini, UserSettings, useBackgroundImage
         IniWrite, 100, Settings.ini, UserSettings, rowGap
-        IniWrite, 15, Settings.ini, UserSettings, variablePackCount
         IniWrite, 0, Settings.ini, UserSettings, claimSpecialMissions
         IniWrite, 0, Settings.ini, UserSettings, spendHourGlass
         IniWrite, ModifiedAsc, Settings.ini, UserSettings, injectSortMethod
