@@ -382,7 +382,7 @@ if(DeadCheck = 1 && !injectMethod){
         }
 
         ; ===== STANDARD INITIALIZATION =====
-        FindImageAndClick(65, 195, 100, 215, , "Platin", 18, 109, 2000) ; click mod settings
+        FindImageAndClick(25, 145, 70, 170, , "Platin", 18, 109, 2000) ; click mod settings
         if(setSpeed = 3)
             FindImageAndClick(182, 170, 194, 190, , "Three", 187, 180) ; click mod settings
         else
@@ -1786,7 +1786,7 @@ menuDeleteStart() {
         return keepAccount
     }
     if(friended) {
-        FindImageAndClick(65, 195, 100, 215, , "Platin", 18, 109, 2000) ; click mod settings
+        FindImageAndClick(25, 145, 70, 170, , "Platin", 18, 109, 2000) ; click mod settings
         if(setSpeed = 3)
             FindImageAndClick(182, 170, 194, 190, , "Three", 187, 180) ; click mod settings
         else
@@ -3422,7 +3422,7 @@ DoTutorial() {
         }
 
         if(setSpeed = 3) {
-            FindImageAndClick(65, 195, 100, 215, , "Platin", 18, 109, 2000) ; click mod settings
+            FindImageAndClick(25, 145, 70, 170, , "Platin", 18, 109, 2000) ; click mod settings
             FindImageAndClick(9, 170, 25, 190, , "One", 26, 180) ; click mod settings
             Delay(1)
             adbClick_wbb(41, 296)
@@ -3432,7 +3432,7 @@ DoTutorial() {
         FindImageAndClick(110, 230, 182, 257, , "Welcome", 253, 506, 110) ;click through cutscene until welcome page
 
         if(setSpeed = 3) {
-            FindImageAndClick(65, 195, 100, 215, , "Platin", 18, 109, 2000) ; click mod settings
+            FindImageAndClick(25, 145, 70, 170, , "Platin", 18, 109, 2000) ; click mod settings
 
             FindImageAndClick(182, 170, 194, 190, , "Three", 187, 180) ; click mod settings
             Delay(1)
@@ -3499,7 +3499,7 @@ DoTutorial() {
 
     FindImageAndClick(225, 273, 235, 290, , "Pack", 140, 424) ;wait for pack to be ready  to trace
         if(setSpeed > 1) {
-            FindImageAndClick(65, 195, 100, 215, , "Platin", 18, 109, 2000) ; click mod settings
+            FindImageAndClick(25, 145, 70, 170, , "Platin", 18, 109, 2000) ; click mod settings
             FindImageAndClick(9, 170, 25, 190, , "One", 26, 180) ; click mod settings
             Delay(1)
         }
@@ -3524,7 +3524,7 @@ DoTutorial() {
 
     FindImageAndClick(34, 99, 74, 131, , "Swipe", 140, 375) ;click through cards until needing to swipe up
         if(setSpeed > 1) {
-            FindImageAndClick(65, 195, 100, 215, , "Platin", 18, 109, 2000) ; click mod settings
+            FindImageAndClick(25, 145, 70, 170, , "Platin", 18, 109, 2000) ; click mod settings
             FindImageAndClick(9, 170, 25, 190, , "One", 26, 180) ; click mod settings
             Delay(1)
         }
@@ -3594,7 +3594,7 @@ Delay(1)
 
     FindImageAndClick(225, 273, 235, 290, , "Pack", 239, 497) ;wait for pack to be ready  to Trace
         if(setSpeed > 1) {
-            FindImageAndClick(65, 195, 100, 215, , "Platin", 18, 109, 2000) ; click mod settings
+            FindImageAndClick(25, 145, 70, 170, , "Platin", 18, 109, 2000) ; click mod settings
             FindImageAndClick(9, 170, 25, 190, , "One", 26, 180) ; click mod settings
             Delay(1)
         }
@@ -3947,7 +3947,7 @@ PackOpening() {
     }
 
     if(setSpeed > 1) {
-    FindImageAndClick(65, 195, 100, 215, , "Platin", 18, 109, 2000) ; click mod settings
+    FindImageAndClick(25, 145, 70, 170, , "Platin", 18, 109, 2000) ; click mod settings
     FindImageAndClick(9, 170, 25, 190, , "One", 26, 180) ; click mod settings
         Delay(1)
     }
@@ -4088,7 +4088,7 @@ HourglassOpening(HG := false, NEIRestart := true) {
     }
 
     if(setSpeed > 1) {
-    FindImageAndClick(65, 195, 100, 215, , "Platin", 18, 109, 2000) ; click mod settings
+    FindImageAndClick(25, 145, 70, 170, , "Platin", 18, 109, 2000) ; click mod settings
     FindImageAndClick(9, 170, 25, 190, , "One", 26, 180) ; click mod settings
         Delay(1)
     }
@@ -4845,7 +4845,7 @@ GetEventRewards(frommain := true){
     LevelUp()
     
     if(setSpeed > 1) {
-        FindImageAndClick(65, 195, 100, 215, , "Platin", 18, 109, 2000) ; click mod settings
+        FindImageAndClick(25, 145, 70, 170, , "Platin", 18, 109, 2000) ; click mod settings
         FindImageAndClick(9, 170, 25, 190, , "One", 26, 180) ; click mod settings
         Delay(1)
     }
