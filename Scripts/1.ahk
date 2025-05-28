@@ -34,7 +34,6 @@ global showcaseURL, showcaseEnabled
 global injectSortMethod := "ModifiedAsc"  ; Default sort method (oldest accounts first)
 global injectMinPacks := 0       ; Minimum pack count for injection (0 = no minimum)
 global injectMaxPacks := 39      ; Maximum pack count for injection (default for regular "Inject")
-global injectVariable := 15      ; User-defined pack count for "Inject Variable"
 
 ; NEW INJECTION SYSTEM VARIABLES (add after existing global declarations)
 global injectMaxValue := 39      ; User input for max value (Inject/Inject Missions)
@@ -4364,34 +4363,20 @@ CreateAccountList(instance) {
     if (deleteMethod = "Inject") {
         parseInjectType := "Inject"
         minPacks := 0
-        maxPacks := injectMaxValue + 0  ; Force numeric conversion
+        maxPacks := 38
         LogToFile("Inject mode: range 0-" . injectMaxValue)
     }
     else if (deleteMethod = "Inject Missions") {
         parseInjectType := "Inject Missions"
         minPacks := 0
-        maxPacks := injectMaxValue + 0
+        maxPacks := 38
         LogToFile("Inject Missions mode: range 0-" . injectMaxValue)
     }
     else if (deleteMethod = "Inject for Reroll") {
         parseInjectType := "Inject for Reroll"
-        minPacks := injectMinValue + 0
+        minPacks := 35
         maxPacks := (!friendIDs && friendID = "") ? maxAccountPackNum - 1 : 9999  ; Limit if no friends
         LogToFile("Inject for Reroll mode: range " . injectMinValue . "-" . maxPacks)
-    }
-    else if (deleteMethod = "Inject Variable") {
-        parseInjectType := "Inject Variable"
-        minPacks := 0
-        maxPacks := (injectVariable ? injectVariable : 15) + 0
-        LogToFile("Inject Variable mode: range 0-" . maxPacks)
-    }
-    else if (InStr(deleteMethod, "Inject")) {
-        ; Fallback for other inject methods
-        parseInjectType := "Unknown Inject"
-        minPacks := 0
-        maxPacks := 34  ; Default old behavior
-        LogToFile("Unknown inject method: " . deleteMethod . ", using default 0-34")
-    }
     else {
         ; Non-injection methods - keep existing logic
         LogToFile("Non-injection method: " . deleteMethod)
@@ -4587,7 +4572,7 @@ checkShouldDoMissions() {
         LogToFile("Executing missions for Inject Missions method (user setting enabled)")
         return true
     }
-    else if (deleteMethod = "Inject" || deleteMethod = "Inject for Reroll" || deleteMethod = "Inject Variable") {
+    else if (deleteMethod = "Inject" || deleteMethod = "Inject for Reroll") {
         LogToFile("Skipping missions for " . deleteMethod . " method - missions only run for 'Inject Missions'")
         return false
     }
