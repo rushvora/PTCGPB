@@ -381,7 +381,6 @@ if(DeadCheck = 1 && !injectMethod){
             LogToFile("Successfully loaded account for injection: " . accountFileName)
         }
 
-        ; ===== STANDARD INITIALIZATION =====
         FindImageAndClick(25, 145, 70, 170, , "Platin", 18, 109, 2000) ; click mod settings
         if(setSpeed = 3)
             FindImageAndClick(182, 170, 194, 190, , "Three", 187, 180) ; click mod settings
@@ -1001,6 +1000,12 @@ AddFriends(renew := false, getFC := false) {
     friended := true
     failSafe := A_TickCount
     failSafeTime := 0
+
+    ; Don't add friends when you're not rerolling
+    if (deleteMethod = "Inject" || deleteMethod = "Inject Missions") {
+        LogToFile("Skipping friend addition for " . deleteMethod . " method")
+        return false
+    }
 
 	if(!getFC && !friendIDs && friendID = "")
 		return false
