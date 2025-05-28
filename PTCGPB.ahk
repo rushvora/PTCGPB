@@ -1,4 +1,4 @@
-﻿#Include %A_ScriptDir%\Scripts\Include\Logging.ahk
+#Include %A_ScriptDir%\Scripts\Include\Logging.ahk
 #Include %A_ScriptDir%\Scripts\Include\ADB.ahk
 
 version = Arturos PTCGP Bot
@@ -12,7 +12,7 @@ global STATIC_BRUSH := 0
 
 githubUser := "Arturo-1212"
 repoName := "PTCGPB"
-localVersion := "v6.4.5mBeta"
+localVersion := "v6.4.6Beta"
 scriptFolder := A_ScriptDir
 zipPath := A_Temp . "\update.zip"
 extractPath := A_Temp . "\update"
@@ -45,8 +45,6 @@ global injectSortMethod := "ModifiedAsc"  ; Default sort method
 global SortMethodLabel, InjectSortMethodDropdown
 global sortByCreated := false
 global SortByText, SortByDropdown
-global injectMaxValue ; For Inject and Inject Missions max value
-global injectMinValue ; For reroll Inject minimum value
 global showcaseLikes, showcaseURL, skipMissionsInjectMissions
 global minStarsA1Mewtwo, minStarsA1Charizard, minStarsA1Pikachu, minStarsA1a
 global minStarsA2Dialga, minStarsA2Palkia, minStarsA2a, minStarsA2b  
@@ -339,8 +337,6 @@ SaveAllSettings() {
     IniWrite, %claimSpecialMissions%, Settings.ini, UserSettings, claimSpecialMissions
     IniWrite, %spendHourGlass%, Settings.ini, UserSettings, spendHourGlass
     IniWrite, %injectSortMethod%, Settings.ini, UserSettings, injectSortMethod
-    IniWrite, %injectMaxValue%, Settings.ini, UserSettings, injectMaxValue
-    IniWrite, %injectMinValue%, Settings.ini, UserSettings, injectMinValue
     IniWrite, %waitForEligibleAccounts%, Settings.ini, UserSettings, waitForEligibleAccounts
     IniWrite, %maxWaitHours%, Settings.ini, UserSettings, maxWaitHours
 
@@ -491,7 +487,7 @@ SetInputBackgrounds(bgColor, textColor) {
     inputList .= "mainIdsURL,vipIdsURL,s4tWPMinCards,"
     inputList .= "s4tDiscordUserId,s4tDiscordWebhookURL,SelectedMonitorIndex,"
     inputList .= "defaultLanguage,ocrLanguage,clientLanguage,deleteMethod,tesseractPath,"
-    inputList .= "rowGap,injectMaxValue,injectMinValue" ; Removed variablePackCount
+    inputList .= "rowGap,"
 
     ; Apply style to all inputs
     Loop, Parse, inputList, `,
@@ -589,7 +585,6 @@ HideAllSections() {
     packControls .= "FullArtCheck,TrainerCheck,RainbowCheck,PseudoGodPack,Txt_vector,InvalidCheck,"
     packControls .= "CheckShinyPackOnly,CrownCheck,ImmersiveCheck,Pack_Divider3,PackSettingsLabel"
     packControls .= ",spendHourGlass,claimSpecialMissions" ; Removed variablePackCount controls
-    packControls .= ",Txt_InjectMaxValue,injectMaxValue,Txt_InjectMinValue,injectMinValue"
     s4tControls := "SaveForTradeHeading,s4tEnabled,s4tSilent,s4t3Dmnd,s4t4Dmnd,s4t1Star,"
     s4tControls .= "s4tGholdengo,s4tGholdengoEmblem,s4tGholdengoArrow,Txt_S4TSeparator,s4tWP,"
     s4tControls .= "s4tWPMinCardsLabel,s4tWPMinCards,S4TDiscordSettingsSubHeading,Txt_S4T_DiscordID,"
@@ -796,13 +791,13 @@ ShowPackSettingsSection() {
     GuiControl, +c%sectionColor%, PackSettingsSubHeading2
     GuiControl, +c%sectionColor%, PackSettingsSubHeading3
 
-    ; FIXED: Get current deleteMethod and show appropriate controls
+    ; Get current deleteMethod and show appropriate controls
     GuiControlGet, currentDeleteMethod,, deleteMethod
     if (currentDeleteMethod != "") {
         deleteMethod := currentDeleteMethod
     }
     
-    ; CRITICAL FIX: Check if this is ANY inject method, not just specific ones
+    ; Check if this is ANY inject method
     if (InStr(deleteMethod, "Inject")) {
         ; Hide nukeAccount for all inject methods
         GuiControl, Hide, nukeAccount
@@ -829,27 +824,6 @@ ShowPackSettingsSection() {
             GuiControl, Show, spendHourGlass
             ApplyTextColor("spendHourGlass")
         }
-
-        ; Show method-specific controls
-        ; First hide all options
-        GuiControl, Hide, Txt_InjectMaxValue
-        GuiControl, Hide, injectMaxValue
-        GuiControl, Hide, Txt_InjectMinValue
-        GuiControl, Hide, injectMinValue
-        
-        ; Then show appropriate options based on method
-        if (deleteMethod = "Inject" || deleteMethod = "Inject Missions") {
-            GuiControl, Show, Txt_InjectMaxValue
-            GuiControl, Show, injectMaxValue
-            ApplyTextColor("Txt_InjectMaxValue")
-            ApplyInputStyle("injectMaxValue")
-        } 
-        else if (deleteMethod = "Inject for Reroll") {
-            GuiControl, Show, Txt_InjectMinValue
-            GuiControl, Show, injectMinValue
-            ApplyTextColor("Txt_InjectMinValue")
-            ApplyInputStyle("injectMinValue")
-        }
     } else {
         ; Non-Inject method selected (13 Pack)
         GuiControl, Show, nukeAccount
@@ -859,11 +833,6 @@ ShowPackSettingsSection() {
         GuiControl,, claimSpecialMissions, 0
         GuiControl, Hide, spendHourGlass
         GuiControl,, spendHourGlass, 0
-        
-        GuiControl, Hide, Txt_InjectMaxValue
-        GuiControl, Hide, injectMaxValue
-        GuiControl, Hide, Txt_InjectMinValue
-        GuiControl, Hide, injectMinValue
         
         ; Hide Sort By controls for non-Inject methods
         if (sortByCreated) {
@@ -1311,8 +1280,6 @@ LoadSettingsFromIni() {
         IniRead, claimSpecialMissions, Settings.ini, UserSettings, claimSpecialMissions, 0
         IniRead, spendHourGlass, Settings.ini, UserSettings, spendHourGlass, 0
         IniRead, injectSortMethod, Settings.ini, UserSettings, injectSortMethod, ModifiedAsc
-        IniRead, injectMaxValue, Settings.ini, UserSettings, injectMaxValue, 39  ; Default to 39
-        IniRead, injectMinValue, Settings.ini, UserSettings, injectMinValue, 35  ; Default to 35
         IniRead, waitForEligibleAccounts, Settings.ini, UserSettings, waitForEligibleAccounts, 1
         IniRead, maxWaitHours, Settings.ini, UserSettings, maxWaitHours, 24
 
@@ -1410,8 +1377,6 @@ CreateDefaultSettingsFile() {
         IniWrite, 0, Settings.ini, UserSettings, claimSpecialMissions
         IniWrite, 0, Settings.ini, UserSettings, spendHourGlass
         IniWrite, ModifiedAsc, Settings.ini, UserSettings, injectSortMethod
-        IniWrite, 39, Settings.ini, UserSettings, injectMaxValue  ; Default max value
-        IniWrite, 35, Settings.ini, UserSettings, injectMinValue  ; Default min value
         IniWrite, 1, Settings.ini, UserSettings, waitForEligibleAccounts
         IniWrite, 24, Settings.ini, UserSettings, maxWaitHours
 
@@ -2433,25 +2398,6 @@ deleteSettings:
             ApplyTextColor("spendHourGlass")
         }
         
-        ; Reset inject value fields when changing inject methods
-        GuiControl, Hide, Txt_InjectMaxValue
-        GuiControl, Hide, injectMaxValue
-        GuiControl, Hide, Txt_InjectMinValue
-        GuiControl, Hide, injectMinValue
-        
-        ; Check for specific Inject methods to show appropriate value fields
-        if(currentMethod = "Inject" || currentMethod = "Inject Missions") {
-            GuiControl, Show, Txt_InjectMaxValue
-            GuiControl, Show, injectMaxValue
-            ApplyTextColor("Txt_InjectMaxValue")
-            ApplyInputStyle("injectMaxValue")
-        }
-        else if(currentMethod = "Inject for Reroll") {
-            GuiControl, Show, Txt_InjectMinValue
-            GuiControl, Show, injectMinValue
-            ApplyTextColor("Txt_InjectMinValue")
-            ApplyInputStyle("injectMinValue")
-        }
     }
     else {
         ; For non-inject methods (13 Pack, etc.)
@@ -2466,15 +2412,6 @@ deleteSettings:
         GuiControl, Hide, spendHourGlass
         GuiControl,, spendHourGlass, 0
         IniWrite, 0, Settings.ini, UserSettings, spendHourGlass
-        
-        GuiControl, Hide, Txt_InjectMaxValue
-        GuiControl, Hide, injectMaxValue
-        GuiControl, Hide, Txt_InjectMinValue
-        GuiControl, Hide, injectMinValue
-        
-        ; Clear values for non-inject methods
-        GuiControl,, injectMaxValue, 39
-        GuiControl,, injectMinValue, 35
         
         ; Hide Sort By controls for non-inject methods
         if (sortByCreated) {
@@ -2811,14 +2748,6 @@ StartBot:
     
     ; Build confirmation message with current GUI values
     confirmMsg := "Selected Method: " . deleteMethod . "`n"
-    
-    ; Add method-specific details
-    if (deleteMethod = "Inject" || deleteMethod = "Inject Missions") {
-        confirmMsg .= "Maximum Pack Count: " . injectMaxValue . "`n"
-    }
-    else if (deleteMethod = "Inject for Reroll") {
-        confirmMsg .= "Minimum Pack Count: " . injectMinValue . "`n"
-    }
     
     confirmMsg .= "`nSelected Packs:`n"
     if (Solgaleo)
