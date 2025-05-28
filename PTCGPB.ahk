@@ -276,8 +276,19 @@ SaveAllSettings() {
             injectSortMethod := "PacksDesc"
     }
     
-    ; FIXED: Save deleteMethod first with validation
+    ; Do not initalize friend IDs or id.txt if Inject or Inject Missions
     IniWrite, %deleteMethod%, Settings.ini, UserSettings, deleteMethod
+    if (deleteMethod = "Inject for Reroll" || deleteMethod = "13 Pack") {
+        IniWrite, %FriendID%, Settings.ini, UserSettings, FriendID
+        IniWrite, %mainIdsURL%, Settings.ini, UserSettings, mainIdsURL
+    } else {
+        if(FileExist("ids.txt"))
+            FileDelete, ids.txt
+        IniWrite, "", Settings.ini, UserSettings, FriendID
+        IniWrite, "", Settings.ini, UserSettings, mainIdsURL
+        mainIdsURL := ""
+        FriendID := ""
+    }
     
     ; Save pack selections directly without resetting them
     IniWrite, %Palkia%, Settings.ini, UserSettings, Palkia
@@ -292,7 +303,6 @@ SaveAllSettings() {
     IniWrite, %Lunala%, Settings.ini, UserSettings, Lunala
     
     ; Save basic settings
-    IniWrite, %FriendID%, Settings.ini, UserSettings, FriendID
     IniWrite, %AccountName%, Settings.ini, UserSettings, AccountName
     IniWrite, %waitTime%, Settings.ini, UserSettings, waitTime
     IniWrite, %Delay%, Settings.ini, UserSettings, Delay
@@ -328,7 +338,6 @@ SaveAllSettings() {
     IniWrite, %slowMotion%, Settings.ini, UserSettings, slowMotion
     IniWrite, %ocrLanguage%, Settings.ini, UserSettings, ocrLanguage
     IniWrite, %clientLanguage%, Settings.ini, UserSettings, clientLanguage
-    IniWrite, %mainIdsURL%, Settings.ini, UserSettings, mainIdsURL
     IniWrite, %vipIdsURL%, Settings.ini, UserSettings, vipIdsURL
     IniWrite, %autoLaunchMonitor%, Settings.ini, UserSettings, autoLaunchMonitor
     IniWrite, %instanceLaunchDelay%, Settings.ini, UserSettings, instanceLaunchDelay
@@ -1713,7 +1722,7 @@ Gui, Add, Checkbox, % (nukeAccount ? "Checked" : "") " vnukeAccount x300 y195 Hi
 
 ; Fourth row - Spend Hour Glass and Claim Special Missions
 Gui, Add, Checkbox, % (spendHourGlass ? "Checked" : "") " vspendHourGlass x170 y220 Hidden", Spend Hourglass
-Gui, Add, Checkbox, % (claimSpecialMissions ? "Checked" : "") " vclaimSpecialMissions x300 y220 Hidden", Claim Special Missions
+;Gui, Add, Checkbox, % (claimSpecialMissions ? "Checked" : "") " vclaimSpecialMissions x300 y220 Hidden", Claim Special Missions
 
 SetNormalFont()
 
@@ -2369,12 +2378,12 @@ deleteSettings:
             GuiControl, Show, claimSpecialMissions
             GuiControl, Show, spendHourGlass
             
-            ; NEW: Auto-check both checkboxes for Inject Missions
-            GuiControl,, claimSpecialMissions, 1
+            ; spendHourGlass is checked by default, but claimSpecialMissions is turned off for now
+            GuiControl,, claimSpecialMissions, 0
             GuiControl,, spendHourGlass, 1
             
             ; Save the checked values to INI
-            IniWrite, 1, Settings.ini, UserSettings, claimSpecialMissions
+            IniWrite, 0, Settings.ini, UserSettings, claimSpecialMissions
             IniWrite, 1, Settings.ini, UserSettings, spendHourGlass
             
             ApplyTextColor("claimSpecialMissions")
