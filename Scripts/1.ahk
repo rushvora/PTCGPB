@@ -4376,10 +4376,6 @@ CreateAccountList(instance) {
         minPacks := 35
         maxPacks := (!friendIDs && friendID = "") ? maxAccountPackNum - 1 : 9999  ; Limit if no friends
         LogToFile("Inject for Reroll mode: range " . injectMinValue . "-" . maxPacks)
-    else {
-        ; Non-injection methods - keep existing logic
-        LogToFile("Non-injection method: " . deleteMethod)
-        return
     }
     
     LogToFile("Injection type: " . parseInjectType . ", Min packs: " . minPacks . ", Max packs: " . maxPacks)
