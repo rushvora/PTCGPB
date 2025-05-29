@@ -21,7 +21,7 @@ DllCall("AllocConsole")
 WinHide % "ahk_id " DllCall("GetConsoleWindow", "ptr")
 
 global winTitle, changeDate, failSafe, openPack, Delay, failSafeTime, StartSkipTime, Columns, failSafe, scriptName, GPTest, StatusText, defaultLanguage, setSpeed, jsonFileName, pauseToggle, SelectedMonitorIndex, swipeSpeed, godPack, scaleParam, deleteMethod, packs, FriendID, friendIDs, Instances, username, friendCode, stopToggle, friended, runMain, Mains, showStatus, injectMethod, packMethod, loadDir, loadedAccount, nukeAccount, CheckShinyPackOnly, TrainerCheck, FullArtCheck, RainbowCheck, ShinyCheck, dateChange, foundGP, friendsAdded, PseudoGodPack, packArray, CrownCheck, ImmersiveCheck, InvalidCheck, slowMotion, screenShot, accountFile, invalid, starCount, keepAccount
-global Mewtwo, Charizard, Pikachu, Mew, Dialga, Palkia, Arceus, Shining, Solgaleo, Lunala
+global Mewtwo, Charizard, Pikachu, Mew, Dialga, Palkia, Arceus, Shining, Solgaleo, Lunala, Buzzwole
 global shinyPacks, minStars, minStarsShiny, minStarsA1Mewtwo, minStarsA1Charizard, minStarsA1Pikachu, minStarsA1a, minStarsA2Dialga, minStarsA2Palkia, minStarsA2a, minStarsA2b, minStarsA3Solgaleo, minStarsA3Lunala
 global DeadCheck
 global variablePackCount
@@ -101,6 +101,8 @@ IniRead, InvalidCheck, %A_ScriptDir%\..\Settings.ini, UserSettings, InvalidCheck
 IniRead, PseudoGodPack, %A_ScriptDir%\..\Settings.ini, UserSettings, PseudoGodPack, 0
 IniRead, minStars, %A_ScriptDir%\..\Settings.ini, UserSettings, minStars, 0
 IniRead, minStarsShiny, %A_ScriptDir%\..\Settings.ini, UserSettings, minStarsShiny, 0
+
+IniRead, Buzzwole, %A_ScriptDir%\..\Settings.ini, UserSettings, Buzzwole, 0
 IniRead, Solgaleo, %A_ScriptDir%\..\Settings.ini, UserSettings, Solgaleo, 1
 IniRead, Lunala, %A_ScriptDir%\..\Settings.ini, UserSettings, Lunala, 1
 IniRead, Shining, %A_ScriptDir%\..\Settings.ini, UserSettings, Shining, 0
@@ -111,6 +113,7 @@ IniRead, Mewtwo, %A_ScriptDir%\..\Settings.ini, UserSettings, Mewtwo, 0
 IniRead, Charizard, %A_ScriptDir%\..\Settings.ini, UserSettings, Charizard, 0
 IniRead, Pikachu, %A_ScriptDir%\..\Settings.ini, UserSettings, Pikachu, 0
 IniRead, Mew, %A_ScriptDir%\..\Settings.ini, UserSettings, Mew, 0
+
 IniRead, slowMotion, %A_ScriptDir%\..\Settings.ini, UserSettings, slowMotion, 0
 IniRead, DeadCheck, %A_ScriptDir%\%scriptName%.ini, UserSettings, DeadCheck, 0
 IniRead, ocrLanguage, %A_ScriptDir%\..\Settings.ini, UserSettings, ocrLanguage, en
@@ -135,6 +138,7 @@ IniRead, minStarsA2a, %A_ScriptDir%\..\Settings.ini, UserSettings, minStarsA2a, 
 IniRead, minStarsA2b, %A_ScriptDir%\..\Settings.ini, UserSettings, minStarsA2b, 0
 IniRead, minStarsA3Solgaleo, %A_ScriptDir%\..\Settings.ini, UserSettings, minStarsA3Solgaleo, 0
 IniRead, minStarsA3Lunala, %A_ScriptDir%\..\Settings.ini, UserSettings, minStarsA3Lunala, 0
+IniRead, minStarsA3aBuzzwole, %A_ScriptDir%\..\Settings.ini, UserSettings, minStarsA3aBuzzwole, 0
 
 IniRead, s4tEnabled, %A_ScriptDir%\..\Settings.ini, UserSettings, s4tEnabled, 0
 IniRead, s4tSilent, %A_ScriptDir%\..\Settings.ini, UserSettings, s4tSilent, 1
@@ -157,10 +161,9 @@ if (rerollStartTime = 0 || rerollStartTime = "ERROR") {
     IniWrite, %rerollStartTime%, %A_ScriptDir%\%scriptName%.ini, Metrics, rerollStartTime
 }
 
-pokemonList := ["Mewtwo", "Charizard", "Pikachu", "Mew", "Dialga", "Palkia", "Arceus", "Shining", "Solgaleo", "Lunala"]
 
-pokemonList := ["Mewtwo", "Charizard", "Pikachu", "Mew", "Dialga", "Palkia", "Arceus", "Shining", "Solgaleo", "Lunala"]
-shinyPacks := {"Shining": 1, "Solgaleo": 1, "Lunala": 1}
+pokemonList := ["Mewtwo", "Charizard", "Pikachu", "Mew", "Dialga", "Palkia", "Arceus", "Shining", "Solgaleo", "Lunala", "Buzzwole"]
+shinyPacks := {"Shining": 1, "Solgaleo": 1, "Lunala": 1, "Buzzwole": 1}
 
 packArray := []  ; Initialize an empty array
 
@@ -2275,7 +2278,9 @@ FindGodPack(invalidPack := false) {
 
     ; Count stars if required.
     packMinStars := minStars
-    if (openPack == "Solgaleo") {
+      if (openPack == "Buzzwole") {
+        packMinStars := minStarsA3aBuzzwole
+    } else if (openPack == "Solgaleo") {
         packMinStars := minStarsA3Solgaleo
     } else if (openPack == "Lunala") {
         packMinStars := minStarsA3Lunala
@@ -3724,27 +3729,27 @@ SelectPack(HG := false) {
 	inselectexpansionscreen := 0
 	
     packy := HomeScreenAllPackY
-    if (openPack == "Solgaleo") {
+    if (openPack == "Buzzwole") {
         packx := MiddlePackX
-    } else if (openPack == "Lunala") {
+    } else if (openPack == "Solgaleo") {
         packx := RightPackX
     } else {
         packx := LeftPackX
     }
 	
-	if(openPack == "Solgaleo" || openPack == "Lunala" || openPack == "Shining") {
+	if(openPack == "Buzzwole" || openPack == "Solgaleo" || openPack == "Shining") {
 		PackIsInHomeScreen := 1
 	} else {
 		PackIsInHomeScreen := 0
 	}
 	
-	if(openPack == "Solgaleo" || openPack == "Lunala") {
+	if(openPack == "Buzzwole" || openPack == "Solgaleo" || openPack == "Lunala" || openPack == "Shining") {
 		PackIsLatest := 1
 	} else {
 		PackIsLatest := 0
 	}
 		
-	if (openPack == "Solgaleo" || openPack == "Lunala" || openPack == "Shining" || openPack = "Arceus" || openPack = "Dialga" || openPack = "Palkia") {
+	if (openPack == "Buzzwole" || openPack == "Solgaleo" || openPack == "Lunala") {
 		packInTopRowsOfSelectExpansion := 1
 	} else {
 		packInTopRowsOfSelectExpansion := 0
@@ -3822,42 +3827,53 @@ SelectPack(HG := false) {
 	}
 	
 	if(inselectexpansionscreen) {
-        if (!packInTopRowsOfSelectExpansion) {
-            ; Swipe down
+        if (openPack = "Dialga" || openPack = "Palkia" || openPack = "Mew") {
+            ; One swipe
             adbSwipe("266 770 266 355 160")
             Sleep, 500
 
-            packy := 470 ; after swiping use this Y coordinate
+            packy := 490 ; Y coordinate moved to avoid Offering Rates button
 			
-			if (openPack = "Mew") {
-                packx := SelectExpansionLeftCollumnMiddleX
-            } else if (openPack = "Charizard") {
-                packx := SelectExpansionRightCollumnMiddleX + 3PackExpansionLeft
-            } else if (openPack = "Mewtwo") {
+			if (openPack = "Dialga") {
+                packx := SelectExpansionLeftCollumnMiddleX + 2PackExpansionLeft
+            } else if (openPack = "Palkia") {
+                packx := SelectExpansionLeftCollumnMiddleX + 2PackExpansionRight
+            } else if (openPack = "Mew") {
                 packx := SelectExpansionRightCollumnMiddleX
+            }
+        } else if (openPack = "Charizard" || openPack = "Mewtwo" || openPack = "Pikachu") {
+            ; Two swipes
+            adbSwipe("266 770 266 355 160")
+            Sleep, 500
+            adbSwipe("266 770 266 355 160")
+            Sleep, 500
+
+            packy := 420 ; Different coordinate to aim for pack
+			
+			if (openPack = "Charizard") {
+                packx := SelectExpansionLeftCollumnMiddleX + 3PackExpansionLeft
+            } else if (openPack = "Mewtwo") {
+                packx := SelectExpansionLeftCollumnMiddleX
             } else if (openPack = "Pikachu") {
-                packx := SelectExpansionRightCollumnMiddleX + 3PackExpansionRight
-            
+                packx := SelectExpansionLeftCollumnMiddleX + 3PackExpansionRight
             }
         } else {
-            if (openPack == "Solgaleo") {
+            ; No swipe, top row
+            if (openPack == "Buzzwole") {
 				packy := SelectExpansionFirstRowY
-                packx := SelectExpansionLeftCollumnMiddleX + 2PackExpansionLeft
+                packx := SelectExpansionLeftCollumnMiddleX
+            } else if (openPack == "Solgaleo") {
+				packy := SelectExpansionFirstRowY
+                packx := SelectExpansionRightCollumnMiddleX + 2PackExpansionLeft
             } else if (openPack == "Lunala") {
 				packy := SelectExpansionFirstRowY
-                packx := SelectExpansionLeftCollumnMiddleX + 2PackExpansionRight
+                packx := SelectExpansionRightCollumnMiddleX + 2PackExpansionRight
             } else if (openPack == "Shining") {
-				packy := SelectExpansionFirstRowY
-                packx := SelectExpansionRightCollumnMiddleX 
+				packy := SelectExpansionSecondRowY
+                packx := SelectExpansionLeftCollumnMiddleX 
             } else if (openPack = "Arceus") {
 				packy := SelectExpansionSecondRowY
-                packx := SelectExpansionLeftCollumnMiddleX
-            } else if (openPack = "Dialga") {
-				packy := SelectExpansionSecondRowY
-                packx := SelectExpansionRightCollumnMiddleX + 2PackExpansionLeft
-            } else if (openPack = "Palkia") {
-				packy := SelectExpansionSecondRowY
-                packx := SelectExpansionRightCollumnMiddleX + 2PackExpansionRight
+                packx := SelectExpansionRightCollumnMiddleX
             }
         }
 
