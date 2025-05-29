@@ -4374,7 +4374,7 @@ CreateAccountList(instance) {
     else if (deleteMethod = "Inject for Reroll") {
         parseInjectType := "Inject for Reroll"
         minPacks := 35
-        maxPacks := (!friendIDs && friendID = "") ? maxAccountPackNum - 1 : 9999  ; Limit if no friends
+        maxPacks := 9999
         LogToFile("Inject for Reroll mode: range " . injectMinValue . "-" . maxPacks)
     }
     
