@@ -47,7 +47,7 @@ global SortByText, SortByDropdown
 global showcaseLikes, showcaseURL, skipMissionsInjectMissions
 global minStarsA1Mewtwo, minStarsA1Charizard, minStarsA1Pikachu, minStarsA1a
 global minStarsA2Dialga, minStarsA2Palkia, minStarsA2a, minStarsA2b  
-global minStarsA3Solgaleo, minStarsA3Lunala
+global minStarsA3Solgaleo, minStarsA3Lunala, minStarsA3aBuzzwole
 global waitForEligibleAccounts, maxWaitHours
 
 if not A_IsAdmin
@@ -232,7 +232,7 @@ SaveAllSettings() {
     global runMain, Mains, heartBeat, heartBeatWebhookURL, heartBeatName, nukeAccount, packMethod
     global CheckShinyPackOnly, TrainerCheck, FullArtCheck, RainbowCheck, ShinyCheck, CrownCheck
     global InvalidCheck, ImmersiveCheck, PseudoGodPack, minStars, Palkia, Dialga, Arceus, Shining
-    global Mew, Pikachu, Charizard, Mewtwo, Solgaleo, Lunala, slowMotion, ocrLanguage, clientLanguage, autoLaunchMonitor
+    global Mew, Pikachu, Charizard, Mewtwo, Solgaleo, Lunala, Buzzwole, slowMotion, ocrLanguage, clientLanguage, autoLaunchMonitor
     global CurrentVisibleSection, heartBeatDelay, sendAccountXml, showcaseEnabled, showcaseURL, isDarkTheme
     global useBackgroundImage, tesseractPath, applyRoleFilters, debugMode, tesseractOption, statusMessage
     global s4tEnabled, s4tSilent, s4t3Dmnd, s4t4Dmnd, s4t1Star, s4tGholdengo, s4tWP, s4tWPMinCards
@@ -243,7 +243,7 @@ SaveAllSettings() {
     ; === MISSING ADVANCED SETTINGS VARIABLES ===
     global minStarsA1Mewtwo, minStarsA1Charizard, minStarsA1Pikachu, minStarsA1a
     global minStarsA2Dialga, minStarsA2Palkia, minStarsA2a, minStarsA2b
-    global minStarsA3Solgaleo, minStarsA3Lunala
+    global minStarsA3Solgaleo, minStarsA3Lunala, minStarsA3aBuzzwole
     
     ; FIXED: Make sure all values are properly synced from GUI before saving
     Gui, Submit, NoHide
@@ -301,6 +301,7 @@ SaveAllSettings() {
     IniWrite, %Mewtwo%, Settings.ini, UserSettings, Mewtwo
     IniWrite, %Solgaleo%, Settings.ini, UserSettings, Solgaleo
     IniWrite, %Lunala%, Settings.ini, UserSettings, Lunala
+    IniWrite, %Buzzwole%, Settings.ini, UserSettings, Buzzwole
     
     ; Save basic settings
     IniWrite, %AccountName%, Settings.ini, UserSettings, AccountName
@@ -364,6 +365,7 @@ SaveAllSettings() {
     IniWrite, %minStarsA2b%, Settings.ini, UserSettings, minStarsA2b
     IniWrite, %minStarsA3Solgaleo%, Settings.ini, UserSettings, minStarsA3Solgaleo
     IniWrite, %minStarsA3Lunala%, Settings.ini, UserSettings, minStarsA3Lunala
+    IniWrite, %minStarsA3Buzzwole%, Settings.ini, UserSettings, minStarsA3Buzzwole
 
     IniWrite, %sendAccountXml%, Settings.ini, UserSettings, sendAccountXml
 
@@ -767,7 +769,7 @@ ShowSystemSettingsSection() {
 ShowPackSettingsSection() {
     global isDarkTheme, DARK_TEXT, LIGHT_TEXT, DARK_INPUT_BG, DARK_INPUT_TEXT, LIGHT_INPUT_BG, LIGHT_INPUT_TEXT
     global DARK_SECTION_COLORS, LIGHT_SECTION_COLORS, deleteMethod, nukeAccount
-    global Shining, Arceus, Palkia, Dialga, Pikachu, Charizard, Mewtwo, Mew, Solgaleo, Lunala
+    global Shining, Arceus, Palkia, Dialga, Pikachu, Charizard, Mewtwo, Mew, Solgaleo, Lunala, Buzzwole
     global sortByCreated
 
     SetNormalFont()
@@ -855,6 +857,7 @@ ShowPackSettingsSection() {
     LV_Delete()
 
     ; Add all items in the specified order
+    LV_Add("", "Buzzwole")
     LV_Add("", "Solgaleo")
     LV_Add("", "Lunala") 
     LV_Add("", "Shining")
@@ -873,7 +876,9 @@ ShowPackSettingsSection() {
     
         ; Check if the corresponding variable is 1
         isChecked := false
-        if (packName = "Solgaleo" && Solgaleo = 1)
+        if (packName = "Buzzwole" && Buzzwole = 1)
+            isChecked := true
+        else if (packName = "Solgaleo" && Solgaleo = 1)
             isChecked := true
         else if (packName = "Lunala" && Lunala = 1)
             isChecked := true
@@ -1274,8 +1279,9 @@ LoadSettingsFromIni() {
         IniRead, Pikachu, Settings.ini, UserSettings, Pikachu, 0
         IniRead, Charizard, Settings.ini, UserSettings, Charizard, 0
         IniRead, Mewtwo, Settings.ini, UserSettings, Mewtwo, 0
-        IniRead, Solgaleo, Settings.ini, UserSettings, Solgaleo, 1
+        IniRead, Solgaleo, Settings.ini, UserSettings, Solgaleo, 0
         IniRead, Lunala, Settings.ini, UserSettings, Lunala, 0
+        IniRead, Buzzwole, Settings.ini, UserSettings, Buzzwole, 1
         IniRead, slowMotion, Settings.ini, UserSettings, slowMotion, 0
         IniRead, ocrLanguage, Settings.ini, UserSettings, ocrLanguage, en
         IniRead, clientLanguage, Settings.ini, UserSettings, clientLanguage, en
@@ -1313,6 +1319,7 @@ LoadSettingsFromIni() {
         IniRead, minStarsA2a, Settings.ini, UserSettings, minStarsA2a, 0
         IniRead, minStarsA3Solgaleo, Settings.ini, UserSettings, minStarsA3Solgaleo, 0
         IniRead, minStarsA3Lunala, Settings.ini, UserSettings, minStarsA3Lunala, 0
+        IniRead, minStarsA3Buzzwole, Settings.ini, UserSettings, minStarsA3Buzzwole, 0
 
         IniRead, heartBeatDelay, Settings.ini, UserSettings, heartBeatDelay, 30
         IniRead, sendAccountXml, Settings.ini, UserSettings, sendAccountXml, 0
@@ -1754,6 +1761,7 @@ Gui, Add, ListView, vPackSelectionList gUpdatePackSelection x170 y320 w290 h120 
 LV_ModifyCol(1, 270)
 
 ; Add the packs to the ListView
+LV_Add("", "Buzzwole")
 LV_Add("", "Solgaleo")
 LV_Add("", "Lunala")
 LV_Add("", "Shining")
@@ -1994,6 +2002,7 @@ UpdatePackSelection:
     Mew := 0
     Solgaleo := 0
     Lunala := 0
+    Buzzwole := 0
     
     ; Loop through all rows and check their state directly
     Loop, % LV_GetCount()
@@ -2005,7 +2014,9 @@ UpdatePackSelection:
             LV_GetText(packName, A_Index)
             
             ; Set the corresponding variable to 1
-            if (packName = "Solgaleo")
+            if (packName = "Buzzwole")
+                Buzzwole := 1
+            else if (packName = "Solgaleo")
                 Solgaleo := 1
             else if (packName = "Lunala")
                 Lunala := 1
@@ -2029,6 +2040,7 @@ UpdatePackSelection:
     }
 
     ; Explicitly save each pack variable to the INI file directly
+    IniWrite, %Buzzwole%, Settings.ini, UserSettings, Buzzwole
     IniWrite, %Solgaleo%, Settings.ini, UserSettings, Solgaleo
     IniWrite, %Lunala%, Settings.ini, UserSettings, Lunala
     IniWrite, %Shining%, Settings.ini, UserSettings, Shining
@@ -2755,6 +2767,8 @@ StartBot:
     confirmMsg := "Selected Method: " . deleteMethod . "`n"
     
     confirmMsg .= "`nSelected Packs:`n"
+    if (Buzzwole)
+        confirmMsg .= "• Buzzwole`n"
     if (Solgaleo)
         confirmMsg .= "• Solgaleo`n"
     if (Lunala)
@@ -3032,6 +3046,8 @@ StartBot:
         Selected.Push("Solgaleo")
     if(Lunala)
         Selected.Push("Lunala")
+    if(Buzzwole)
+        Selected.Push("Buzzwole")
 
     for index, value in Selected {
         if(index = Selected.MaxIndex())
