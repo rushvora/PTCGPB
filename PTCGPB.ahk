@@ -49,7 +49,7 @@ global SortByText, SortByDropdown
 global showcaseLikes, showcaseURL, skipMissionsInjectMissions
 global minStarsA1Mewtwo, minStarsA1Charizard, minStarsA1Pikachu, minStarsA1a
 global minStarsA2Dialga, minStarsA2Palkia, minStarsA2a, minStarsA2b
-global minStarsA3Solgaleo, minStarsA3Lunala, minStarsA3a
+global minStarsA3Solgaleo, minStarsA3Lunala, minStarsA3aBuzzwole
 global waitForEligibleAccounts, maxWaitHours
 global finishSignalFile := A_ScriptDir "\Scripts\Include\finish.signal"
 
@@ -429,7 +429,7 @@ NextStep:
         ; === MISSING ADVANCED SETTINGS VARIABLES ===
         global minStarsA1Mewtwo, minStarsA1Charizard, minStarsA1Pikachu, minStarsA1a
         global minStarsA2Dialga, minStarsA2Palkia, minStarsA2a, minStarsA2b
-        global minStarsA3Solgaleo, minStarsA3Lunala, minStarsA3a
+        global minStarsA3Solgaleo, minStarsA3Lunala, minStarsA3aBuzzwole
         
         ; FIXED: Make sure all values are properly synced from GUI before saving
         Gui, Submit, NoHide
@@ -546,7 +546,7 @@ NextStep:
         IniWrite, %minStarsA2b%, Settings.ini, UserSettings, minStarsA2b
         IniWrite, %minStarsA3Solgaleo%, Settings.ini, UserSettings, minStarsA3Solgaleo
         IniWrite, %minStarsA3Lunala%, Settings.ini, UserSettings, minStarsA3Lunala
-        IniWrite, %minStarsA3a%, Settings.ini, UserSettings, minStarsA3a
+        IniWrite, %minStarsA3aBuzzwole%, Settings.ini, UserSettings, minStarsA3aBuzzwole
         
         IniWrite, %sendAccountXml%, Settings.ini, UserSettings, sendAccountXml
         
@@ -2065,7 +2065,7 @@ NextStep:
             IniRead, minStarsA2a, Settings.ini, UserSettings, minStarsA2a, 0
             IniRead, minStarsA3Solgaleo, Settings.ini, UserSettings, minStarsA3Solgaleo, 0
             IniRead, minStarsA3Lunala, Settings.ini, UserSettings, minStarsA3Lunala, 0
-            IniRead, minStarsA3a, Settings.ini, UserSettings, minStarA3aBuzzwole, 0
+            IniRead, minStarsA3aBuzzwole, Settings.ini, UserSettings, minStarA3aBuzzwole, 0
             
             IniRead, heartBeatDelay, Settings.ini, UserSettings, heartBeatDelay, 30
             IniRead, sendAccountXml, Settings.ini, UserSettings, sendAccountXml, 0
