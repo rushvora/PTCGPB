@@ -12,9 +12,9 @@ OnError("ErrorHandler")  ; Add this line here
 
 global STATIC_BRUSH := 0
 
-githubUser := "Arturo-1212"
+githubUser := "mixman208"
 repoName := "PTCGPB"
-localVersion := "v6.4.6Beta"
+localVersion := "v6.4.7"
 scriptFolder := A_ScriptDir
 zipPath := A_Temp . "\update.zip"
 extractPath := A_Temp . "\update"
