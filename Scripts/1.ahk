@@ -1310,7 +1310,7 @@ FindOrLoseImage(X1, Y1, X2, Y2, searchVariation := "", imageName := "DEFAULT", E
     if (vRet = 1) {
         restartGameInstance("Stuck at " . imageName . "...")
     }
-    if(imageName = "Social" || imageName = "Add" || imageName = "Search") {
+    if(imageName = "Social" || imageName = "Add" || imageName = "Search" || imageName = "Friend" || "imageName = "OK2") {
         TradeTutorial()
     }
     if(imageName = "Social" || imageName = "Country" || imageName = "Account2" || imageName = "Account" || imageName = "Points") { ;only look for deleted account on start up.
@@ -1561,7 +1561,7 @@ Path = %imagePath%Error.png
         if(imageName = "Points" || imageName = "Home") { ;look for level up ok "button"
             LevelUp()
         }
-        if(imageName = "Social" || imageName = "Add" || imageName = "Search") {
+        if(imageName = "Social" || imageName = "Add" || imageName = "Search" || imageName = "Friend" || imageName = "OK2") {
             TradeTutorial()
         }
         if(skip) {
@@ -3719,7 +3719,7 @@ SelectPack(HG := false) {
 	SelectExpansionFirstRowY := 275
 	SelectExpansionSecondRowY := 410
 	
-	SelectExpansionRightCollumnMiddleX := 200
+	SelectExpansionRightCollumnMiddleX := 210
 	SelectExpansionLeftCollumnMiddleX := 73
 	3PackExpansionLeft := -40
 	3PackExpansionRight := 40
