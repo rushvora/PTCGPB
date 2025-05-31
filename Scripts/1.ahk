@@ -3714,7 +3714,7 @@ SelectPack(HG := false) {
 	LeftPackX := 60
 	HomeScreenAllPackY := 203
 	
-	PackScreenAllPackY := 320
+	PackScreenAll := 320
 	
 	SelectExpansionFirstRowY := 275
 	SelectExpansionSecondRowY := 410
@@ -3832,7 +3832,7 @@ SelectPack(HG := false) {
             adbSwipe("266 770 266 355 160")
             Sleep, 500
 
-            packy := 490 ; Y coordinate moved to avoid Offering Rates button
+            packy := 490
 			
 			if (openPack = "Dialga") {
                 packx := SelectExpansionLeftCollumnMiddleX + 2PackExpansionLeft
@@ -3848,7 +3848,7 @@ SelectPack(HG := false) {
             adbSwipe("266 770 266 355 160")
             Sleep, 500
 
-            packy := 420 ; Different coordinate to aim for pack
+            packy := 450
 			
 			if (openPack = "Charizard") {
                 packx := SelectExpansionLeftCollumnMiddleX + 3PackExpansionLeft
