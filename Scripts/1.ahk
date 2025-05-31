@@ -3714,7 +3714,7 @@ SelectPack(HG := false) {
 	LeftPackX := 60
 	HomeScreenAllPackY := 203
 	
-	PackScreenAll := 320
+	PackScreenAllPackY := 320
 	
 	SelectExpansionFirstRowY := 275
 	SelectExpansionSecondRowY := 410
