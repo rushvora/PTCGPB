@@ -404,7 +404,7 @@
         <div class="header">
             <h1>🎮 PTCGP Bot</h1>
             <p class="subtitle">Complete User Guide & Interface Documentation</p>
-            <div class="version-badge">v6.4.5 Beta</div>
+            <div class="version-badge">v6.4.7</div>
         </div>
         
         <div class="main-content">
@@ -538,7 +538,7 @@
                         <div class="setting-item">
                             <div class="setting-name">🆔 Friend ID</div>
                             <div class="setting-description">
-                                Enter your Pokemon TCG Pocket Friend ID for friend battles and social features. Leave empty if using the ids.txt API instead. This ID will be used across all instances for friend interactions.
+                                Enter your Pokemon TCG Pocket Friend ID that you would like the bots to add as friend for wonderpicking (once the bot accounts have 39+ packs opened and are eligible for wonderpicking via "Inject for reroll" mode.) This field is ignored for 13 Pack, Inject, and Inject Missions modes, as those three modes are all about creating & opening packs on bot accounts below 39 Packs to prepare them for future wonderpicking / GP hunting.
                             </div>
                         </div>
                     </div>
@@ -549,35 +549,35 @@
                         <div class="setting-item">
                             <div class="setting-name">📱 Instances</div>
                             <div class="setting-description">
-                                Number of regular reroll instances to run. Each instance handles one account simultaneously. Recommended range: 1-50 depending on your system specifications.
+                                Number of game instances to run simultaneously. Recommended to start with 1 for initial bot setup to test & learn settings, then increase to ~4 to 12+ depending on your system hardware capabilities (primarily CPU & memory.) Each instance uses 2 CPU cores & 2GB ram.
                             </div>
                         </div>
                         
                         <div class="setting-item">
                             <div class="setting-name">⏱️ Instance Start Delay</div>
                             <div class="setting-description">
-                                Delay in seconds between launching instances. Helps prevent system overload during startup. Recommended: 2-5 seconds for optimal performance.
+                                Delay in seconds between launching bot autohotkey scripts (1.ahk, 2.ahk, etc.). Helps prevent system overload during startup, as CPU resource usage is the highest during PTCGP app startup. Recommended: 2-5 seconds for optimal performance.
                             </div>
                         </div>
                         
                         <div class="setting-item">
                             <div class="setting-name">📊 Columns</div>
                             <div class="setting-description">
-                                Number of instances per row when arranging windows. Affects the grid layout of your instance windows. Recommended: 3-6 depending on screen size and resolution.
+                                Number of instances per row when arranging windows. Affects the grid layout of your instance windows. Recommended: (# of instances + 1 main), i.e. 4 instances + 1 main = 5 Columns setting, or (# of instances + 1)/2 for high number of instances (i.e. 11 instances + 1 main = 12, 12 / 2 = 6 Column setting)
                             </div>
                         </div>
                         
                         <div class="setting-item">
                             <div class="setting-name">⭐ Run Main(s)</div>
                             <div class="setting-description">
-                                Enable Main instance(s) for primary account(s). Main instances can run different logic than reroll instances and are useful for keeping main accounts active while rerolling others.
+                                Uses the "Main" mumu instance to run your primary PTCGP account to accept friend requests for godpack hunting. Only used in "Inject for Reroll" when your bot accounts have 39+ Packs and are thus eligible for wonderpick. 13 Pack, Inject, and Inject Missions settings do not need to run main account as they're simply opening packs to get to 39P to be used for GP hunting in the future.
                             </div>
                         </div>
                         
                         <div class="setting-item">
                             <div class="setting-name">🎮 Account Name</div>
                             <div class="setting-description">
-                                Display name for this bot configuration. Used in Discord notifications and logs to help identify different bot setups when running multiple configurations.
+                                Pokemon username prefix for your bots when usernames_default.txt is empty (else it will read on usernames_default.txt first.) Account Name "Bob" would result in 13 Pack method to create new accounts "Bob-1234", "Bob-5678", etc.
                             </div>
                         </div>
                     </div>
@@ -588,14 +588,14 @@
                         <div class="setting-item">
                             <div class="setting-name">⚡ Delay</div>
                             <div class="setting-description">
-                                Base delay between actions in milliseconds. Lower values mean faster execution but less stability. Recommended: 200-500ms for optimal balance.
+                                Base delay between actions in milliseconds. Lower values mean faster execution but less stability. Recommended: 200-500ms
                             </div>
                         </div>
                         
                         <div class="setting-item">
                             <div class="setting-name">⏳ Wait Time</div>
                             <div class="setting-description">
-                                Wait time in seconds for various operations including loading screens and animations. Recommended: 3-10 seconds depending on device performance.
+                                "Inject for Reroll" bot accounts will wait this long, in seconds, after adding your main account before pulling packs. Recommended: 0 - 10 seconds
                             </div>
                         </div>
                         
@@ -609,7 +609,7 @@
                         <div class="setting-item">
                             <div class="setting-name">🐌 Base Game Compatibility</div>
                             <div class="setting-description">
-                                Enable compatibility mode for slower devices. Increases delays for better stability. Use if experiencing frequent crashes or detection issues.
+                                Runs Pokemon app at 1x speed instead of using 3x speedhack method. Use this if your system cannot keep up with 3x speedhack, or if a recent Pokemon app update has released and speedhack APK isn't available yet.
                             </div>
                         </div>
                     </div>
@@ -638,9 +638,9 @@
                                 UI scaling setting for MuMu instances:
                                 <ul>
                                     <li><strong>Scale125:</strong> 125% UI scaling (default)</li>
-                                    <li><strong>Scale100:</strong> 100% UI scaling</li>
+                                    <li><strong><s>Scale100:</strong> 100% UI scaling</s> (not currently supported)</li> 
                                 </ul>
-                                Must match your MuMu display settings exactly.
+                                Must match your MuMu display settings AND your Windows PC monitor display setting exactly.
                             </div>
                         </div>
                         
@@ -687,16 +687,16 @@
                         <h3>🔧 Advanced Options</h3>
                         
                         <div class="setting-item">
-                            <div class="setting-name">🚀 Instance Launch Delay</div>
+                            <div class="setting-name">🚀 Launch MUMU Delay</div>
                             <div class="setting-description">
                                 Delay in seconds when launching MuMu instances. Prevents system overload during startup. Recommended: 3-10 seconds based on system performance.
                             </div>
                         </div>
                         
                         <div class="setting-item">
-                            <div class="setting-name">📊 Auto Launch Monitor</div>
+                            <div class="setting-name">📊 Auto open Monitor</div>
                             <div class="setting-description">
-                                Automatically launch Monitor.ahk with the bot. The monitor script tracks instance health and performance. Recommended to keep enabled.
+                                Automatically launch Monitor.ahk with the bot. The monitor script tracks instance health and performance, and will restart stuck/crashed instances. Recommended to keep enabled.
                             </div>
                         </div>
                         
@@ -743,14 +743,14 @@
                         <div class="setting-item">
                             <div class="setting-name">✨ Minimum 2★ Cards</div>
                             <div class="setting-description">
-                                Minimum 2-star cards required to keep a pack. Packs with fewer 2-star cards will be rerolled. Range: 0-5 (0 = keep all packs regardless of stars).
+                                Minimum 2-star cards required to keep a pack. Packs with fewer 2-star cards will be ignored and rerolled. Range: 0-5 (0 = keep all eligible godpacks, even with no 2* cards).
                             </div>
                         </div>
                         
                         <div class="setting-item">
                             <div class="setting-name">🌟 2★ for Shiny Packs</div>
                             <div class="setting-description">
-                                Separate minimum 2-star requirement specifically for Shiny packs. Usually set lower than regular minimum since Shiny packs are rarer.
+                                Separate minimum 2-star requirement specifically for Shiny packs.
                             </div>
                         </div>
                     </div>
@@ -763,10 +763,10 @@
                             <div class="setting-description">
                                 Choose your reroll strategy:
                                 <ul>
-                                    <li><strong>13 Pack:</strong> Traditional method - delete account after opening 13 packs</li>
-                                    <li><strong>Inject:</strong> Advanced account injection system for experienced users</li>
-                                    <li><strong>Inject Missions:</strong> Injection with automatic mission completion</li>
-                                    <li><strong>Inject for Reroll:</strong> Injection with pack count thresholds</li>
+                                    <li><strong>13 Pack:</strong> Create new accounts, do beginner missions, open 13 packs. Select this until you have enough accounts created per instance (~300-700 recommended). </li>
+                                    <li><strong>Inject:</strong> Login to existing accounts, open 2 daily packs - used to advance accounts up to the 39P requirement for them to show up in wonder pick.</li>
+                                    <li><strong>Inject Missions:</strong> Same as inject, but complete beginner missions if account hadn't previously.</li>
+                                    <li><strong>Inject for Reroll:</strong> Final step in GP hunting; logs into 39P+ accounts (WP eligible), adds your main ID, opens packs, and scans the pack contents for user-defined desireable cards.</li>
                                 </ul>
                             </div>
                         </div>
@@ -774,28 +774,28 @@
                         <div class="setting-item">
                             <div class="setting-name">1️⃣ 1 Pack Method</div>
                             <div class="setting-description">
-                                Open only 1 pack per account instead of multiple. Enables faster rerolls but provides fewer chances per account.
+                                Adds friends, pulls 1 pack. If pack is not desireable, removes friends, re-adds, and pulls next pack. This setting clears out the undesireable packs from showing up on your main's WP. This setting is much slower, but decreases your work to determine if a godpack or 2* pack is "live" (10% random chance it can show up in wonderpick) or "dead" (90% random chance it will never showup in wonderpick) without you having to wait for a previously opened bad pack to unload from wonderpick. Recommended: OFF for fastest pack opening and cycling.
                             </div>
                         </div>
                         
                         <div class="setting-item">
                             <div class="setting-name">💥 Menu Delete</div>
                             <div class="setting-description">
-                                Delete accounts through the in-game menu. Only available for non-Inject methods. Provides a cleaner deletion process.
+                                Delete accounts through the in-game menu after opening 13 packs. LEAVE OFF to create & save accounts for future godpack / 2* card wonderpicking. Only used for "save for trade" card hunting when user does not want accounts saved for future Inject Rerolling.
                             </div>
                         </div>
                         
                         <div class="setting-item">
                             <div class="setting-name">⏰ Spend Hourglass</div>
                             <div class="setting-description">
-                                Automatically spend Hourglasses for extra pack openings. Uses in-game currency for additional opportunities. Available for Inject methods.
+                                Automatically spend Hourglasses for extra pack openings. Uses hourglasses & gold. Available for Inject methods.
                             </div>
                         </div>
                         
                         <div class="setting-item">
                             <div class="setting-name">🎯 Claim Special Missions</div>
                             <div class="setting-description">
-                                Complete special missions during injection. Only available for 'Inject Missions' method. Provides additional rewards and pack opportunities.
+                                Complete special time-limited missions, if available, during injection to get accounts to the 39-pack requirement faster. Only available for 'Inject Missions' method.
                             </div>
                         </div>
                     </div>
@@ -804,16 +804,16 @@
                         <h3>📊 Injection Settings</h3>
                         
                         <div class="setting-item">
-                            <div class="setting-name">📈 Maximum Pack Count</div>
+                            <div class="setting-name"><s>📈 Maximum Pack Count</div>
                             <div class="setting-description">
-                                Maximum pack count for Inject methods. Accounts with more packs will be skipped to focus on newer accounts. Default: 39 packs.
+                                Maximum pack count for Inject methods. Accounts with more packs will be skipped to focus on newer accounts. Default: 39 packs.</s> Removed setting; all Inject and Inject Missions accounts will stop at 39P now.
                             </div>
                         </div>
                         
                         <div class="setting-item">
-                            <div class="setting-name">📉 Minimum Pack Count</div>
+                            <div class="setting-name"><s>📉 Minimum Pack Count</div>
                             <div class="setting-description">
-                                Minimum pack count for 'Inject for Reroll' method. Only reroll accounts with fewer packs than this threshold. Default: 35 packs.
+                                Minimum pack count for 'Inject for Reroll' method. Only reroll accounts with fewer packs than this threshold. Default: 35 packs.</s> Removed setting; Inject for Reroll will now only load accounts with minimum 39P opened.
                             </div>
                         </div>
                         
@@ -837,8 +837,9 @@
                         <div class="setting-item">
                             <div class="setting-name">🎴 Available Packs</div>
                             <div class="setting-description">
-                                Select which pack types to open during rerolls:
+                                Select which pack types to open during rerolls. This is important in "save for trade" and "Inject for Reroll" modes, but should be set to the latest available Pokemon pack for "13 Pack", "Inject", and "Inject Missions" settings to speed up the pack-opening process.
                                 <ul>
+                                    <li><strong>Buzzwole</strong></li>
                                     <li><strong>Solgaleo & Lunala:</strong> Space Roar A3 packs</li>
                                     <li><strong>Shining:</strong> Special Shining Fates packs</li>
                                     <li><strong>Arceus, Palkia, Dialga:</strong> Time Gazer A2 packs</li>
@@ -855,49 +856,49 @@
                         <div class="setting-item">
                             <div class="setting-name">🎨 Single Full Art</div>
                             <div class="setting-description">
-                                Save accounts with single Full Art cards. Keeps accounts that pull any Full Art card, perfect for collection building.
+                                Save accounts that pull any single Full Art card. Recommended if your wonder pick energy is filling up and you are desperate for any decent 1/5 wonder pick.
                             </div>
                         </div>
                         
                         <div class="setting-item">
                             <div class="setting-name">👤 Single Trainer</div>
                             <div class="setting-description">
-                                Save accounts with single Trainer cards. Keeps accounts that pull any Trainer card, useful for competitive deck building.
+                                Save accounts with any single 2* Trainer cards (1/5 or more).
                             </div>
                         </div>
                         
                         <div class="setting-item">
                             <div class="setting-name">🌈 Single Rainbow</div>
                             <div class="setting-description">
-                                Save accounts with single Rainbow Rare cards. Keeps accounts that pull any Rainbow card - very rare and valuable pulls.
+                                Save accounts with single 2* Rainbow Rare card (1/5 or more).
                             </div>
                         </div>
                         
                         <div class="setting-item">
                             <div class="setting-name">⭐ Double 2★</div>
                             <div class="setting-description">
-                                Save accounts with Double 2-star cards. Keeps packs with 2 or more 2-star cards. Good middle-ground between god packs and single card saves.
+                                Save accounts which open a pack with at least 2x 2-star cards. Recommended to keep enabled alongside godpack hunting, as these are often needed to wonderpick from since "live" godpacks are rare, especially for newer sets with Shiny cards making most godpacks ineligible.
                             </div>
                         </div>
                         
                         <div class="setting-item">
                             <div class="setting-name">👑 Save Crowns</div>
                             <div class="setting-description">
-                                Save accounts with Crown Rare cards. Keeps accounts that pull Crown cards - extremely rare special cards with unique artwork.
+                                Save accounts with Crown Rare cards. Currently useless for wonderpicking & trading, but might be valuable if trading system changes in the future.
                             </div>
                         </div>
                         
                         <div class="setting-item">
                             <div class="setting-name">✨ Save Shiny</div>
                             <div class="setting-description">
-                                Save accounts with Shiny cards. Keeps accounts that pull any Shiny variant - special artwork versions of existing cards.
+                                Save accounts with Shiny cards. Currently useless for wonderpicking & trading, but might be valuable if trading system changes in the future.
                             </div>
                         </div>
                         
                         <div class="setting-item">
                             <div class="setting-name">🎬 Save Immersives</div>
                             <div class="setting-description">
-                                Save accounts with Immersive cards. Keeps accounts that pull Immersive art cards - special full-screen artwork cards with animations.
+                                Save accounts with Immersive cards. Currently useless for wonderpicking & trading, but might be valuable if trading system changes in the future.
                             </div>
                         </div>
                         
@@ -911,7 +912,7 @@
                         <div class="setting-item">
                             <div class="setting-name">❌ Ignore Invalid Packs</div>
                             <div class="setting-description">
-                                Skip packs that can't be properly scanned due to OCR or detection errors. Helps avoid false positives and improves accuracy.
+                                Prevents discord messages for packs which are deemed invalid for wonderpick due to containing a Shiny, Crown Rare, or Immersive card.
                             </div>
                         </div>
                     </div>
@@ -928,9 +929,9 @@
                         <h3>⚡ S4T Configuration</h3>
                         
                         <div class="setting-item">
-                            <div class="setting-name">🔄 Enable S4T</div>
+                            <div class="setting-name">🔄 Enable Save for Trade</div>
                             <div class="setting-description">
-                                Enable Save For Trade functionality. Automatically saves accounts with tradeable cards and sends notifications when valuable cards are found.
+                                Saves accounts with tradeable cards and sends notifications when valuable cards are found.
                             </div>
                         </div>
                         
@@ -943,49 +944,49 @@
                     </div>
                     
                     <div class="setting-group">
-                        <h3>💎 Diamond Card Settings</h3>
+                        <h3>💎 Save for Trade Diamond Card Settings</h3>
                         
                         <div class="setting-item">
-                            <div class="setting-name">💎 3-Diamond Cards</div>
+                            <s><div class="setting-name">💎 Save for Trade 3-Diamond Cards</div>
                             <div class="setting-description">
                                 Save accounts with 3◆ rarity cards. Keeps accounts with 3-Diamond cards, good for trading mid-tier valuable cards.
                             </div>
                         </div>
                         
                         <div class="setting-item">
-                            <div class="setting-name">💎 4-Diamond Cards</div>
+                            <div class="setting-name">💎 Save for Trade 4-Diamond Cards</div>
                             <div class="setting-description">
                                 Save accounts with 4◆ rarity cards. Keeps accounts with 4-Diamond cards - very valuable for trading and collecting.
                             </div>
                         </div>
                         
                         <div class="setting-item">
-                            <div class="setting-name">⭐ 1-Star Cards</div>
+                            <div class="setting-name">⭐ Save for Trade 1-Star Cards</div>
                             <div class="setting-description">
                                 Save accounts with 1★ rarity cards. Keeps accounts with 1-Star cards, useful for completing collections and specific deck builds.
                             </div>
                         </div>
                         
                         <div class="setting-item">
-                            <div class="setting-name">🪙 Gholdengo Cards</div>
+                            <div class="setting-name">🪙 Save for Trade Gholdengo Cards</div>
                             <div class="setting-description">
-                                Save accounts with Gholdengo cards. Special card from Shining packs. Only visible when Shining packs are selected in Pack Settings.
+                                Save accounts with Gholdengo cards. Special card from Shining packs. Only visible when Shining packs are selected in Pack Settings.</s>
                             </div>
                         </div>
                     </div>
                     
                     <div class="setting-group">
-                        <h3>🎯 Wonder Pick Settings</h3>
+                        <h3>🎯 Save for Trade Wonder Pick Settings</h3>
                         
                         <div class="setting-item">
-                            <div class="setting-name">🎲 Enable Wonder Pick</div>
+                            <div class="setting-name">🎲 Save for Trade Enable Wonder Pick</div>
                             <div class="setting-description">
                                 Enable Wonder Pick automation. Automatically participates in Wonder Pick events based on your minimum card requirements.
                             </div>
                         </div>
                         
                         <div class="setting-item">
-                            <div class="setting-name">🔢 Minimum Cards</div>
+                            <div class="setting-name">🔢 Save for Trade Minimum Cards</div>
                             <div class="setting-description">
                                 Minimum cards required for Wonder Pick participation. Only participate in Wonder Picks with this many desirable cards. Recommended: 1-3 cards.
                             </div>
@@ -998,12 +999,12 @@
                         <div class="setting-item">
                             <div class="setting-name">👤 Discord User ID</div>
                             <div class="setting-description">
-                                Your Discord User ID for S4T notifications. Used to mention you when valuable cards are saved. Find in Discord: User Settings > Advanced > Developer Mode > Copy ID.
+                                Your Discord User ID for S4T notifications. Used to mention you when valuable cards are saved. Find in Discord: Enable "Developer Mode" in Settings -> Advanced -> Developer Mode, and then click your profile -> "Copy User ID"
                             </div>
                         </div>
                         
                         <div class="setting-item">
-                            <div class="setting-name">🔗 S4T Webhook URL</div>
+                            <div class="setting-name">🔗 MWebhook URL</div>
                             <div class="setting-description">
                                 Discord webhook URL specifically for S4T notifications. Can be separate from main bot notifications. Create in Discord: Server Settings > Integrations > Webhooks.
                             </div>
@@ -1031,14 +1032,14 @@
                         <div class="setting-item">
                             <div class="setting-name">👤 Discord User ID</div>
                             <div class="setting-description">
-                                Your Discord User ID for main notifications. Used for @mentions in bot status messages and god pack alerts. Find in Discord: User Settings > Advanced > Developer Mode > Copy ID.
+                                Your Discord User ID for main notifications. Used for @mentions in bot status messages and god pack alerts. Find in Discord: Enable "Developer Mode" in Settings -> Advanced -> Developer Mode, and then click your profile -> "Copy User ID".
                             </div>
                         </div>
                         
                         <div class="setting-item">
                             <div class="setting-name">🔗 Main Webhook URL</div>
                             <div class="setting-description">
-                                Discord webhook URL for main bot notifications. Receives status updates, god pack alerts, and error messages. Create in Discord: Server Settings > Integrations > Webhooks.
+                                Discord webhook URL for main bot notifications. Receives status updates, god pack alerts, and error messages. Recommended to create your own Discord server, then go to Server Settings > Integrations > Webhooks.
                             </div>
                         </div>
                         
@@ -1056,7 +1057,7 @@
                         <div class="setting-item">
                             <div class="setting-name">💗 Enable Heartbeat</div>
                             <div class="setting-description">
-                                Enable periodic status updates to Discord. Sends regular 'alive' messages with statistics to help monitor bot health remotely.
+                                Enable periodic status updates to Discord. Sends regular 'alive' messages with statistics to help you monitor bot health remotely.
                             </div>
                         </div>
                         
@@ -1077,7 +1078,7 @@
                         <div class="setting-item">
                             <div class="setting-name">⏰ Heartbeat Delay</div>
                             <div class="setting-description">
-                                Minutes between heartbeat messages. How often to send status updates to Discord. Recommended: 15-60 minutes depending on monitoring needs.
+                                Minutes between heartbeat messages. How often to send status updates to Discord. Recommended: 15-120 minutes depending on monitoring needs.
                             </div>
                         </div>
                     </div>
@@ -1096,14 +1097,14 @@
                         <div class="setting-item">
                             <div class="setting-name">🆔 Main IDs API URL</div>
                             <div class="setting-description">
-                                API URL for friend ID list (ids.txt). Automatically downloads updated friend ID lists from your specified URL. Leave empty to use local ids.txt file instead.
+                                Used for team re-rolling; API URL for friend ID list (ids.txt). Automatically downloads updated friend ID lists from your specified URL. Leave empty to use local ids.txt file instead. Check discord for instructions.
                             </div>
                         </div>
                         
                         <div class="setting-item">
                             <div class="setting-name">⭐ VIP IDs API URL</div>
                             <div class="setting-description">
-                                API URL for VIP friend ID list (vip_ids.txt). Separate list for priority friend IDs used for special account management and priority interactions.
+                                Used for team re-rolling; API URL for VIP friend ID list (vip_ids.txt). Separate list for priority friend IDs used for special account management and priority interactions. Check discord for instructions.
                             </div>
                         </div>
                     </div>
@@ -1114,7 +1115,7 @@
                         <div class="setting-item">
                             <div class="setting-name">✨ Enable Showcase</div>
                             <div class="setting-description">
-                                Enable showcase automation using showcase_ids.txt. Requires the showcase_ids.txt file in your bot directory for automatic showcase interactions.
+                                Bots will give your main account(s) showcase 5 "likes" per day / per run to help you get your 5 daily shop tickets. Requires the showcase_ids.txt file in your bot directory for automatic showcase interactions. Input your main account(s) pokemon friend IDs in this file, not username.
                             </div>
                         </div>
                     </div>
