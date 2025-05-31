@@ -2487,26 +2487,26 @@ NextStep:
     TestHover := AddBtn("Picture", 20, 68, 221, 72, "title_main", "", currentDictionary.title_main . "`n" . localVersion . " " . intro, title_main, "Txt_title_main", 40, 76)
     
     SetPanelBtnFont()
-    ArrangeBtn := AddBtn("Picture", 45, 157, 298, 54, "Btn_Arrange", "", "", btn_mainPage)
-    ArrangeHover := AddBtn("Picture", 45, 157, 298, 54, "Hover_Arrange", "ArrangeWindows", currentDictionary.btn_arrange, btn_panelHover, "Txt_Btn_Arrange", (120+xs_Arrange), (167+ys))
+    ArrangeBtn := AddBtn("Picture", 45, 157, 298, 54, "Btn_Mumu", "", "", btn_mainPage)
+    ArrangeHover := AddBtn("Picture", 45, 157, 298, 54, "Hover_Mumu", "LaunchAllMumu", currentDictionary.btn_mumu, btn_panelHover, "Txt_Btn_Mumu", (126+xs_Launch), (167+ys))
     
-    CoffeeBtn := AddBtn("Picture", 45, 211, 298, 54, "Btn_Coffee", "", "", btn_mainPage)
-    CoffeeHover := AddBtn("Picture", 45, 211, 298, 54, "Hover_Coffee", "OpenLink", currentDictionary.btn_coffee, btn_panelHover, "Txt_Btn_Coffee", (125+xs_Coffee), (221+ys))
+    CoffeeBtn := AddBtn("Picture", 45, 211, 298, 54, "Btn_Arrange", "", "", btn_mainPage)
+    CoffeeHover := AddBtn("Picture", 45, 211, 298, 54, "Hover_Arrange", "ArrangeWindows", currentDictionary.btn_arrange, btn_panelHover, "Txt_Btn_Arrange", (120+xs_Arrange), (221+ys))
     
-    JoinBtn := AddBtn("Picture", 45, 268, 298, 54, "Btn_Join", "", , btn_mainPage)
-    JoinHover := AddBtn("Picture", 45, 268, 298, 54, "Hover_Join", "OpenDiscord", currentDictionary.btn_join, btn_panelHover, "Txt_Btn_Join", (143+xs_Join), (278+ys))
+    JoinBtn := AddBtn("Picture", 45, 268, 298, 54, "Btn_BalanceXMLs", "", "", btn_mainPage)
+    JoinHover := AddBtn("Picture", 45, 268, 298, 54, "Hover_BalanceXMLs", "BalanceXMLs", currentDictionary.btn_balance, btn_panelHover, "Txt_Btn_BalanceXMLs", (136+xs_Balance), (278+ys))
     
-    MumuBtn := AddBtn("Picture", 45, 324, 298, 54, "Btn_Mumu", "", "", btn_mainPage)
-    MumuHover := AddBtn("Picture", 45, 324, 298, 54, "Hover_Mumu", "LaunchAllMumu", currentDictionary.btn_mumu, btn_panelHover, "Txt_Btn_Mumu", (126+xs_Launch), (334+ys))
+    MumuBtn := AddBtn("Picture", 45, 324, 298, 54, "Btn_Update", "", "", btn_mainPage)
+    MumuHover := AddBtn("Picture", 45, 324, 298, 54, "Hover_Update", "CheckForUpdates", currentDictionary.btn_update, btn_panelHover, "Txt_Btn_Update", (125+xs_Update), (334+ys))
     
-    BalanceXMLsBtn := AddBtn("Picture", 45, 379, 298, 54, "Btn_BalanceXMLs", "", "", btn_mainPage)
-    BalanceXMLsHover := AddBtn("Picture", 45, 379, 298, 54, "Hover_BalanceXMLs", "BalanceXMLs", currentDictionary.btn_balance, btn_panelHover, "Txt_Btn_BalanceXMLs", (136+xs_Balance), (389+ys))
+    BalanceXMLsBtn := AddBtn("Picture", 45, 379, 298, 54, "Btn_Join", "", , btn_mainPage)
+    BalanceXMLsHover := AddBtn("Picture", 45, 379, 298, 54, "Hover_Join", "OpenDiscord", currentDictionary.btn_join, btn_panelHover, "Txt_Btn_Join", (143+xs_Join), (389+ys))
     
-    StartBtn := AddBtn("Picture", 45, 436, 298, 54, "Btn_Start", "", "", btn_mainPage)
-    StartHover := AddBtn("Picture", 45, 436, 298, 54, "Hover_Start", "StartBot", currentDictionary.btn_start, btn_panelHover, "Txt_Btn_Start", (152+xs_Start), (446+ys))
+    StartBtn := AddBtn("Picture", 45, 436, 298, 54, "Btn_Coffee", "", "", btn_mainPage)
+    StartHover := AddBtn("Picture", 45, 436, 298, 54, "Hover_Coffee", "OpenLink", currentDictionary.btn_coffee, btn_panelHover, "Txt_Btn_Coffee", (125+xs_Coffee), (446+ys))
     
-    UpdateBtn := AddBtn("Picture", 45, 491, 298, 54, "Btn_Update", "", "", btn_mainPage)
-    UpdateHover := AddBtn("Picture", 45, 491, 298, 54, "Hover_Update", "CheckForUpdates", currentDictionary.btn_update, btn_panelHover, "Txt_Btn_Update", (125+xs_Update), (501+ys))
+    UpdateBtn := AddBtn("Picture", 45, 491, 298, 54, "Btn_Start", "", "", btn_mainPage)
+    UpdateHover := AddBtn("Picture", 45, 491, 298, 54, "Hover_Start", "StartBot", currentDictionary.btn_start, btn_panelHover, "Txt_Btn_Start", (152+xs_Start), (501+ys))
     SetPageBtnFont()
     TestHover := AddBtn("Picture", 85, 590, 204, 68, "Btn_Setting", "MainPage", currentDictionary.btn_setting, btn_setting, "Txt_Btn_Setting", (122+xs_SettingPage), (604+ys_SettingPage))
     ;; Settings Page
@@ -3646,7 +3646,7 @@ return
 
 ; ToolTip
 OpenToolTip:
-    Tool := "Help Guide.html"
+    Tool := A_ScriptDir . "\GUI\Help Guide.html"
     Run, %Tool%
 return
 
