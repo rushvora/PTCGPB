@@ -1,4 +1,4 @@
-﻿#Include %A_ScriptDir%\Scripts\Include\
+#Include %A_ScriptDir%\Scripts\Include\
 #Include Logging.ahk
 #Include ADB.ahk
 #Include Dictionary.ahk
@@ -14,7 +14,7 @@ global STATIC_BRUSH := 0
 
 githubUser := "mixman208"
 repoName := "PTCGPB"
-localVersion := "v6.4.7"
+localVersion := "v6.4.8"
 scriptFolder := A_ScriptDir
 zipPath := A_Temp . "\update.zip"
 extractPath := A_Temp . "\update"
@@ -706,7 +706,6 @@ NextStep:
         inputList .= "mainIdsURL,vipIdsURL,s4tWPMinCards,"
         inputList .= "s4tDiscordUserId,s4tDiscordWebhookURL,SelectedMonitorIndex,"
         inputList .= "defaultLanguage,ocrLanguage,clientLanguage,deleteMethod,tesseractPath,"
-        inputList .= "rowGap,injectRange,injectMaxValue,injectMinValue" ; Removed variablePackCount
         
         ; Apply style to all inputs
         Loop, Parse, inputList, `,
@@ -2097,8 +2096,6 @@ NextStep:
             IniRead, claimSpecialMissions, Settings.ini, UserSettings, claimSpecialMissions, 0
             IniRead, spendHourGlass, Settings.ini, UserSettings, spendHourGlass, 0
             IniRead, injectSortMethod, Settings.ini, UserSettings, injectSortMethod, ModifiedAsc
-            IniRead, injectMaxValue, Settings.ini, UserSettings, injectMaxValue, 39 ; Default to 39
-            IniRead, injectMinValue, Settings.ini, UserSettings, injectMinValue, 35 ; Default to 35
             IniRead, waitForEligibleAccounts, Settings.ini, UserSettings, waitForEligibleAccounts, 1
             IniRead, maxWaitHours, Settings.ini, UserSettings, maxWaitHours, 24
             
@@ -2197,8 +2194,6 @@ NextStep:
             IniWrite, 0, Settings.ini, UserSettings, claimSpecialMissions
             IniWrite, 0, Settings.ini, UserSettings, spendHourGlass
             IniWrite, ModifiedAsc, Settings.ini, UserSettings, injectSortMethod
-            IniWrite, 39, Settings.ini, UserSettings, injectMaxValue ; Default max value
-            IniWrite, 35, Settings.ini, UserSettings, injectMinValue ; Default min value
             IniWrite, 1, Settings.ini, UserSettings, waitForEligibleAccounts
             IniWrite, 24, Settings.ini, UserSettings, maxWaitHours
             
@@ -2728,15 +2723,6 @@ NextStep:
     
     ; Apply the correct selection
     GuiControl, Choose, deleteMethod, %defaultDelete%
-    
-    ;Gui, Add, Text, x245 y175 BackgroundTrans Hidden vTxt_InjectMaxValue, % currentDictionary.Txt_InjectMaxValue
-    ;Gui, Add, Edit, vinjectMaxValue w40 x290 y174 h20 -E0x200 Center backgroundtrans Hidden, %injectMaxValue%
-    
-    ;Gui, Add, Text, x245 y175 BackgroundTrans Hidden vTxt_InjectMinValue, % currentDictionary.Txt_InjectMinValue
-    ;Gui, Add, Edit, vinjectMinValue w40 x290 y174 h20 -E0x200 Center backgroundtrans Hidden, %injectMaxValue%
-    
-    ;Gui, Add, Text, x245 y175 BackgroundTrans Hidden vTxt_InjectRange, % currentDictionary.Txt_InjectRange
-    ;Gui, Add, Edit, vinjectRange w40 x290 y174 h20 -E0x200 Center backgroundtrans Hidden, %injectRange%
     
     AddCheckBox(45, 201, 28, 13, "packMethod", "", "Gui_checked.png", "Gui_unchecked.png", packMethod, "Txt_packMethod", currentDictionary.Txt_packMethod, 80, 200)
     AddCheckBox(185, 201, 28, 13, "nukeAccount", "", "Gui_checked.png", "Gui_unchecked.png", nukeAccount, "Txt_nukeAccount", currentDictionary.Txt_nukeAccount, 220, 200)
@@ -3828,17 +3814,6 @@ StartBot:
     
     ; Build confirmation message with current GUI values
     confirmMsg := SetUpDictionary.Confirm_SelectedMethod . deleteMethod . "`n"
-    
-    ; Add method-specific details
-    if (deleteMethod = "Inject Range" && injectRange != "") {
-        confirmMsg .= SetUpDictionary.Confirm_RangeValue . injectRange . "`n"
-    }
-    else if (deleteMethod = "Inject" || deleteMethod = "Inject Missions") {
-        confirmMsg .= SetUpDictionary.Confirm_MaxPackCount . injectMaxValue . "`n"
-    }
-    else if (deleteMethod = "Inject for Reroll") {
-        confirmMsg .= SetUpDictionary.Confirm_MinPackCount . injectMinValue . "`n"
-    }
     
     confirmMsg .= "`n" . SetUpDictionary.Confirm_SelectedPacks . "`n"
     if (Buzzwole)
