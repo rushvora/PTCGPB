@@ -35,9 +35,6 @@ global injectSortMethod := "ModifiedAsc"  ; Default sort method (oldest accounts
 global injectMinPacks := 0       ; Minimum pack count for injection (0 = no minimum)
 global injectMaxPacks := 39      ; Maximum pack count for injection (default for regular "Inject")
 
-; NEW INJECTION SYSTEM VARIABLES (add after existing global declarations)
-global injectMaxValue := 39      ; User input for max value (Inject/Inject Missions)
-global injectMinValue := 35      ; User input for min value (Inject for Reroll)
 global waitForEligibleAccounts := 1  ; Enable/disable waiting (1 = wait, 0 = stop script)
 global maxWaitHours := 24             ; Maximum hours to wait before giving up (0 = wait forever)
 
@@ -119,9 +116,6 @@ IniRead, DeadCheck, %A_ScriptDir%\%scriptName%.ini, UserSettings, DeadCheck, 0
 IniRead, ocrLanguage, %A_ScriptDir%\..\Settings.ini, UserSettings, ocrLanguage, en
 IniRead, variablePackCount, %A_ScriptDir%\..\Settings.ini, UserSettings, variablePackCount, 15
 IniRead, injectSortMethod, %A_ScriptDir%\..\Settings.ini, UserSettings, injectSortMethod, ModifiedAsc
-IniRead, injectVariable, %A_ScriptDir%\..\Settings.ini, UserSettings, variablePackCount, 15
-IniRead, injectMaxValue, %A_ScriptDir%\..\Settings.ini, UserSettings, injectMaxValue, 39
-IniRead, injectMinValue, %A_ScriptDir%\..\Settings.ini, UserSettings, injectMinValue, 35
 IniRead, waitForEligibleAccounts, %A_ScriptDir%\..\Settings.ini, UserSettings, waitForEligibleAccounts, 1
 IniRead, maxWaitHours, %A_ScriptDir%\..\Settings.ini, UserSettings, maxWaitHours, 24
 IniRead, skipMissionsInjectMissions, %A_ScriptDir%\..\Settings.ini, UserSettings, skipMissionsInjectMissions, 0
@@ -1000,12 +994,6 @@ AddFriends(renew := false, getFC := false) {
     friended := true
     failSafe := A_TickCount
     failSafeTime := 0
-
-    ; Don't add friends when you're not rerolling
-    if (deleteMethod = "Inject" || deleteMethod = "Inject Missions") {
-        LogToFile("Skipping friend addition for " . deleteMethod . " method")
-        return false
-    }
 
 	if(!getFC && !friendIDs && friendID = "")
 		return false
@@ -4324,10 +4312,8 @@ CompareIndicesByPacksDesc(packs, a, b) {
     return packsB < packsA ? -1 : (packsB > packsA ? 1 : 0)
 }
 
-; Complete Updated CreateAccountList function with permanent fixes
 CreateAccountList(instance) {
-    global injectSortMethod, deleteMethod, injectVariable, winTitle, verboseLogging
-    global injectMaxValue, injectMinValue
+    global injectSortMethod, deleteMethod, winTitle, verboseLogging
     
     ; Clean up stale used accounts first
     CleanupUsedAccounts()
@@ -4366,11 +4352,10 @@ CreateAccountList(instance) {
         return
     }
     
-    ; Default sort method if not defined
+
     if (!injectSortMethod)
         injectSortMethod := "ModifiedAsc"
     
-    ; ===== INJECTION TYPE PARSING =====
     parseInjectType := "Inject"  ; Default
     
     ; Determine injection type and pack ranges
@@ -4378,19 +4363,19 @@ CreateAccountList(instance) {
         parseInjectType := "Inject"
         minPacks := 0
         maxPacks := 38
-        LogToFile("Inject mode: range 0-" . injectMaxValue)
+        LogToFile("Inject mode: range 0-38")
     }
     else if (deleteMethod = "Inject Missions") {
         parseInjectType := "Inject Missions"
         minPacks := 0
         maxPacks := 38
-        LogToFile("Inject Missions mode: range 0-" . injectMaxValue)
+        LogToFile("Inject Missions mode: range 0-38")
     }
     else if (deleteMethod = "Inject for Reroll") {
         parseInjectType := "Inject for Reroll"
         minPacks := 35
         maxPacks := 9999
-        LogToFile("Inject for Reroll mode: range " . injectMinValue . "-" . maxPacks)
+        LogToFile("Inject for Reroll mode: range 35+")
     }
     
     LogToFile("Injection type: " . parseInjectType . ", Min packs: " . minPacks . ", Max packs: " . maxPacks)
