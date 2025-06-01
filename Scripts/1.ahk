@@ -45,7 +45,7 @@ maxAccountPackNum := 40
 aminutes := 0
 aseconds := 0
 
-global beginnerMissionsDone, soloBattleMissionDone, intermediateMissionsDone, specialMissionsDone, resetSpecialMissionsDone, accountHasPackInTesting
+global beginnerMissionsDone, soloBattleMissionDone, intermediateMissionsDone, specialMissionsDone, resetSpecialMissionsDone, accountHasPackInTesting, currentLoadedAccountIndex
 
 beginnerMissionsDone := 0
 soloBattleMissionDone := 0
