@@ -261,7 +261,7 @@ initializeAdbShell()
 
 createAccountList(scriptName)
 
-if(injectMethod) {
+if(injectMethod && DeadCheck != 1) {
     loadedAccount := loadAccount()
     nukeAccount := false
 }
@@ -281,11 +281,24 @@ adbSwipeX2 := Round(267 / 277 * 535)
 adbSwipeY := Round((327 - 44) / 489 * 960)
 global adbSwipeParams := adbSwipeX1 . " " . adbSwipeY . " " . adbSwipeX2 . " " . adbSwipeY . " " . swipeSpeed
 
-if(DeadCheck = 1){
+if(DeadCheck = 1 && deleteMethod != "13 Pack") {
+    CreateStatusMessage("Account is stuck! Restarting and unfriending...")
+    friended := true
+    CreateStatusMessage("Stuck account still has friends. Unfriending accounts...")
+    FindImageAndClick(25, 145, 70, 170, , "Platin", 18, 109, 2000) ; click mod settings
+    if(setSpeed = 3)
+        FindImageAndClick(182, 170, 194, 190, , "Three", 187, 180) ; click mod settings
+    else
+        FindImageAndClick(100, 170, 113, 190, , "Two", 107, 180) ; click mod settings
+    adbClick_wbb(41, 296)
+    Delay(1)
+    RemoveFriends()
+    DeadCheck := 0
     IniWrite, 0, %A_ScriptDir%\%scriptName%.ini, UserSettings, DeadCheck
-}
-if(DeadCheck = 1 && !injectMethod){
-    friended:= true
+    createAccountList(scriptName)
+    Reload
+} else if(DeadCheck = 1 && deleteMethod = "13 Pack") {
+    CreateStatusMessage("New account creation is stuck! Deleting account...")
     menuDeleteStart()
     Reload
 } else {
@@ -794,6 +807,7 @@ clearMissionCache() {
 
 RemoveFriends() {
     global friendIDs, friended, friendID
+	friendIDs := ReadFile("ids")
 
     if(!friendIDs && friendID = "") {
         friended := false
@@ -824,7 +838,16 @@ RemoveFriends() {
             Delay(1)
 
             adbClick_wbb(203, 436) ; 203 436
-        }
+        } else if(!renew && !getFC && DeadCheck = 1) {
+            clickButton := FindOrLoseImage(75, 340, 195, 530, 80, "Button", 0)
+            if(clickButton) {
+                StringSplit, pos, clickButton, `,  ; Split at ", "
+                if (scaleParam = 287) {
+                    pos2 += 5
+                }
+                adbClick_wbb(pos1, pos2)
+                }
+            }
         Sleep, 500
         failSafeTime := (A_TickCount - failSafe) // 1000
         CreateStatusMessage("Waiting for Social`n(" . failSafeTime . "/90 seconds)")
@@ -971,7 +994,7 @@ RemoveFriends() {
         }
     }
     */
-    
+	IniWrite, 0, %A_ScriptDir%\%scriptName%.ini, UserSettings, DeadCheck
     friended := false
     LogToFile("Friend removal process completed successfully")
     CreateStatusMessage("Friends removed successfully!",,,, false)
@@ -988,12 +1011,13 @@ TradeTutorial() {
 
 AddFriends(renew := false, getFC := false) {
     global FriendID, friendIds, waitTime, friendCode, scriptName
-    IniWrite, 1, %A_ScriptDir%\%scriptName%.ini, UserSettings, DeadCheck
     friendIDs := ReadFile("ids")
     count := 0
     friended := true
     failSafe := A_TickCount
     failSafeTime := 0
+
+	friendingStarted := true
 
 	if(!getFC && !friendIDs && friendID = "")
 		return false
@@ -1037,6 +1061,10 @@ AddFriends(renew := false, getFC := false) {
                 }
                 failSafeTime := (A_TickCount - failSafe) // 1000
                 CreateStatusMessage("Waiting for Social`n(" . failSafeTime . "/90 seconds)")
+            }
+			if (!getFC && friendingStarted) {
+				IniWrite, 1, %A_ScriptDir%\%scriptName%.ini, UserSettings, DeadCheck
+				friendingStarted := false
             }
             FindImageAndClick(226, 100, 270, 135, , "Add", 38, 460, 500)
             FindImageAndClick(205, 430, 255, 475, , "Search", 240, 120, 1500)
@@ -1196,6 +1224,30 @@ showcaseLikes() {
 			Delay(3)
 		}
 }
+
+/*
+ChooseTag() {
+	FindImageAndClick(120, 500, 155, 530, , "Social", 143, 518, 500)
+	failSafe := A_TickCount
+	failSafeTime := 0
+	Loop {
+		FindImageAndClick(20, 500, 55, 530, , "Home", 40, 516, 500, 2)
+		LevelUp()
+		if(FindImageAndClick(203, 272, 237, 300, , "Profile", 143, 95, 500, 2, failSafeTime))
+			break
+		failSafeTime := (A_TickCount - failSafe) // 1000
+		CreateStatusMessage("In failsafe for Profile. " . failSafeTime "/45 seconds")
+		LogToFile("In failsafe for Profile. " . failSafeTime "/45 seconds")
+	}
+	FindImageAndClick(205, 310, 220, 319, , "ChosenTag", 143, 306, 1000)
+	FindImageAndClick(53, 218, 63, 228, , "Badge", 143, 466, 500)
+	FindImageAndClick(203, 272, 237, 300, , "Profile", 61, 112, 500)
+	if(FindOrLoseImage(145, 140, 157, 155, , "Eevee", 1)) {
+		FindImageAndClick(163, 200, 173, 207, , "ChooseEevee", 147, 207, 1000)
+		FindImageAndClick(53, 218, 63, 228, , "Badge", 143, 466, 500)
+	}
+}
+*/
 
 EraseInput(num := 0, total := 0) {
     if(num)
@@ -2146,6 +2198,8 @@ FoundStars(star) {
     logMessage := statusMessage . " in instance: " . scriptName . " (" . packsInPool . " packs, " . openPack . ")\nFile name: " . accountFile . "\nBacking up to the Accounts\\SpecificCards folder and continuing..."
     LogToDiscord(logMessage, screenShot, true, (sendAccountXml ? accountFullPath : ""), fcScreenshot)
     LogToFile(StrReplace(logMessage, "\n", " "), "GPlog.txt")
+    ;if(star != "Crown" && star != "Immersive" && star != "Shiny")
+        ;ChooseTag()
 }
 
 FindBorders(prefix) {
@@ -2335,6 +2389,7 @@ GodPackFound(validity) {
     ; Adjust the below to only send a 'ping' to Discord friends on Valid packs
     if (validity = "Valid") {
         LogToDiscord(logMessage, screenShot, true, (sendAccountXml ? accountFullPath : ""), fcScreenshot)
+        ;ChooseTag()
     } else if (!InvalidCheck) {
         LogToDiscord(logMessage, screenShot, true, (sendAccountXml ? accountFullPath : ""), fcScreenshot)
     }
