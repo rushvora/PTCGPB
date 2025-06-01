@@ -1197,28 +1197,6 @@ showcaseLikes() {
 		}
 }
 
-ChooseTag() {
-	FindImageAndClick(120, 500, 155, 530, , "Social", 143, 518, 500)
-	failSafe := A_TickCount
-	failSafeTime := 0
-	Loop {
-		FindImageAndClick(20, 500, 55, 530, , "Home", 40, 516, 500, 2)
-		LevelUp()
-		if(FindImageAndClick(203, 272, 237, 300, , "Profile", 143, 95, 500, 2, failSafeTime))
-			break
-		failSafeTime := (A_TickCount - failSafe) // 1000
-		CreateStatusMessage("In failsafe for Profile. " . failSafeTime "/45 seconds")
-		LogToFile("In failsafe for Profile. " . failSafeTime "/45 seconds")
-	}
-	FindImageAndClick(205, 310, 220, 319, , "ChosenTag", 143, 306, 1000)
-	FindImageAndClick(53, 218, 63, 228, , "Badge", 143, 466, 500)
-	FindImageAndClick(203, 272, 237, 300, , "Profile", 61, 112, 500)
-	if(FindOrLoseImage(145, 140, 157, 155, , "Eevee", 1)) {
-		FindImageAndClick(163, 200, 173, 207, , "ChooseEevee", 147, 207, 1000)
-		FindImageAndClick(53, 218, 63, 228, , "Badge", 143, 466, 500)
-	}
-}
-
 EraseInput(num := 0, total := 0) {
     if(num)
         CreateStatusMessage("Removing friend ID " . num . "/" . total,,,, false)
@@ -2168,8 +2146,6 @@ FoundStars(star) {
     logMessage := statusMessage . " in instance: " . scriptName . " (" . packsInPool . " packs, " . openPack . ")\nFile name: " . accountFile . "\nBacking up to the Accounts\\SpecificCards folder and continuing..."
     LogToDiscord(logMessage, screenShot, true, (sendAccountXml ? accountFullPath : ""), fcScreenshot)
     LogToFile(StrReplace(logMessage, "\n", " "), "GPlog.txt")
-    if(star != "Crown" && star != "Immersive" && star != "Shiny")
-        ChooseTag()
 }
 
 FindBorders(prefix) {
@@ -2359,7 +2335,6 @@ GodPackFound(validity) {
     ; Adjust the below to only send a 'ping' to Discord friends on Valid packs
     if (validity = "Valid") {
         LogToDiscord(logMessage, screenShot, true, (sendAccountXml ? accountFullPath : ""), fcScreenshot)
-        ChooseTag()
     } else if (!InvalidCheck) {
         LogToDiscord(logMessage, screenShot, true, (sendAccountXml ? accountFullPath : ""), fcScreenshot)
     }
