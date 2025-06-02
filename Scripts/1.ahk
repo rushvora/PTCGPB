@@ -24,7 +24,6 @@ global winTitle, changeDate, failSafe, openPack, Delay, failSafeTime, StartSkipT
 global Mewtwo, Charizard, Pikachu, Mew, Dialga, Palkia, Arceus, Shining, Solgaleo, Lunala, Buzzwole
 global shinyPacks, minStars, minStarsShiny, minStarsA1Mewtwo, minStarsA1Charizard, minStarsA1Pikachu, minStarsA1a, minStarsA2Dialga, minStarsA2Palkia, minStarsA2a, minStarsA2b, minStarsA3Solgaleo, minStarsA3Lunala, minStarsA3a
 global DeadCheck
-global variablePackCount
 global s4tEnabled, s4tSilent, s4t3Dmnd, s4t4Dmnd, s4t1Star, s4tGholdengo, s4tWP, s4tWPMinCards, s4tDiscordWebhookURL, s4tDiscordUserId, s4tSendAccountXml
 global avgtotalSeconds
 global verboseLogging := false  ; Set to true only for debugging
@@ -117,7 +116,6 @@ IniRead, Mew, %A_ScriptDir%\..\Settings.ini, UserSettings, Mew, 0
 IniRead, slowMotion, %A_ScriptDir%\..\Settings.ini, UserSettings, slowMotion, 0
 IniRead, DeadCheck, %A_ScriptDir%\%scriptName%.ini, UserSettings, DeadCheck, 0
 IniRead, ocrLanguage, %A_ScriptDir%\..\Settings.ini, UserSettings, ocrLanguage, en
-IniRead, variablePackCount, %A_ScriptDir%\..\Settings.ini, UserSettings, variablePackCount, 15
 IniRead, injectSortMethod, %A_ScriptDir%\..\Settings.ini, UserSettings, injectSortMethod, ModifiedAsc
 IniRead, waitForEligibleAccounts, %A_ScriptDir%\..\Settings.ini, UserSettings, waitForEligibleAccounts, 1
 IniRead, maxWaitHours, %A_ScriptDir%\..\Settings.ini, UserSettings, maxWaitHours, 24
@@ -150,13 +148,8 @@ IniRead, s4tDiscordUserId, %A_ScriptDir%\..\Settings.ini, UserSettings, s4tDisco
 IniRead, s4tSendAccountXml, %A_ScriptDir%\..\Settings.ini, UserSettings, s4tSendAccountXml, 1
 
 IniRead, rerolls, %A_ScriptDir%\%scriptName%.ini, Metrics, rerolls, 0
-IniRead, rerollStartTime, %A_ScriptDir%\%scriptName%.ini, Metrics, rerollStartTime, 0
-
-; Force proper initialization of rerollStartTime
-if (rerollStartTime = 0 || rerollStartTime = "ERROR") {
-    rerollStartTime := A_TickCount
-    IniWrite, %rerollStartTime%, %A_ScriptDir%\%scriptName%.ini, Metrics, rerollStartTime
-}
+IniRead, rerollStartTime, %A_ScriptDir%\%scriptName%.ini, Metrics, rerollStartTime, A_TickCount
+;rerollstartTime := A_TickCount
 
 
 pokemonList := ["Mewtwo", "Charizard", "Pikachu", "Mew", "Dialga", "Palkia", "Arceus", "Shining", "Solgaleo", "Lunala", "Buzzwole"]
@@ -412,9 +405,7 @@ if(DeadCheck = 1 && deleteMethod != "13 Pack") {
         EnvSub, now, 1970, seconds
         IniWrite, %now%, %A_ScriptDir%\%scriptName%.ini, Metrics, LastStartEpoch
 
-        ; ===== TUTORIAL OR INJECTION HANDLING =====
-        ; ONLY run tutorial for NON-injection methods or when no account was loaded
-        if(!injectMethod) {
+        if(!injectMethod || !loadedAccount) {
             DoTutorial()
             accountOpenPacks := 0 ;tutorial packs don't count
         } else {
@@ -423,16 +414,11 @@ if(DeadCheck = 1 && deleteMethod != "13 Pack") {
             LogToFile("Skipping tutorial - using injected account with " . accountOpenPacks . " packs")
         }
         
-        ; ===== MAIN PACK OPENING SEQUENCE =====
-        ; Wonder pick for certain methods
         if(deleteMethod = "5 Pack" || deleteMethod = "5 Pack (Fast)" || deleteMethod = "13 Pack")
             wonderPicked := DoWonderPick()
-        ; Note: Removed injection methods from wonder pick as they should use existing accounts
             
-        ; Add friends
         friendsAdded := AddFriends()
         
-        ; First pack opening
         SelectPack("First")
         if(cantOpenMorePacks)
             Goto, MidOfRun
