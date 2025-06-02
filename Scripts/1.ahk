@@ -29,8 +29,6 @@ global s4tEnabled, s4tSilent, s4t3Dmnd, s4t4Dmnd, s4t1Star, s4tGholdengo, s4tWP,
 global avgtotalSeconds
 global verboseLogging := false  ; Set to true only for debugging
 global showcaseEnabled
-
-; ===== NEW GLOBAL VARIABLES FOR ENHANCED INJECTION SYSTEM =====
 global injectSortMethod := "ModifiedAsc"  ; Default sort method (oldest accounts first)
 global injectMinPacks := 0       ; Minimum pack count for injection (0 = no minimum)
 global injectMaxPacks := 39      ; Maximum pack count for injection (default for regular "Inject")
@@ -38,7 +36,12 @@ global injectMaxPacks := 39      ; Maximum pack count for injection (default for
 global waitForEligibleAccounts := 1  ; Enable/disable waiting (1 = wait, 0 = stop script)
 global maxWaitHours := 24             ; Maximum hours to wait before giving up (0 = wait forever)
 
-global accountOpenPacks, accountFileName, accountFileNameOrig, accountFileNameTmp, accountHasPackInfo, ocrSuccess, packsInPool, packsThisRun, aminutes, aseconds, rerolls, rerollStartTime, maxAccountPackNum, cantOpenMorePacks
+avgtotalSeconds := 0
+
+global accountOpenPacks, accountFileName, accountFileNameOrig, accountFileNameTmp, accountHasPackInfo, ocrSuccess, packsInPool, packsThisRun, aminutes, aseconds, rerolls, rerollStartTime, maxAccountPackNum, cantOpenMorePacks, rerolls_local, rerollStartTime_local
+
+rerolls_local := 0
+rerollStartTime_local := A_TickCount
 
 cantOpenMorePacks := 0
 maxAccountPackNum := 40
@@ -627,12 +630,13 @@ if(DeadCheck = 1 && deleteMethod != "13 Pack") {
         EnvSub, now, 1970, seconds
         IniWrite, %now%, %A_ScriptDir%\%scriptName%.ini, Metrics, LastEndEpoch
 
-        ; DIRECT CALCULATION - Don't use function
         rerolls++
+        rerolls_local++
         IniWrite, %rerolls%, %A_ScriptDir%\%scriptName%.ini, Metrics, rerolls
 
         totalSeconds := Round((A_TickCount - rerollStartTime) / 1000) ; Total time in seconds
-        avgtotalSeconds := Round(totalSeconds / rerolls) ; Average time per run in seconds
+        totalSeconds_local := Round((A_TickCount - rerollStartTime_local) / 1000) ; Total time in seconds
+        avgtotalSeconds := Round(totalSeconds_local / rerolls_local) ; Total time in seconds
         aminutes := Floor(avgtotalSeconds / 60) ; Average minutes
         aseconds := Mod(avgtotalSeconds, 60) ; Average remaining seconds
         mminutes := Floor(totalSeconds / 60) ; Total minutes
