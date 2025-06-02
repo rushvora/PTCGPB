@@ -23,6 +23,7 @@ WinHide % "ahk_id " DllCall("GetConsoleWindow", "ptr")
 
 global winTitle, changeDate, failSafe, openPack, Delay, failSafeTime, StartSkipTime, Columns, failSafe, scriptName, GPTest, StatusText, defaultLanguage, setSpeed, jsonFileName, pauseToggle, SelectedMonitorIndex, swipeSpeed, godPack, scaleParam, skipInvalidGP, deleteXML, packs, FriendID, AddFriend, Instances, showStatus
 global triggerTestNeeded, testStartTime, firstRun, minStars, minStarsA2b, vipIdsURL
+global autoUseGPTest, autotest, autotest_time, A_gptest, TestTime
 
 deleteAccount := false
 scriptName := StrReplace(A_ScriptName, ".ahk")
@@ -54,6 +55,8 @@ IniRead, clientLanguage, %A_ScriptDir%\..\Settings.ini, UserSettings, clientLang
 IniRead, minStars, %A_ScriptDir%\..\Settings.ini, UserSettings, minStars, 0
 IniRead, minStarsA2b, %A_ScriptDir%\..\Settings.ini, UserSettings, minStarsA2b, 0
 
+IniRead, autoUseGPTest, %A_ScriptDir%\..\Settings.ini, UserSettings, autoUseGPTest, 0
+IniRead, TestTime, %A_ScriptDir%\..\Settings.ini, UserSettings, TestTime, 3600
 ; connect adb
 instanceSleep := scriptName * 1000
 Sleep, %instanceSleep%
@@ -110,6 +113,8 @@ Loop {
 }
 
 rerollTime := A_TickCount
+autotest := A_TickCount
+A_gptest := 0
 
 initializeAdbShell()
 CreateStatusMessage("Initializing bot...",,,, false)
@@ -148,6 +153,15 @@ if (scaleParam = 287) {
 99Rightx := 99Configs[clientLanguage].rightx
 
 Loop {
+    if (autoUseGPTest) {
+        autotest_time := (A_TickCount - autotest) // 1000
+        CreateStatusMessage("gp_test_on" . autotest_time .  "/" . TestTime . " seconds")
+        if (autotest_time >= TestTime) {
+            A_gptest := 1
+            ToggleTestScript()
+        }        
+    }
+
     if (GPTest) {
         if (triggerTestNeeded)
             GPTestScript()
@@ -808,6 +822,11 @@ RemoveNonVipFriends() {
     Loop {
         if (scrolledWithoutFriend > 5){
             CreateStatusMessage("End of list - scrolled without friend codes multiple times.`nReady to test.")
+            if(A_gptest && autoUseGPTest) {
+                A_gptest := 0
+                autotest := A_TickCount
+                ToggleTestScript()
+			}
             return
         }
         friendClickY := 195 + (95 * friendIndex)
@@ -831,6 +850,11 @@ RemoveNonVipFriends() {
                 else
                     CreateStatusMessage("Ready to test.",,,, false)
                 adbClick(143, 507)
+                if(A_gptest && autoUseGPTest) {
+					A_gptest := 0
+					autotest := A_TickCount
+					ToggleTestScript()
+				}
                 return
             }
             matchedFriend := ""

@@ -32,6 +32,7 @@ global UI_ELEMENT_SCALE := 0.85 ; Scale UI elements to fit smaller dimensions
 global useBackgroundImage := true
 
 global scriptName, winTitle, FriendID, Instances, instanceStartDelay, jsonFileName, PacksText, runMain, Mains, AccountName, scaleParam
+global autoUseGPTest, TestTime
 global CurrentVisibleSection
 global FriendID_Divider, Instance_Divider3
 global System_Divider1, System_Divider2, System_Divider3, System_Divider4
@@ -417,9 +418,10 @@ NextStep:
         global FriendID, AccountName, waitTime, Delay, folderPath, discordWebhookURL, discordUserId, Columns, godPack
         global Instances, instanceStartDelay, defaultLanguage, SelectedMonitorIndex, swipeSpeed, deleteMethod
         global runMain, Mains, heartBeat, heartBeatWebhookURL, heartBeatName, nukeAccount, packMethod
+        global autoLaunchMonitor, autoUseGPTest, TestTime
         global CheckShinyPackOnly, TrainerCheck, FullArtCheck, RainbowCheck, ShinyCheck, CrownCheck
         global InvalidCheck, ImmersiveCheck, PseudoGodPack, minStars, Palkia, Dialga, Arceus, Shining
-        global Mew, Pikachu, Charizard, Mewtwo, Solgaleo, Lunala, Buzzwole, slowMotion, ocrLanguage, clientLanguage, autoLaunchMonitor
+        global Mew, Pikachu, Charizard, Mewtwo, Solgaleo, Lunala, Buzzwole, slowMotion, ocrLanguage, clientLanguage        
         global CurrentVisibleSection, heartBeatDelay, sendAccountXml, showcaseEnabled, showcaseURL, isDarkTheme
         global useBackgroundImage, tesseractPath, applyRoleFilters, debugMode, tesseractOption, statusMessage
         global s4tEnabled, s4tSilent, s4t3Dmnd, s4t4Dmnd, s4t1Star, s4tGholdengo, s4tWP, s4tWPMinCards
@@ -502,6 +504,8 @@ NextStep:
         IniWrite, %swipeSpeed%, Settings.ini, UserSettings, swipeSpeed
         IniWrite, %runMain%, Settings.ini, UserSettings, runMain
         IniWrite, %Mains%, Settings.ini, UserSettings, Mains
+        IniWrite, %autoUseGPTest%, Settings.ini, UserSettings, autoUseGPTest
+        IniWrite, %TestTime%, Settings.ini, UserSettings, TestTime
         IniWrite, %heartBeat%, Settings.ini, UserSettings, heartBeat
         IniWrite, %heartBeatWebhookURL%, Settings.ini, UserSettings, heartBeatWebhookURL
         IniWrite, %heartBeatName%, Settings.ini, UserSettings, heartBeatName
@@ -585,7 +589,7 @@ NextStep:
     ; Function to update ALL text controls with appropriate color
     SetAllTextColors(textColor) {
         ; Create a string with all control names separated by commas
-        controlList := "Txt_Instances,Txt_InstanceStartDelay,Txt_Columns,Txt_runMain,Txt_AccountName,"
+        controlList := "Txt_Instances,Txt_InstanceStartDelay,Txt_Columns,Txt_runMain,Txt_AccountName,Txt_autoUseGPTest,"
         controlList .= "Txt_Delay,Txt_WaitTime,Txt_SwipeSpeed,Txt_slowMotion,"
         controlList .= "Txt_Monitor,Txt_Scale,Txt_FolderPath,Txt_OcrLanguage,Txt_ClientLanguage,"
         controlList .= "Txt_RowGap,Txt_InstanceLaunchDelay,Txt_autoLaunchMonitor,"
@@ -699,7 +703,7 @@ NextStep:
     ; Helper function to update all input field backgrounds
     SetInputBackgrounds(bgColor, textColor) {
         ; Create a list of all input controls
-        inputList := "FriendID,Instances,instanceStartDelay,Columns,Mains,"
+        inputList := "FriendID,Instances,instanceStartDelay,Columns,Mains,TestTime,"
         inputList .= "Delay,waitTime,swipeSpeed,folderPath,instanceLaunchDelay,"
         inputList .= "minStars,minStarsShiny,discordUserId,discordWebhookURL,"
         inputList .= "heartBeatName,heartBeatWebhookURL,heartBeatDelay,"
@@ -1144,12 +1148,13 @@ NextStep:
         inSettingPage .= "Hover_previous,Hover_next"
         friendIDControls := "FriendID,FriendIDLabel,FriendIDSeparator"
         instanceControls := "Txt_Instances,Instances,Txt_InstanceStartDelay,instanceStartDelay,"
-        instanceControls .= "Txt_Columns,Columns,Txt_runMain,runMain,Mains,Txt_AccountName,AccountName"
+        instanceControls .= "Txt_Columns,Columns,Txt_runMain,runMain,Mains,autoUseGPTest,Txt_autoUseGPTest,TestTime,Txt_AccountName,AccountName"
         timeControls := "Txt_Delay,Delay,Txt_WaitTime,waitTime,Txt_SwipeSpeed,swipeSpeed,"
         timeControls .= "slowMotion,Txt_slowMotion,TimeSettingsSeparator"
         systemControls := "Txt_Monitor,SelectedMonitorIndex,Txt_Scale,defaultLanguage,"
         systemControls .= "Txt_FolderPath,folderPath,Txt_OcrLanguage,ocrLanguage,Txt_ClientLanguage,clientLanguage,"
-        systemControls .= "Txt_RowGap,rowGap,Txt_InstanceLaunchDelay,instanceLaunchDelay,autoLaunchMonitor,Txt_autoLaunchMonitor,SystemSettingsSeparator"
+        systemControls .= "Txt_RowGap,rowGap,Txt_InstanceLaunchDelay,instanceLaunchDelay,autoLaunchMonitor,Txt_autoLaunchMonitor,"
+        systemControls .= "SystemSettingsSeparator"
         extraControls := "ExtraSettingsHeading,tesseractOption,Txt_TesseractPath,tesseractPath,"
         extraControls .= "applyRoleFilters,debugMode,statusMessage,Txt_tesseractOption,Txt_applyRoleFilters,Txt_debugMode,Txt_statusMessage"
         packControls := "PackSettingsHeading,Txt_MinStars,minStars,"
@@ -1367,7 +1372,8 @@ NextStep:
         ; Define lists of controls to show
         friendIDControls := "title_reroll,FriendIDLabel,FriendID_Divider"
         instanceControls := "Txt_Instances,Instances,Txt_Columns,Columns,"
-        instanceControls .= "Txt_InstanceStartDelay,instanceStartDelay,runMain,Txt_runMain,Txt_AccountName,AccountName,Instance_Divider3"
+        instanceControls .= "Txt_InstanceStartDelay,instanceStartDelay,runMain,Txt_runMain,autoUseGPTest,Txt_autoUseGPTest,"
+        instanceControls .= "Txt_AccountName,AccountName,Instance_Divider3"
         timeControls := "Txt_Delay,Delay,Txt_WaitTime,waitTime,Txt_SwipeSpeed,swipeSpeed,slowMotion,Txt_slowMotion"
         
         ; Show controls using helper function
@@ -1386,9 +1392,14 @@ NextStep:
         }
         
         ; Show Mains if runMain is checked
-        IniRead, runMain, Settings.ini, UserSettings, runMain
+        IniRead, runMain, Settings.ini, UserSettings, runMain, 1
         if (runMain) {
             GuiControl, Show, Mains
+        }
+
+        IniRead, autoUseGPTest, Settings.ini, UserSettings, autoUseGPTest, 0
+        if (autoUseGPTest) {
+            GuiControl, Show, TestTime
         }
         
         ; Apply styling based on theme
@@ -1397,7 +1408,7 @@ NextStep:
         inputTextColor := isDarkTheme ? DARK_INPUT_TEXT : LIGHT_INPUT_TEXT
         
         ; Text controls
-        textControls := "FriendIDLabel,Txt_Instances,Txt_InstanceStartDelay,Txt_Columns,Txt_runMain,"
+        textControls := "FriendIDLabel,Txt_Instances,Txt_InstanceStartDelay,Txt_Columns,Txt_runMain,Txt_autoUseGPTest,"
         textControls .= "Txt_AccountName,Txt_Delay,Txt_WaitTime,Txt_SwipeSpeed,Txt_slowMotion"
         
         ; Input controls
@@ -1422,6 +1433,9 @@ NextStep:
         ; Apply styling to Mains if shown
         if (runMain)
             GuiControl, +Background%inputBgColor% +c%inputTextColor%, Mains
+
+        if (autoUseGPTest)
+            GuiControl, +Background%inputBgColor% +c%inputTextColor%, TestTime
         
         ; Update section headers with appropriate colors
         UpdateSectionHeaders()
@@ -1463,7 +1477,8 @@ NextStep:
         ; Define control lists
         monitorControls := "title_system,Txt_Monitor,SelectedMonitorIndex,Txt_Scale,defaultLanguage"
         pathControls := "Txt_FolderPath,folderPath,Txt_OcrLanguage,ocrLanguage,Txt_ClientLanguage,clientLanguage"
-        instanceControls .= "Txt_RowGap,rowGap,Txt_InstanceLaunchDelay,instanceLaunchDelay,autoLaunchMonitor,Txt_autoLaunchMonitor,SystemSettingsSeparator"
+        instanceControls := "Txt_RowGap,rowGap,Txt_InstanceLaunchDelay,instanceLaunchDelay,autoLaunchMonitor,Txt_autoLaunchMonitor,"
+        instanceControls .= "SystemSettingsSeparator"
         extraControls := "ExtraSettingsHeading,tesseractOption,Txt_tesseractOption,applyRoleFilters,Txt_applyRoleFilters,debugMode,Txt_debugMode,statusMessage,Txt_statusMessage"
         
         ; Show controls by group
@@ -2043,37 +2058,50 @@ NextStep:
         ; Check if Settings.ini exists
         if (FileExist("Settings.ini")) {
             ; Read basic settings with default values if they don't exist in the file
+            ;friend id
             IniRead, FriendID, Settings.ini, UserSettings, FriendID, ""
-            IniRead, waitTime, Settings.ini, UserSettings, waitTime, 5
-            IniRead, Delay, Settings.ini, UserSettings, Delay, 250
-            IniRead, folderPath, Settings.ini, UserSettings, folderPath, C:\Program Files\Netease
-            IniRead, Columns, Settings.ini, UserSettings, Columns, 5
-            IniRead, godPack, Settings.ini, UserSettings, godPack, Continue
+            ;instance settings
             IniRead, Instances, Settings.ini, UserSettings, Instances, 1
             IniRead, instanceStartDelay, Settings.ini, UserSettings, instanceStartDelay, 0
-            IniRead, defaultLanguage, Settings.ini, UserSettings, defaultLanguage, Scale125
-            IniRead, rowGap, Settings.ini, UserSettings, rowGap, 100
-            IniRead, SelectedMonitorIndex, Settings.ini, UserSettings, SelectedMonitorIndex, 1
-            IniRead, swipeSpeed, Settings.ini, UserSettings, swipeSpeed, 300
-            IniRead, deleteMethod, Settings.ini, UserSettings, deleteMethod, 3 Pack
+            IniRead, Columns, Settings.ini, UserSettings, Columns, 5            
             IniRead, runMain, Settings.ini, UserSettings, runMain, 1
             IniRead, Mains, Settings.ini, UserSettings, Mains, 1
             IniRead, AccountName, Settings.ini, UserSettings, AccountName, ""
-            IniRead, heartBeat, Settings.ini, UserSettings, heartBeat, 0
-            IniRead, heartBeatWebhookURL, Settings.ini, UserSettings, heartBeatWebhookURL, ""
-            IniRead, heartBeatName, Settings.ini, UserSettings, heartBeatName, ""
-            IniRead, nukeAccount, Settings.ini, UserSettings, nukeAccount, 0
-            IniRead, packMethod, Settings.ini, UserSettings, packMethod, 0
-            IniRead, CheckShinyPackOnly, Settings.ini, UserSettings, CheckShinyPackOnly, 0
-            IniRead, TrainerCheck, Settings.ini, UserSettings, TrainerCheck, 0
-            IniRead, FullArtCheck, Settings.ini, UserSettings, FullArtCheck, 0
-            IniRead, RainbowCheck, Settings.ini, UserSettings, RainbowCheck, 0
-            IniRead, ShinyCheck, Settings.ini, UserSettings, ShinyCheck, 0
-            IniRead, CrownCheck, Settings.ini, UserSettings, CrownCheck, 0
-            IniRead, ImmersiveCheck, Settings.ini, UserSettings, ImmersiveCheck, 0
-            IniRead, InvalidCheck, Settings.ini, UserSettings, InvalidCheck, 0
-            IniRead, PseudoGodPack, Settings.ini, UserSettings, PseudoGodPack, 0
+            IniRead, autoLaunchMonitor, Settings.ini, UserSettings, autoLaunchMonitor, 1
+            IniRead, autoUseGPTest, Settings.ini, UserSettings, autoUseGPTest, 0
+            IniRead, TestTime, Settings.ini, UserSettings, TestTime, 3600            
+            ;Time settings
+            IniRead, Delay, Settings.ini, UserSettings, Delay, 250
+            IniRead, waitTime, Settings.ini, UserSettings, waitTime, 5
+            IniRead, swipeSpeed, Settings.ini, UserSettings, swipeSpeed, 300
+            IniRead, slowMotion, Settings.ini, UserSettings, slowMotion, 0            
+                        
+            ;system settings
+            IniRead, SelectedMonitorIndex, Settings.ini, UserSettings, SelectedMonitorIndex, 1
+            IniRead, defaultLanguage, Settings.ini, UserSettings, defaultLanguage, Scale125
+            IniRead, rowGap, Settings.ini, UserSettings, rowGap, 100
+            IniRead, folderPath, Settings.ini, UserSettings, folderPath, C:\Program Files\Netease
+            IniRead, ocrLanguage, Settings.ini, UserSettings, ocrLanguage, en
+            IniRead, clientLanguage, Settings.ini, UserSettings, clientLanguage, en
+            IniRead, instanceLaunchDelay, Settings.ini, UserSettings, instanceLaunchDelay, 5
+
+            ; Extra Settings
+            IniRead, tesseractPath, Settings.ini, UserSettings, tesseractPath, C:\Program Files\Tesseract-OCR\tesseract.exe
+            IniRead, applyRoleFilters, Settings.ini, UserSettings, applyRoleFilters, 0
+            IniRead, debugMode, Settings.ini, UserSettings, debugMode, 0
+            IniRead, tesseractOption, Settings.ini, UserSettings, tesseractOption, 0
+            IniRead, statusMessage, Settings.ini, UserSettings, statusMessage, 1
+
+            ;pack settings
             IniRead, minStars, Settings.ini, UserSettings, minStars, 0
+            IniRead, minStarsShiny, Settings.ini, UserSettings, minStarsShiny, 0
+            IniRead, deleteMethod, Settings.ini, UserSettings, deleteMethod, 13 Pack
+            IniRead, packMethod, Settings.ini, UserSettings, packMethod, 0
+            IniRead, nukeAccount, Settings.ini, UserSettings, nukeAccount, 0
+            IniRead, spendHourGlass, Settings.ini, UserSettings, spendHourGlass, 0
+            IniRead, injectSortMethod, Settings.ini, UserSettings, injectSortMethod, ModifiedAsc
+            IniRead, godPack, Settings.ini, UserSettings, godPack, Continue
+            
             IniRead, Palkia, Settings.ini, UserSettings, Palkia, 0
             IniRead, Dialga, Settings.ini, UserSettings, Dialga, 0
             IniRead, Arceus, Settings.ini, UserSettings, Arceus, 0
@@ -2084,20 +2112,17 @@ NextStep:
             IniRead, Mewtwo, Settings.ini, UserSettings, Mewtwo, 0
             IniRead, Solgaleo, Settings.ini, UserSettings, Solgaleo, 0
             IniRead, Lunala, Settings.ini, UserSettings, Lunala, 0
-            IniRead, Buzzwole, Settings.ini, UserSettings, Buzzwole, 1
-            IniRead, slowMotion, Settings.ini, UserSettings, slowMotion, 0
-            IniRead, ocrLanguage, Settings.ini, UserSettings, ocrLanguage, en
-            IniRead, clientLanguage, Settings.ini, UserSettings, clientLanguage, en
-            IniRead, autoLaunchMonitor, Settings.ini, UserSettings, autoLaunchMonitor, 1
-            IniRead, mainIdsURL, Settings.ini, UserSettings, mainIdsURL, ""
-            IniRead, vipIdsURL, Settings.ini, UserSettings, vipIdsURL, ""
-            IniRead, instanceLaunchDelay, Settings.ini, UserSettings, instanceLaunchDelay, 5
-            IniRead, variablePackCount, Settings.ini, UserSettings, variablePackCount, 15
-            IniRead, claimSpecialMissions, Settings.ini, UserSettings, claimSpecialMissions, 0
-            IniRead, spendHourGlass, Settings.ini, UserSettings, spendHourGlass, 0
-            IniRead, injectSortMethod, Settings.ini, UserSettings, injectSortMethod, ModifiedAsc
-            IniRead, waitForEligibleAccounts, Settings.ini, UserSettings, waitForEligibleAccounts, 1
-            IniRead, maxWaitHours, Settings.ini, UserSettings, maxWaitHours, 24
+            IniRead, Buzzwole, Settings.ini, UserSettings, Buzzwole, 1            
+            
+            IniRead, CheckShinyPackOnly, Settings.ini, UserSettings, CheckShinyPackOnly, 0
+            IniRead, TrainerCheck, Settings.ini, UserSettings, TrainerCheck, 0
+            IniRead, FullArtCheck, Settings.ini, UserSettings, FullArtCheck, 0
+            IniRead, RainbowCheck, Settings.ini, UserSettings, RainbowCheck, 0
+            IniRead, ShinyCheck, Settings.ini, UserSettings, ShinyCheck, 0
+            IniRead, CrownCheck, Settings.ini, UserSettings, CrownCheck, 0
+            IniRead, ImmersiveCheck, Settings.ini, UserSettings, ImmersiveCheck, 0
+            IniRead, InvalidCheck, Settings.ini, UserSettings, InvalidCheck, 0
+            IniRead, PseudoGodPack, Settings.ini, UserSettings, PseudoGodPack, 0
             
             ; Read S4T settings
             IniRead, s4tEnabled, Settings.ini, UserSettings, s4tEnabled, 0
@@ -2111,9 +2136,21 @@ NextStep:
             IniRead, s4tDiscordWebhookURL, Settings.ini, UserSettings, s4tDiscordWebhookURL, ""
             IniRead, s4tDiscordUserId, Settings.ini, UserSettings, s4tDiscordUserId, ""
             IniRead, s4tSendAccountXml, Settings.ini, UserSettings, s4tSendAccountXml, 1
+
+            ;discord settings
+            IniRead, heartBeat, Settings.ini, UserSettings, heartBeat, 0
+            IniRead, heartBeatWebhookURL, Settings.ini, UserSettings, heartBeatWebhookURL, ""
+            IniRead, heartBeatName, Settings.ini, UserSettings, heartBeatName, ""
+            IniRead, heartBeatDelay, Settings.ini, UserSettings, heartBeatDelay, 30
+            IniRead, sendAccountXml, Settings.ini, UserSettings, sendAccountXml, 0
             
+            ;download settings
+            IniRead, mainIdsURL, Settings.ini, UserSettings, mainIdsURL, ""
+            IniRead, vipIdsURL, Settings.ini, UserSettings, vipIdsURL, ""
+            IniRead, showcaseEnabled, Settings.ini, UserSettings, showcaseEnabled, 0
+            IniRead, showcaseLikes, Settings.ini, UserSettings, showcaseLikes, 5        
+      
             ; Advanced settings
-            IniRead, minStarsShiny, Settings.ini, UserSettings, minStarsShiny, 0
             IniRead, minStarsA1Charizard, Settings.ini, UserSettings, minStarsA1Charizard, 0
             IniRead, minStarsA1Mewtwo, Settings.ini, UserSettings, minStarsA1Mewtwo, 0
             IniRead, minStarsA1Pikachu, Settings.ini, UserSettings, minStarsA1Pikachu, 0
@@ -2123,22 +2160,14 @@ NextStep:
             IniRead, minStarsA2a, Settings.ini, UserSettings, minStarsA2a, 0
             IniRead, minStarsA3Solgaleo, Settings.ini, UserSettings, minStarsA3Solgaleo, 0
             IniRead, minStarsA3Lunala, Settings.ini, UserSettings, minStarsA3Lunala, 0
-            IniRead, minStarsA3a, Settings.ini, UserSettings, minStarA3aBuzzwole, 0
+            IniRead, minStarsA3a, Settings.ini, UserSettings, minStarA3aBuzzwole, 0        
+
+            IniRead, waitForEligibleAccounts, Settings.ini, UserSettings, waitForEligibleAccounts, 1
+            IniRead, maxWaitHours, Settings.ini, UserSettings, maxWaitHours, 24
             
-            IniRead, heartBeatDelay, Settings.ini, UserSettings, heartBeatDelay, 30
-            IniRead, sendAccountXml, Settings.ini, UserSettings, sendAccountXml, 0
-            IniRead, showcaseEnabled, Settings.ini, UserSettings, showcaseEnabled, 0
-            IniRead, showcaseLikes, Settings.ini, UserSettings, showcaseLikes, 5
             IniRead, isDarkTheme, Settings.ini, UserSettings, isDarkTheme, 1
             IniRead, useBackgroundImage, Settings.ini, UserSettings, useBackgroundImage, 1
-            
-            ; Extra Settings
-            IniRead, tesseractPath, Settings.ini, UserSettings, tesseractPath, C:\Program Files\Tesseract-OCR\tesseract.exe
-            IniRead, applyRoleFilters, Settings.ini, UserSettings, applyRoleFilters, 0
-            IniRead, debugMode, Settings.ini, UserSettings, debugMode, 0
-            IniRead, tesseractOption, Settings.ini, UserSettings, tesseractOption, 0
-            IniRead, statusMessage, Settings.ini, UserSettings, statusMessage, 1
-            
+
             ; Validate numeric values
             if (!IsNumeric(Instances) || Instances < 1)
                 Instances := 1
@@ -2175,6 +2204,8 @@ NextStep:
             IniWrite, 300, Settings.ini, UserSettings, swipeSpeed
             IniWrite, 1, Settings.ini, UserSettings, runMain
             IniWrite, 1, Settings.ini, UserSettings, Mains
+            IniWrite, 0, Settings.ini, UserSettings, autoUseGPTest
+            IniWrite, 3600, Settings.ini, UserSettings, TestTime
             IniWrite, 0, Settings.ini, UserSettings, heartBeat
             IniWrite, "", Settings.ini, UserSettings, heartBeatWebhookURL
             IniWrite, "", Settings.ini, UserSettings, heartBeatName
@@ -2550,7 +2581,7 @@ NextStep:
     TestHover := AddBtn("Text", (316+xs_Theme), (45+ys_Theme), "", "", "ThemeToggle", "ToggleTheme", currentDictionary.btn_theme_Dark)
     Gui, Font, norm
     
-    global Txt_runMain, Txt_slowMotion,
+    global Txt_runMain, Txt_autoUseGPTest, Txt_slowMotion,
     global Txt_autoLaunchMonitor, Txt_applyRoleFilters, Txt_debugMode, Txt_tesseractOption, Txt_statusMessage
     global Txt_packMethod, Txt_nukeAccount, Txt_spendHourGlass, Txt_claimSpecialMissions
     global Txt_Buzzwole, Txt_Solgaleo, Txt_Lunala, Txt_Shining, Txt_Arceus, Txt_Palkia, Txt_Dialga, Txt_Pikachu, Txt_Charizard, Txt_Mewtwo, Txt_Mew
@@ -2566,9 +2597,9 @@ NextStep:
     SetInputFont()
     Gui, Add, Text, x45 y150 vFriendIDLabel backgroundtrans Hidden, % currentDictionary.FriendIDLabel
     if(FriendID = "ERROR" || FriendID = "") {
-        Gui, Add, Edit, vFriendID w290 x45 y175 h20 -E0x200 Center backgroundtrans Hidden
+        Gui, Add, Edit, vFriendID w275 x45 y175 h20 -E0x200 Center backgroundtrans Hidden
     } else {
-        Gui, Add, Edit, vFriendID w290 x45 y175 h20 -E0x200 Center backgroundtrans Hidden, %FriendID%
+        Gui, Add, Edit, vFriendID w275 x45 y175 h20 -E0x200 Center backgroundtrans Hidden, %FriendID%
     }
     
     ; Add divider for Friend ID section
@@ -2577,31 +2608,35 @@ NextStep:
     ;; Instance Settings Section
     SetNormalFont()
     Gui, Add, Text, x45 y205 backgroundtrans Hidden vTxt_Instances, % currentDictionary.Txt_Instances
-    Gui, Add, Edit, vInstances cFDFDFD w30 x220 y205 h20 -E0x200 Center backgroundtrans Hidden, %Instances%
+    Gui, Add, Edit, vInstances cFDFDFD w40 x220 y205 h20 -E0x200 Center backgroundtrans Hidden, %Instances%
     
     Gui, Add, Text, x45 y230 backgroundtrans Hidden vTxt_InstanceStartDelay, % currentDictionary.Txt_InstanceStartDelay
-    Gui, Add, Edit, vinstanceStartDelay cFDFDFD w30 x220 y230 h20 -E0x200 Center backgroundtrans Hidden, %instanceStartDelay%
+    Gui, Add, Edit, vinstanceStartDelay cFDFDFD w40 x220 y230 h20 -E0x200 Center backgroundtrans Hidden, %instanceStartDelay%
     
     Gui, Add, Text, x45 y255 backgroundtrans Hidden vTxt_Columns, % currentDictionary.Txt_Columns
-    Gui, Add, Edit, vColumns cFDFDFD w30 x220 y255 h20 -E0x200 Center backgroundtrans Hidden, %Columns%
+    Gui, Add, Edit, vColumns cFDFDFD w40 x220 y255 h20 -E0x200 Center backgroundtrans Hidden, %Columns%
     
     AddCheckBox(45, 282, 28, 13, "runMain", "mainSettings", checkedPath, uncheckedPath, runMain, "Txt_runMain", currentDictionary.Txt_runMain, 80, 280)
-    Gui, Add, Edit, % "vMains cFDFDFD w30 x220 y280 h20 -E0x200 Center Hidden " . (runMain ? "" : " backgroundtrans Hidden"), %Mains%
-    Gui, Add, Text, x45 y305 backgroundtrans Hidden vTxt_AccountName, % currentDictionary.Txt_AccountName
-    Gui, Add, Edit, vAccountName cFDFDFD w130 x45 y330 h20 -E0x200 Center backgroundtrans Hidden, %AccountName%
+    Gui, Add, Edit, % "vMains cFDFDFD w40 x220 y280 h20 -E0x200 Center Hidden " . (runMain ? "" : " backgroundtrans Hidden"), %Mains%
+
+    Gui, Add, Text, x45 y330 backgroundtrans Hidden vTxt_AccountName, % currentDictionary.Txt_AccountName
+    Gui, Add, Edit, vAccountName cFDFDFD w100 x220 y330 h20 -E0x200 Center backgroundtrans Hidden, %AccountName%
+
+    AddCheckBox(45, 306, 28, 13, "autoUseGPTest", "autoUseGPTestSettings", checkedPath, uncheckedPath, autoUseGPTest, "Txt_autoUseGPTest", currentDictionary.Txt_autoUseGPTest, 80, 305)
+    Gui, Add, Edit, % "vTestTime cFDFDFD w40 x220 y305 h20 -E0x200 Center Hidden " . (autoUseGPTest ? "" : " backgroundtrans Hidden"), %TestTime%
     
     ; Add dividers for Instance Settings section
     AddSectionDivider(45, 355, 285, "Instance_Divider3")
     ;; Time Settings Section
     SetNormalFont()
     Gui, Add, Text, x45 y360 backgroundtrans Hidden vTxt_Delay, % currentDictionary.Txt_Delay
-    Gui, Add, Edit, vDelay cFDFDFD w35 x220 y360 h20 -E0x200 Center backgroundtrans Hidden, %Delay%
+    Gui, Add, Edit, vDelay cFDFDFD w40 x220 y360 h20 -E0x200 Center backgroundtrans Hidden, %Delay%
     
     Gui, Add, Text, x45 y385 backgroundtrans Hidden vTxt_WaitTime, % currentDictionary.Txt_WaitTime
-    Gui, Add, Edit, vwaitTime cFDFDFD w35 x220 y385 h20 -E0x200 Center backgroundtrans Hidden, %waitTime%
+    Gui, Add, Edit, vwaitTime cFDFDFD w40 x220 y385 h20 -E0x200 Center backgroundtrans Hidden, %waitTime%
     
     Gui, Add, Text, x45 y410 backgroundtrans Hidden vTxt_SwipeSpeed, % currentDictionary.Txt_SwipeSpeed
-    Gui, Add, Edit, vswipeSpeed cFDFDFD w35 x220 y410 h20 -E0x200 Center backgroundtrans Hidden, %swipeSpeed%
+    Gui, Add, Edit, vswipeSpeed cFDFDFD w40 x220 y410 h20 -E0x200 Center backgroundtrans Hidden, %swipeSpeed%
     
     AddCheckBox(45, 436, 28, 13, "slowMotion", "", checkedPath, uncheckedPath, slowMotion, "Txt_slowMotion", currentDictionary.Txt_slowMotion, 80, 435)
     
@@ -2677,6 +2712,7 @@ NextStep:
     Gui, Add, Edit, vinstanceLaunchDelay cFDFDFD w40 x190 y300 h20 -E0x200 Center backgroundtrans Hidden, %instanceLaunchDelay%
     
     AddCheckBox(45, 326, 28, 13, "autoLaunchMonitor", "", checkedPath, uncheckedPath, autoLaunchMonitor, "Txt_autoLaunchMonitor", currentDictionary.Txt_autoLaunchMonitor, 80, 325)
+    
     
     SetHeaderFont()
     Gui, Add, Text, x45 y350 backgroundtrans Hidden vExtraSettingsHeading, % currentDictionary.ExtraSettingsHeading
@@ -3250,6 +3286,28 @@ mainSettings:
     }
     else {
         GuiControl, Hide, Mains
+    }
+return
+
+autoUseGPTestSettings:
+    Gui, Submit, NoHide
+    global isDarkTheme, DARK_INPUT_BG, DARK_INPUT_TEXT, LIGHT_INPUT_BG, LIGHT_INPUT_TEXT
+
+    autoUseGPTest := !autoUseGPTest
+    ifEqual, autoUseGPTest, 1, GuiControl,, autoUseGPTest, %checkedPath%
+    else GuiControl,, autoUseGPTest, %uncheckedPath%
+        
+        IniWrite, %autoUseGPTest%, Settings.ini, UserSettings, autoUseGPTest
+    if (autoUseGPTest) {
+        GuiControl, Show, TestTime
+
+        if (isDarkTheme) {
+            GuiControl, +Background%DARK_INPUT_BG% +c%DARK_INPUT_TEXT%, TestTime
+        } else {
+            GuiControl, +Background%LIGHT_INPUT_BG% +c%LIGHT_INPUT_TEXT%, TestTime
+        }
+    } else {
+        GuiControl, Hide, TestTime
     }
 return
 
