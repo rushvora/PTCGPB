@@ -18,7 +18,7 @@ localVersion := "v6.4.8"
 scriptFolder := A_ScriptDir
 zipPath := A_Temp . "\update.zip"
 extractPath := A_Temp . "\update"
-intro := "New GUI Update!/EC Added"
+intro := "Deadcheck!"
 
 ; GUI dimensions constants
 global GUI_WIDTH := 377 ; Adjusted from 510 to 480
