@@ -14,11 +14,11 @@ global STATIC_BRUSH := 0
 
 githubUser := "mixman208"
 repoName := "PTCGPB"
-localVersion := "v6.4.11"
+localVersion := "v6.4.12"
 scriptFolder := A_ScriptDir
 zipPath := A_Temp . "\update.zip"
 extractPath := A_Temp . "\update"
-intro := "Auto GP-Test!"
+intro := "Classic GUI"
 
 ; GUI dimensions constants
 global GUI_WIDTH := 377 ; Adjusted from 510 to 480
@@ -122,11 +122,13 @@ NextStep:
     
     ; Check for debugMode and display license notification if not in debug mode
     IniRead, debugMode, Settings.ini, UserSettings, debugMode, 0
-    if (!debugMode) ; <------------- New modify
+    IniRead, shownLicense, Settings.ini, UserSettings, shownLicense, 0
+    if (!debugMode && !shownLicense) ; <------------- New modify
     {
         title := LicenseDictionary.Title
         content := LicenseDictionary.Content
         MsgBox, 64, %title%, %content%
+        IniWrite, 1, Settings.ini, UserSettings, shownLicense
         
         if (proxyEnabled){
             notice := ProxyDictionary.Notice
@@ -3104,6 +3106,7 @@ SwitchLanguage:
     }
     IsLanguageSet := 0
     IniWrite, %IsLanguageSet%, Settings.ini, UserSettings, IsLanguageSet
+    IniWrite, 0, Settings.ini, UserSettings, shownLicense
     Gosub, SaveReload
 return
 
