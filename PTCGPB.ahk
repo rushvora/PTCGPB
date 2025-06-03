@@ -629,7 +629,7 @@ NextStep:
         BtnControl := "Txt_Btn_Arrange,Txt_Btn_Coffee,Txt_Btn_Join,Txt_Btn_Mumu,"
         BtnControl .= "Txt_Btn_BalanceXMLs,Txt_Btn_Start,Txt_Btn_Update,"
         BtnControl .= "Txt_Btn_RerollSettings,Txt_Btn_SystemSettings,Txt_Btn_PackSettings,"
-        BtnControl .= "Txt_Btn_SaveForTrade,Txt_Btn_DiscordSettings,Txt_Btn_DownloadSettings"
+        BtnControl .= "Txt_Btn_SaveForTrade,Txt_Btn_DiscordSettings,Txt_Btn_DownloadSettings,Txt_Btn_ClassicMode"
         
         pageBtnControl := "Txt_Btn_main, Txt_Btn_Setting, Txt_Btn_inset, Txt_Btn_returnPack"
         ; Apply color to all controls in the list
@@ -1022,11 +1022,11 @@ NextStep:
     
     DisableAllImageButton() {
         buttonList := "Btn_RerollSettings,Btn_SystemSettings,Btn_PackSettings,Btn_SaveForTrade,Btn_DiscordSettings,Btn_DownloadSettings,"
-        buttonList .= "Btn_Arrange, Btn_Coffee, Btn_Join, Btn_Mumu, Btn_BalanceXMLs, Btn_Start, Btn_Update,"
-        buttonList .= "Btn_previous, Btn_next"
+        buttonList .= "Btn_Arrange,Btn_Coffee,Btn_Join,Btn_Mumu,Btn_BalanceXMLs,Btn_Start,Btn_Update,"
+        buttonList .= "Btn_previous,Btn_next"
         hoverList := "Hover_RerollSettings,Hover_SystemSettings,Hover_PackSettings,Hover_SaveForTrade,Hover_DiscordSettings,Hover_DownloadSettings,"
-        hoverList .= "Hover_Arrange, Hover_Coffee, Hover_Join, Hover_Mumu, Hover_BalanceXMLs, Hover_Start, Hover_Update,"
-        hoverList .= "Hover_previous, Hover_next"
+        hoverList .= "Hover_Arrange,Hover_Coffee,Hover_Join,Hover_Mumu,Hover_BalanceXMLs,Hover_Start,Hover_Update,"
+        hoverList .= "Hover_previous,Hover_next"
         
         DisableImageButtonToMultiple(buttonList, hoverList)
     }
@@ -1144,8 +1144,8 @@ NextStep:
         chooseSettingsPage := "Bg_set,title_set,Btn_RerollSettings,Btn_SystemSettings,Btn_PackSettings,Btn_SaveForTrade,Btn_DiscordSettings,Btn_DownloadSettings,Btn_main,"
         chooseSettingsPage .= "Txt_title_set,Txt_Btn_RerollSettings,Txt_Btn_SystemSettings,Txt_Btn_PackSettings,Txt_Btn_SaveForTrade,Txt_Btn_DiscordSettings,Txt_Btn_DownloadSettings,Txt_Btn_main,"
         chooseSettingsPage .= "Hover_RerollSettings,Hover_SystemSettings,Hover_PackSettings,Hover_SaveForTrade,Hover_DiscordSettings,Hover_DownloadSettings"
-        mainPage := "Bg_main,title_main,Btn_Arrange,Btn_Coffee,Btn_Join,Btn_Mumu,Btn_BalanceXMLs,Btn_Start,Btn_Update,Btn_Setting,"
-        mainPage .= "Txt_title_main,Txt_Btn_Arrange,Txt_Btn_Coffee,Txt_Btn_Join,Txt_Btn_Mumu,Txt_Btn_BalanceXMLs,Txt_Btn_Start,Txt_Btn_Update,Txt_Btn_Setting,"
+        mainPage := "Bg_main,title_main,Btn_Arrange,Btn_Coffee,Btn_Join,Btn_Mumu,Btn_BalanceXMLs,Btn_Start,Btn_Update,Btn_Setting,Btn_ClassicMode,"
+        mainPage .= "Txt_title_main,Txt_Btn_Arrange,Txt_Btn_Coffee,Txt_Btn_Join,Txt_Btn_Mumu,Txt_Btn_BalanceXMLs,Txt_Btn_Start,Txt_Btn_Update,Txt_Btn_Setting,Txt_Btn_ClassicMode,"
         mainPage .= "Hover_Arrange,Hover_Coffee,Hover_Join,Hover_Mumu,Hover_BalanceXMLs,Hover_Start,Hover_Update"
         inSettingPage := "Bg_inset,Btn_previous,Btn_next,Btn_inset,Txt_Btn_inset,title_box,title_download,title_discord,title_trade,title_pack,title_system,title_reroll,"
         inSettingPage .= "Hover_previous,Hover_next"
@@ -1235,7 +1235,7 @@ NextStep:
         }
         FileDelete, %finishSignalFile% ; delete signal
         
-        BarControls := "Ot_license,Txt_license,Btn_ToolTip,Btn_Language,Btn_reload,BackgroundToggle,ThemeToggle"
+        BarControls := "Ot_license,Txt_license,Btn_ToolTip,Btn_Language,Btn_reload,BackgroundToggle,ThemeToggle,Btn_ClassicMode,Txt_Btn_ClassicMode"
         mainPageControl := "Bg_main,Btn_Arrange,Btn_Coffee,Btn_Join,Btn_Mumu,"
         mainPageControl .= "Btn_BalanceXMLs,Btn_Start,Btn_Update,Btn_Setting,"
         mainPageControl .= "Txt_title_main,Txt_Btn_Arrange,Txt_Btn_Coffee,Txt_Btn_Join,Txt_Btn_Mumu,"
@@ -1317,16 +1317,16 @@ NextStep:
             FileDelete, %finishSignalFile% ; delete signal
         }
         DisableAllImageButton()
-        picList := "Btn_Arrange, Btn_Coffee, Btn_Join, Btn_Mumu, Btn_BalanceXMLs, Btn_Start, Btn_Update"
-        hoverList := "Hover_Arrange, Hover_Coffee, Hover_Join, Hover_Mumu, Hover_BalanceXMLs, Hover_Start, Hover_Update"
+        picList := "Btn_Arrange,Btn_Coffee,Btn_Join,Btn_Mumu,Btn_BalanceXMLs,Btn_Start,Btn_Update"
+        hoverList := "Hover_Arrange,Hover_Coffee,Hover_Join,Hover_Mumu,Hover_BalanceXMLs,Hover_Start,Hover_Update"
         EnableImageButtonToMultiple(picList, hoverList)
         
         HideAllSections()
         
         mainPageControl := "Bg_main,Btn_Arrange,Btn_Coffee,Btn_Join,Btn_Mumu,"
-        mainPageControl .= "Btn_BalanceXMLs,Btn_Start,Btn_Update,Btn_Setting,"
+        mainPageControl .= "Btn_BalanceXMLs,Btn_Start,Btn_Update,Btn_Setting,Btn_ClassicMode,"
         mainPageControl .= "Txt_title_main,Txt_Btn_Arrange,Txt_Btn_Coffee,Txt_Btn_Join,Txt_Btn_Mumu,"
-        mainPageControl .= "Txt_Btn_BalanceXMLs,Txt_Btn_Start,Txt_Btn_Update,Txt_Btn_Setting"
+        mainPageControl .= "Txt_Btn_BalanceXMLs,Txt_Btn_Start,Txt_Btn_Update,Txt_Btn_Setting,Txt_Btn_ClassicMode"
         
         ShowControls(mainPageControl)
         
@@ -1336,7 +1336,7 @@ NextStep:
         
         TextControl := "Txt_title_main,Txt_license"
         BtnControl := "Txt_Btn_Arrange,Txt_Btn_Coffee,Txt_Btn_Join,Txt_Btn_Mumu,"
-        BtnControl .= "Txt_Btn_BalanceXMLs,Txt_Btn_Start,Txt_Btn_Update"
+        BtnControl .= "Txt_Btn_BalanceXMLs,Txt_Btn_Start,Txt_Btn_Update,Txt_Btn_ClassicMode"
         
         ApplyPageTextColorToMutiple(TextControl)
         ApplyBtnTextColorToMutiple(BtnControl)
@@ -2427,6 +2427,7 @@ NextStep:
         
         ; other
         GuiControl,, Ot_license, %license%
+        GuiControl,, Btn_ClassicMode, %btn_settingPage%
     }
     ; First, try to load existing settings
     settingsLoaded := LoadSettingsFromIni()
@@ -2484,7 +2485,7 @@ NextStep:
     global Hover_previous, Hover_next
     
     global Ot_license, Txt_license
-    global Btn_ToolTip, Btn_Language, Btn_reload, BackgroundToggle, ThemeToggle
+    global Btn_ToolTip, Btn_Language, Btn_reload, BackgroundToggle, ThemeToggle, Btn_ClassicMode, Txt_Btn_ClassicMode
     
     ;; Choose Settings page
     Gui, Add, Picture, x0 y0 w%GUI_WIDTH% h%GUI_HEIGHT% vBg_set Hidden, %bg_set%
@@ -2583,6 +2584,9 @@ NextStep:
     ; Add theme toggle button
     TestHover := AddBtn("Text", (316+xs_Theme), (45+ys_Theme), "", "", "ThemeToggle", "ToggleTheme", currentDictionary.btn_theme_Dark)
     Gui, Font, norm
+    SetNormalFont()
+    ; Add Fast setting switch
+    TestHover := AddBtn("Picture", 260, 115, 88, 16, "Btn_ClassicMode", "OpenClassicMode", "Classic mode", btn_settingPage, "Txt_Btn_ClassicMode", 268, 113)
     
     global Txt_runMain, Txt_autoUseGPTest, Txt_slowMotion,
     global Txt_autoLaunchMonitor, Txt_applyRoleFilters, Txt_debugMode, Txt_tesseractOption, Txt_statusMessage
@@ -3703,6 +3707,12 @@ LaunchAllMumu:
     if(FileExist(launchAllFile)) {
         Run, %launchAllFile%
     }
+return
+
+OpenClassicMode:
+    Gui, Submit, NoHide
+    SaveAllSettings()
+    Run, %A_ScriptDir%\Scripts\Include\ClassicMode.ahk
 return
 
 ; ToolTip
