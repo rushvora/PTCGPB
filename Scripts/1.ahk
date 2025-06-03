@@ -710,7 +710,7 @@ HomeAndMission(homeonly := 0, completeSecondMisson=false) {
                 Leveled := LevelUp()
             else
                 LevelUp()
-            FindImageAndClick(191, 393, 211, 411, , "Shop", 146, 470, 500, 1)
+            FindImageAndClick(191, 393, 211, 411, , "Shop", 138, 488, 500, 1)
             if(FindImageAndClick(120, 188, 140, 208, , "Album", 79, 86 , 500, 1)){
                 FindImageAndClick(191, 393, 211, 411, , "Shop", 142, 488, 500)
                 break
