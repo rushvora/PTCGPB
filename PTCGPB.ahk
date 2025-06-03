@@ -1,4 +1,4 @@
-﻿#Include %A_ScriptDir%\Scripts\Include\
+#Include %A_ScriptDir%\Scripts\Include\
 #Include Logging.ahk
 #Include ADB.ahk
 #Include Dictionary.ahk
@@ -465,9 +465,19 @@ NextStep:
                 injectSortMethod := "PacksDesc"
         }
         
-        ; FIXED: Save deleteMethod first with validation
+        ; Do not initalize friend IDs or id.txt if Inject or Inject Missions
         IniWrite, %deleteMethod%, Settings.ini, UserSettings, deleteMethod
-        
+        if (deleteMethod = "Inject for Reroll" || deleteMethod = "13 Pack") {
+            IniWrite, %FriendID%, Settings.ini, UserSettings, FriendID
+            IniWrite, %mainIdsURL%, Settings.ini, UserSettings, mainIdsURL
+        } else {
+            if(FileExist("ids.txt"))
+                FileDelete, ids.txt
+            IniWrite, "", Settings.ini, UserSettings, FriendID
+            IniWrite, "", Settings.ini, UserSettings, mainIdsURL
+            mainIdsURL := ""
+            FriendID := ""
+        }        
         ; Save pack selections directly without resetting them
         IniWrite, %Palkia%, Settings.ini, UserSettings, Palkia
         IniWrite, %Dialga%, Settings.ini, UserSettings, Dialga
@@ -480,14 +490,7 @@ NextStep:
         IniWrite, %Solgaleo%, Settings.ini, UserSettings, Solgaleo
         IniWrite, %Lunala%, Settings.ini, UserSettings, Lunala
         IniWrite, %Buzzwole%, Settings.ini, UserSettings, Buzzwole
-        
         ; Save basic settings
-        IniRead, deleteMethod, Settings.ini, UserSettings, deleteMethod
-        if (deleteMethod = "Inject for Reroll") {
-            IniWrite, %FriendID%, Settings.ini, UserSettings, FriendID
-        } else {
-            IniWrite, "", Settings.ini, UserSettings, FriendID
-        }
         IniWrite, %AccountName%, Settings.ini, UserSettings, AccountName
         IniWrite, %waitTime%, Settings.ini, UserSettings, waitTime
         IniWrite, %Delay%, Settings.ini, UserSettings, Delay
@@ -3855,17 +3858,29 @@ return
 
 ; Function to reset all account lists (automatically called on startup)
 ResetAccountLists() {
-    ; Run the ResetLists.ahk script without waiting
-    Run, %A_ScriptDir%\ResetLists.ahk,, Hide UseErrorLevel
-    
-    ; Very short delay to ensure process starts
-    Sleep, 50
-    
-    ; Log that we've delegated to the script
-    LogToFile("Account lists reset via ResetLists.ahk. New lists will be generated on next injection.")
-    
-    ; Create a status message
-    CreateStatusMessage("Account lists reset. New lists will use current method settings.",,,, false)
+    ; Check if ResetLists.ahk exists before trying to run it
+    resetListsPath := A_ScriptDir . "\Scripts\Include\ResetLists.ahk"
+
+    if (FileExist(resetListsPath)) {
+        ; Run the ResetLists.ahk script without waiting
+        Run, %resetListsPath%,, Hide UseErrorLevel
+
+        ; Very short delay to ensure process starts
+        Sleep, 50
+
+        ; Log that we've delegated to the script
+        LogToFile("Account lists reset via ResetLists.ahk. New lists will be generated on next injection.")
+
+        ; Create a status message
+        CreateStatusMessage("Account lists reset. New lists will use current method settings.",,,, false)
+    } else {
+        ; Log error if file doesn't exist
+        LogToFile("ERROR: ResetLists.ahk not found at: " . resetListsPath)
+
+        if (debugMode) {
+            MsgBox, ResetLists.ahk not found at:`n%resetListsPath%
+        }
+    }
 }
 
 StartBot:
