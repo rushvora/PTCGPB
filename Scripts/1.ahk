@@ -710,7 +710,7 @@ HomeAndMission(homeonly := 0, completeSecondMisson=false) {
                 Leveled := LevelUp()
             else
                 LevelUp()
-            FindImageAndClick(191, 393, 211, 411, , "Shop", 146, 470, 500, 1)
+            FindImageAndClick(191, 393, 211, 411, , "Shop", 138, 488, 500, 1)
             if(FindImageAndClick(120, 188, 140, 208, , "Album", 79, 86 , 500, 1)){
                 FindImageAndClick(191, 393, 211, 411, , "Shop", 142, 488, 500)
                 break
@@ -953,7 +953,8 @@ RemoveFriends() {
             
             ; Only clear input and prepare for next friend if there are more friends to process
             if(index != friendIDs.maxIndex()) {
-                FindImageAndClick(205, 430, 255, 475, , "Search2", 150, 50, 1500)
+                Delay(1)
+                FindImageAndClick(205, 430, 255, 475, , "Search2", 143, 518)
                 FindImageAndClick(0, 475, 25, 495, , "OK2", 138, 454)
                 EraseInput(index, n)
             }
@@ -1167,7 +1168,8 @@ AddFriends(renew := false, getFC := false) {
                         CreateStatusMessage("Waiting for AddFriends4`n(" . failSafeTime . "/45 seconds)")
                     }
                     if(index != friendIDs.maxIndex()) {
-                        FindImageAndClick(205, 430, 255, 475, , "Search2", 150, 50, 1500)
+                        Delay(1)
+                        FindImageAndClick(205, 430, 255, 475, , "Search2", 143, 518)
                         FindImageAndClick(0, 475, 25, 495, , "OK2", 138, 454)
                         EraseInput(index, n)
                     }
