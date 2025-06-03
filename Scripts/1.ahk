@@ -330,6 +330,7 @@ if(DeadCheck = 1 && deleteMethod != "13 Pack") {
         dateChange := false
 
         while (StartCurrentTimeDiff > 0 && EndCurrentTimeDiff < 0) {
+            FormatTime, formattedEndTime, %EndTime%, HH:mm:ss
             CreateStatusMessage("I need a break... Sleeping until " . EndTime ,,,, false)
             dateChange := true
             Sleep, 5000
