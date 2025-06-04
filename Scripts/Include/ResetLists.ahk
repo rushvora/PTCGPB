@@ -1,4 +1,4 @@
-﻿﻿#SingleInstance, force
+﻿#SingleInstance Force
 #NoEnv
 
 ; Define custom log file for ResetLists (self-contained, no external dependencies)
