@@ -123,7 +123,9 @@ NextStep:
     ; Check for debugMode and display license notification if not in debug mode
     IniRead, debugMode, Settings.ini, UserSettings, debugMode, 0
     IniRead, shownLicense, Settings.ini, UserSettings, shownLicense, 0
-    if (!debugMode && !shownLicense) ; <------------- New modify
+    global saveSignalFile
+    saveSignalFile := A_ScriptDir "\Scripts\Include\save.signal"
+    if (!debugMode && !shownLicense && !FileExist(saveSignalFile))) ; <------------- New modify
     {
         title := LicenseDictionary.Title
         content := LicenseDictionary.Content
@@ -2442,10 +2444,14 @@ NextStep:
         CreateDefaultSettingsFile()
         ; Now load the default settings we just created
         LoadSettingsFromIni()
+    }    
+    if FileExist(saveSignalFile) {
+        KillADBProcesses()
+        FileDelete, %saveSignalFile%
+    } else {
+        KillADBProcesses()
+        CheckForUpdate()
     }
-    
-    CheckForUpdate()
-    KillADBProcesses()
     scriptName := StrReplace(A_ScriptName, ".ahk")
     winTitle := scriptName
     showStatus := true
@@ -3718,7 +3724,7 @@ OpenClassicMode:
     Gui, Submit, NoHide
     SaveAllSettings()
     Run, %A_ScriptDir%\Scripts\Include\ClassicMode.ahk
-    LoadSettingsFromIni()
+    ExitApp
 return
 
 ; ToolTip
