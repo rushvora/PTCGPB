@@ -423,7 +423,7 @@ NextStep:
         global autoLaunchMonitor, autoUseGPTest, TestTime
         global CheckShinyPackOnly, TrainerCheck, FullArtCheck, RainbowCheck, ShinyCheck, CrownCheck
         global InvalidCheck, ImmersiveCheck, PseudoGodPack, minStars, Palkia, Dialga, Arceus, Shining
-        global Mew, Pikachu, Charizard, Mewtwo, Solgaleo, Lunala, Buzzwole, slowMotion, ocrLanguage, clientLanguage        
+        global Mew, Pikachu, Charizard, Mewtwo, Solgaleo, Lunala, Buzzwole, slowMotion, ocrLanguage, clientLanguage
         global CurrentVisibleSection, heartBeatDelay, sendAccountXml, showcaseEnabled, showcaseURL, isDarkTheme
         global useBackgroundImage, tesseractPath, applyRoleFilters, debugMode, tesseractOption, statusMessage
         global s4tEnabled, s4tSilent, s4t3Dmnd, s4t4Dmnd, s4t1Star, s4tGholdengo, s4tWP, s4tWPMinCards
@@ -479,7 +479,7 @@ NextStep:
             IniWrite, "", Settings.ini, UserSettings, mainIdsURL
             mainIdsURL := ""
             FriendID := ""
-        }        
+        }
         ; Save pack selections directly without resetting them
         IniWrite, %Palkia%, Settings.ini, UserSettings, Palkia
         IniWrite, %Dialga%, Settings.ini, UserSettings, Dialga
@@ -631,7 +631,7 @@ NextStep:
         BtnControl := "Txt_Btn_Arrange,Txt_Btn_Coffee,Txt_Btn_Join,Txt_Btn_Mumu,"
         BtnControl .= "Txt_Btn_BalanceXMLs,Txt_Btn_Start,Txt_Btn_Update,"
         BtnControl .= "Txt_Btn_RerollSettings,Txt_Btn_SystemSettings,Txt_Btn_PackSettings,"
-        BtnControl .= "Txt_Btn_SaveForTrade,Txt_Btn_DiscordSettings,Txt_Btn_DownloadSettings"
+        BtnControl .= "Txt_Btn_SaveForTrade,Txt_Btn_DiscordSettings,Txt_Btn_DownloadSettings,Txt_Btn_ClassicMode"
         
         pageBtnControl := "Txt_Btn_main, Txt_Btn_Setting, Txt_Btn_inset, Txt_Btn_returnPack"
         ; Apply color to all controls in the list
@@ -1024,11 +1024,11 @@ NextStep:
     
     DisableAllImageButton() {
         buttonList := "Btn_RerollSettings,Btn_SystemSettings,Btn_PackSettings,Btn_SaveForTrade,Btn_DiscordSettings,Btn_DownloadSettings,"
-        buttonList .= "Btn_Arrange, Btn_Coffee, Btn_Join, Btn_Mumu, Btn_BalanceXMLs, Btn_Start, Btn_Update,"
-        buttonList .= "Btn_previous, Btn_next"
+        buttonList .= "Btn_Arrange,Btn_Coffee,Btn_Join,Btn_Mumu,Btn_BalanceXMLs,Btn_Start,Btn_Update,"
+        buttonList .= "Btn_previous,Btn_next"
         hoverList := "Hover_RerollSettings,Hover_SystemSettings,Hover_PackSettings,Hover_SaveForTrade,Hover_DiscordSettings,Hover_DownloadSettings,"
-        hoverList .= "Hover_Arrange, Hover_Coffee, Hover_Join, Hover_Mumu, Hover_BalanceXMLs, Hover_Start, Hover_Update,"
-        hoverList .= "Hover_previous, Hover_next"
+        hoverList .= "Hover_Arrange,Hover_Coffee,Hover_Join,Hover_Mumu,Hover_BalanceXMLs,Hover_Start,Hover_Update,"
+        hoverList .= "Hover_previous,Hover_next"
         
         DisableImageButtonToMultiple(buttonList, hoverList)
     }
@@ -1146,8 +1146,8 @@ NextStep:
         chooseSettingsPage := "Bg_set,title_set,Btn_RerollSettings,Btn_SystemSettings,Btn_PackSettings,Btn_SaveForTrade,Btn_DiscordSettings,Btn_DownloadSettings,Btn_main,"
         chooseSettingsPage .= "Txt_title_set,Txt_Btn_RerollSettings,Txt_Btn_SystemSettings,Txt_Btn_PackSettings,Txt_Btn_SaveForTrade,Txt_Btn_DiscordSettings,Txt_Btn_DownloadSettings,Txt_Btn_main,"
         chooseSettingsPage .= "Hover_RerollSettings,Hover_SystemSettings,Hover_PackSettings,Hover_SaveForTrade,Hover_DiscordSettings,Hover_DownloadSettings"
-        mainPage := "Bg_main,title_main,Btn_Arrange,Btn_Coffee,Btn_Join,Btn_Mumu,Btn_BalanceXMLs,Btn_Start,Btn_Update,Btn_Setting,"
-        mainPage .= "Txt_title_main,Txt_Btn_Arrange,Txt_Btn_Coffee,Txt_Btn_Join,Txt_Btn_Mumu,Txt_Btn_BalanceXMLs,Txt_Btn_Start,Txt_Btn_Update,Txt_Btn_Setting,"
+        mainPage := "Bg_main,title_main,Btn_Arrange,Btn_Coffee,Btn_Join,Btn_Mumu,Btn_BalanceXMLs,Btn_Start,Btn_Update,Btn_Setting,Btn_ClassicMode,"
+        mainPage .= "Txt_title_main,Txt_Btn_Arrange,Txt_Btn_Coffee,Txt_Btn_Join,Txt_Btn_Mumu,Txt_Btn_BalanceXMLs,Txt_Btn_Start,Txt_Btn_Update,Txt_Btn_Setting,Txt_Btn_ClassicMode,"
         mainPage .= "Hover_Arrange,Hover_Coffee,Hover_Join,Hover_Mumu,Hover_BalanceXMLs,Hover_Start,Hover_Update"
         inSettingPage := "Bg_inset,Btn_previous,Btn_next,Btn_inset,Txt_Btn_inset,title_box,title_download,title_discord,title_trade,title_pack,title_system,title_reroll,"
         inSettingPage .= "Hover_previous,Hover_next"
@@ -1237,7 +1237,7 @@ NextStep:
         }
         FileDelete, %finishSignalFile% ; delete signal
         
-        BarControls := "Ot_license,Txt_license,Btn_ToolTip,Btn_Language,Btn_reload,BackgroundToggle,ThemeToggle"
+        BarControls := "Ot_license,Txt_license,Btn_ToolTip,Btn_Language,Btn_reload,BackgroundToggle,ThemeToggle,Btn_ClassicMode,Txt_Btn_ClassicMode"
         mainPageControl := "Bg_main,Btn_Arrange,Btn_Coffee,Btn_Join,Btn_Mumu,"
         mainPageControl .= "Btn_BalanceXMLs,Btn_Start,Btn_Update,Btn_Setting,"
         mainPageControl .= "Txt_title_main,Txt_Btn_Arrange,Txt_Btn_Coffee,Txt_Btn_Join,Txt_Btn_Mumu,"
@@ -1319,16 +1319,16 @@ NextStep:
             FileDelete, %finishSignalFile% ; delete signal
         }
         DisableAllImageButton()
-        picList := "Btn_Arrange, Btn_Coffee, Btn_Join, Btn_Mumu, Btn_BalanceXMLs, Btn_Start, Btn_Update"
-        hoverList := "Hover_Arrange, Hover_Coffee, Hover_Join, Hover_Mumu, Hover_BalanceXMLs, Hover_Start, Hover_Update"
+        picList := "Btn_Arrange,Btn_Coffee,Btn_Join,Btn_Mumu,Btn_BalanceXMLs,Btn_Start,Btn_Update"
+        hoverList := "Hover_Arrange,Hover_Coffee,Hover_Join,Hover_Mumu,Hover_BalanceXMLs,Hover_Start,Hover_Update"
         EnableImageButtonToMultiple(picList, hoverList)
         
         HideAllSections()
         
         mainPageControl := "Bg_main,Btn_Arrange,Btn_Coffee,Btn_Join,Btn_Mumu,"
-        mainPageControl .= "Btn_BalanceXMLs,Btn_Start,Btn_Update,Btn_Setting,"
+        mainPageControl .= "Btn_BalanceXMLs,Btn_Start,Btn_Update,Btn_Setting,Btn_ClassicMode,"
         mainPageControl .= "Txt_title_main,Txt_Btn_Arrange,Txt_Btn_Coffee,Txt_Btn_Join,Txt_Btn_Mumu,"
-        mainPageControl .= "Txt_Btn_BalanceXMLs,Txt_Btn_Start,Txt_Btn_Update,Txt_Btn_Setting"
+        mainPageControl .= "Txt_Btn_BalanceXMLs,Txt_Btn_Start,Txt_Btn_Update,Txt_Btn_Setting,Txt_Btn_ClassicMode"
         
         ShowControls(mainPageControl)
         
@@ -1338,7 +1338,7 @@ NextStep:
         
         TextControl := "Txt_title_main,Txt_license"
         BtnControl := "Txt_Btn_Arrange,Txt_Btn_Coffee,Txt_Btn_Join,Txt_Btn_Mumu,"
-        BtnControl .= "Txt_Btn_BalanceXMLs,Txt_Btn_Start,Txt_Btn_Update"
+        BtnControl .= "Txt_Btn_BalanceXMLs,Txt_Btn_Start,Txt_Btn_Update,Txt_Btn_ClassicMode"
         
         ApplyPageTextColorToMutiple(TextControl)
         ApplyBtnTextColorToMutiple(BtnControl)
@@ -1401,7 +1401,7 @@ NextStep:
         if (runMain) {
             GuiControl, Show, Mains
         }
-
+        
         IniRead, autoUseGPTest, Settings.ini, UserSettings, autoUseGPTest, 0
         if (autoUseGPTest) {
             GuiControl, Show, TestTime
@@ -1438,7 +1438,7 @@ NextStep:
         ; Apply styling to Mains if shown
         if (runMain)
             GuiControl, +Background%inputBgColor% +c%inputTextColor%, Mains
-
+        
         if (autoUseGPTest)
             GuiControl, +Background%inputBgColor% +c%inputTextColor%, TestTime
         
@@ -2068,19 +2068,19 @@ NextStep:
             ;instance settings
             IniRead, Instances, Settings.ini, UserSettings, Instances, 1
             IniRead, instanceStartDelay, Settings.ini, UserSettings, instanceStartDelay, 0
-            IniRead, Columns, Settings.ini, UserSettings, Columns, 5            
+            IniRead, Columns, Settings.ini, UserSettings, Columns, 5
             IniRead, runMain, Settings.ini, UserSettings, runMain, 1
             IniRead, Mains, Settings.ini, UserSettings, Mains, 1
             IniRead, AccountName, Settings.ini, UserSettings, AccountName, ""
             IniRead, autoLaunchMonitor, Settings.ini, UserSettings, autoLaunchMonitor, 1
             IniRead, autoUseGPTest, Settings.ini, UserSettings, autoUseGPTest, 0
-            IniRead, TestTime, Settings.ini, UserSettings, TestTime, 3600            
+            IniRead, TestTime, Settings.ini, UserSettings, TestTime, 3600
             ;Time settings
             IniRead, Delay, Settings.ini, UserSettings, Delay, 250
             IniRead, waitTime, Settings.ini, UserSettings, waitTime, 5
             IniRead, swipeSpeed, Settings.ini, UserSettings, swipeSpeed, 300
-            IniRead, slowMotion, Settings.ini, UserSettings, slowMotion, 0            
-                        
+            IniRead, slowMotion, Settings.ini, UserSettings, slowMotion, 0
+            
             ;system settings
             IniRead, SelectedMonitorIndex, Settings.ini, UserSettings, SelectedMonitorIndex, 1
             IniRead, defaultLanguage, Settings.ini, UserSettings, defaultLanguage, Scale125
@@ -2089,14 +2089,14 @@ NextStep:
             IniRead, ocrLanguage, Settings.ini, UserSettings, ocrLanguage, en
             IniRead, clientLanguage, Settings.ini, UserSettings, clientLanguage, en
             IniRead, instanceLaunchDelay, Settings.ini, UserSettings, instanceLaunchDelay, 5
-
+            
             ; Extra Settings
             IniRead, tesseractPath, Settings.ini, UserSettings, tesseractPath, C:\Program Files\Tesseract-OCR\tesseract.exe
             IniRead, applyRoleFilters, Settings.ini, UserSettings, applyRoleFilters, 0
             IniRead, debugMode, Settings.ini, UserSettings, debugMode, 0
             IniRead, tesseractOption, Settings.ini, UserSettings, tesseractOption, 0
             IniRead, statusMessage, Settings.ini, UserSettings, statusMessage, 1
-
+            
             ;pack settings
             IniRead, minStars, Settings.ini, UserSettings, minStars, 0
             IniRead, minStarsShiny, Settings.ini, UserSettings, minStarsShiny, 0
@@ -2117,7 +2117,7 @@ NextStep:
             IniRead, Mewtwo, Settings.ini, UserSettings, Mewtwo, 0
             IniRead, Solgaleo, Settings.ini, UserSettings, Solgaleo, 0
             IniRead, Lunala, Settings.ini, UserSettings, Lunala, 0
-            IniRead, Buzzwole, Settings.ini, UserSettings, Buzzwole, 1            
+            IniRead, Buzzwole, Settings.ini, UserSettings, Buzzwole, 1
             
             IniRead, CheckShinyPackOnly, Settings.ini, UserSettings, CheckShinyPackOnly, 0
             IniRead, TrainerCheck, Settings.ini, UserSettings, TrainerCheck, 0
@@ -2141,8 +2141,11 @@ NextStep:
             IniRead, s4tDiscordWebhookURL, Settings.ini, UserSettings, s4tDiscordWebhookURL, ""
             IniRead, s4tDiscordUserId, Settings.ini, UserSettings, s4tDiscordUserId, ""
             IniRead, s4tSendAccountXml, Settings.ini, UserSettings, s4tSendAccountXml, 1
-
+            
             ;discord settings
+            IniRead, DiscordWebhookURL, %A_ScriptDir%\..\..\Settings.ini, UserSettings, DiscordWebhookURL, ""
+            IniRead, DiscordUserId, %A_ScriptDir%\..\..\Settings.ini, UserSettings, DiscordUserId, ""
+            IniRead, SendAccountXml, %A_ScriptDir%\..\..\Settings.ini, UserSettings, SendAccountXml, 1
             IniRead, heartBeat, Settings.ini, UserSettings, heartBeat, 0
             IniRead, heartBeatWebhookURL, Settings.ini, UserSettings, heartBeatWebhookURL, ""
             IniRead, heartBeatName, Settings.ini, UserSettings, heartBeatName, ""
@@ -2153,8 +2156,8 @@ NextStep:
             IniRead, mainIdsURL, Settings.ini, UserSettings, mainIdsURL, ""
             IniRead, vipIdsURL, Settings.ini, UserSettings, vipIdsURL, ""
             IniRead, showcaseEnabled, Settings.ini, UserSettings, showcaseEnabled, 0
-            IniRead, showcaseLikes, Settings.ini, UserSettings, showcaseLikes, 5        
-      
+            IniRead, showcaseLikes, Settings.ini, UserSettings, showcaseLikes, 5
+            
             ; Advanced settings
             IniRead, minStarsA1Charizard, Settings.ini, UserSettings, minStarsA1Charizard, 0
             IniRead, minStarsA1Mewtwo, Settings.ini, UserSettings, minStarsA1Mewtwo, 0
@@ -2165,14 +2168,14 @@ NextStep:
             IniRead, minStarsA2a, Settings.ini, UserSettings, minStarsA2a, 0
             IniRead, minStarsA3Solgaleo, Settings.ini, UserSettings, minStarsA3Solgaleo, 0
             IniRead, minStarsA3Lunala, Settings.ini, UserSettings, minStarsA3Lunala, 0
-            IniRead, minStarsA3a, Settings.ini, UserSettings, minStarA3aBuzzwole, 0        
-
+            IniRead, minStarsA3a, Settings.ini, UserSettings, minStarA3aBuzzwole, 0
+            
             IniRead, waitForEligibleAccounts, Settings.ini, UserSettings, waitForEligibleAccounts, 1
             IniRead, maxWaitHours, Settings.ini, UserSettings, maxWaitHours, 24
             
             IniRead, isDarkTheme, Settings.ini, UserSettings, isDarkTheme, 1
             IniRead, useBackgroundImage, Settings.ini, UserSettings, useBackgroundImage, 1
-
+            
             ; Validate numeric values
             if (!IsNumeric(Instances) || Instances < 1)
                 Instances := 1
@@ -2429,6 +2432,7 @@ NextStep:
         
         ; other
         GuiControl,, Ot_license, %license%
+        GuiControl,, Btn_ClassicMode, %btn_settingPage%
     }
     ; First, try to load existing settings
     settingsLoaded := LoadSettingsFromIni()
@@ -2486,7 +2490,7 @@ NextStep:
     global Hover_previous, Hover_next
     
     global Ot_license, Txt_license
-    global Btn_ToolTip, Btn_Language, Btn_reload, BackgroundToggle, ThemeToggle
+    global Btn_ToolTip, Btn_Language, Btn_reload, BackgroundToggle, ThemeToggle, Btn_ClassicMode, Txt_Btn_ClassicMode
     
     ;; Choose Settings page
     Gui, Add, Picture, x0 y0 w%GUI_WIDTH% h%GUI_HEIGHT% vBg_set Hidden, %bg_set%
@@ -2585,6 +2589,9 @@ NextStep:
     ; Add theme toggle button
     TestHover := AddBtn("Text", (316+xs_Theme), (45+ys_Theme), "", "", "ThemeToggle", "ToggleTheme", currentDictionary.btn_theme_Dark)
     Gui, Font, norm
+    SetNormalFont()
+    ; Add Fast setting switch
+    TestHover := AddBtn("Picture", 260, 115, 88, 16, "Btn_ClassicMode", "OpenClassicMode", "Classic mode", btn_settingPage, "Txt_Btn_ClassicMode", 268, 113)
     
     global Txt_runMain, Txt_autoUseGPTest, Txt_slowMotion,
     global Txt_autoLaunchMonitor, Txt_applyRoleFilters, Txt_debugMode, Txt_tesseractOption, Txt_statusMessage
@@ -2623,10 +2630,10 @@ NextStep:
     
     AddCheckBox(45, 282, 28, 13, "runMain", "mainSettings", checkedPath, uncheckedPath, runMain, "Txt_runMain", currentDictionary.Txt_runMain, 80, 280)
     Gui, Add, Edit, % "vMains cFDFDFD w40 x220 y280 h20 -E0x200 Center Hidden " . (runMain ? "" : " backgroundtrans Hidden"), %Mains%
-
+    
     Gui, Add, Text, x45 y330 backgroundtrans Hidden vTxt_AccountName, % currentDictionary.Txt_AccountName
     Gui, Add, Edit, vAccountName cFDFDFD w100 x220 y330 h20 -E0x200 Center backgroundtrans Hidden, %AccountName%
-
+    
     AddCheckBox(45, 306, 28, 13, "autoUseGPTest", "autoUseGPTestSettings", checkedPath, uncheckedPath, autoUseGPTest, "Txt_autoUseGPTest", currentDictionary.Txt_autoUseGPTest, 80, 305)
     Gui, Add, Edit, % "vTestTime cFDFDFD w40 x220 y305 h20 -E0x200 Center Hidden " . (autoUseGPTest ? "" : " backgroundtrans Hidden"), %TestTime%
     
@@ -2717,7 +2724,6 @@ NextStep:
     Gui, Add, Edit, vinstanceLaunchDelay cFDFDFD w40 x190 y300 h20 -E0x200 Center backgroundtrans Hidden, %instanceLaunchDelay%
     
     AddCheckBox(45, 326, 28, 13, "autoLaunchMonitor", "", checkedPath, uncheckedPath, autoLaunchMonitor, "Txt_autoLaunchMonitor", currentDictionary.Txt_autoLaunchMonitor, 80, 325)
-    
     
     SetHeaderFont()
     Gui, Add, Text, x45 y350 backgroundtrans Hidden vExtraSettingsHeading, % currentDictionary.ExtraSettingsHeading
@@ -3298,7 +3304,7 @@ return
 autoUseGPTestSettings:
     Gui, Submit, NoHide
     global isDarkTheme, DARK_INPUT_BG, DARK_INPUT_TEXT, LIGHT_INPUT_BG, LIGHT_INPUT_TEXT
-
+    
     autoUseGPTest := !autoUseGPTest
     ifEqual, autoUseGPTest, 1, GuiControl,, autoUseGPTest, %checkedPath%
     else GuiControl,, autoUseGPTest, %uncheckedPath%
@@ -3306,7 +3312,7 @@ autoUseGPTestSettings:
         IniWrite, %autoUseGPTest%, Settings.ini, UserSettings, autoUseGPTest
     if (autoUseGPTest) {
         GuiControl, Show, TestTime
-
+        
         if (isDarkTheme) {
             GuiControl, +Background%DARK_INPUT_BG% +c%DARK_INPUT_TEXT%, TestTime
         } else {
@@ -3596,7 +3602,7 @@ ArrangeWindows:
         Loop %Mains% {
             mainInstanceName := "Main" . (A_Index > 1 ? A_Index : "")
             ; Use exact matching for Main windows
-            SetTitleMatchMode, 3  ; Exact match
+            SetTitleMatchMode, 3 ; Exact match
             if (WinExist(mainInstanceName)) {
                 WinActivate, %mainInstanceName%
                 WinGetPos, curX, curY, curW, curH, %mainInstanceName%
@@ -3624,7 +3630,7 @@ ArrangeWindows:
     if (Instances > 0) {
         Loop %Instances% {
             ; Use exact window title matching with SetTitleMatchMode
-            SetTitleMatchMode, 3  ; Exact match
+            SetTitleMatchMode, 3 ; Exact match
             windowTitle := A_Index
             
             if (WinExist(windowTitle)) {
@@ -3706,6 +3712,13 @@ LaunchAllMumu:
     if(FileExist(launchAllFile)) {
         Run, %launchAllFile%
     }
+return
+
+OpenClassicMode:
+    Gui, Submit, NoHide
+    SaveAllSettings()
+    Run, %A_ScriptDir%\Scripts\Include\ClassicMode.ahk
+    LoadSettingsFromIni()
 return
 
 ; ToolTip
@@ -3863,23 +3876,23 @@ return
 ResetAccountLists() {
     ; Check if ResetLists.ahk exists before trying to run it
     resetListsPath := A_ScriptDir . "\Scripts\Include\ResetLists.ahk"
-
+    
     if (FileExist(resetListsPath)) {
         ; Run the ResetLists.ahk script without waiting
         Run, %resetListsPath%,, Hide UseErrorLevel
-
+        
         ; Very short delay to ensure process starts
         Sleep, 50
-
+        
         ; Log that we've delegated to the script
         LogToFile("Account lists reset via ResetLists.ahk. New lists will be generated on next injection.")
-
+        
         ; Create a status message
         CreateStatusMessage("Account lists reset. New lists will use current method settings.",,,, false)
     } else {
         ; Log error if file doesn't exist
         LogToFile("ERROR: ResetLists.ahk not found at: " . resetListsPath)
-
+        
         if (debugMode) {
             MsgBox, ResetLists.ahk not found at:`n%resetListsPath%
         }
