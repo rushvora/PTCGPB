@@ -1,4 +1,4 @@
-﻿#Include %A_ScriptDir%\Dictionary.ahk
+﻿﻿#Include %A_ScriptDir%\Dictionary.ahk
 #SingleInstance Force
 
 if not A_IsAdmin
@@ -792,6 +792,7 @@ Save:
   Gui, Submit
   SaveAllSettings()
   Gui, Destroy
+  Run, %A_ScriptDir%\..\..\PTCGPB.ahk
 ExitApp
 Return
 
@@ -801,6 +802,7 @@ GuiClose:
     
     ; Kill all related scripts
     KillAllScripts()
+    Run, %A_ScriptDir%\..\..\PTCGPB.ahk
 ExitApp
 Return
 
