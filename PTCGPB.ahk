@@ -125,7 +125,7 @@ NextStep:
     IniRead, shownLicense, Settings.ini, UserSettings, shownLicense, 0
     global saveSignalFile
     saveSignalFile := A_ScriptDir "\Scripts\Include\save.signal"
-    if (!debugMode && !shownLicense && !FileExist(saveSignalFile))) ; <------------- New modify
+    if (!debugMode && !shownLicense && !FileExist(saveSignalFile)) ; <------------- New modify
     {
         title := LicenseDictionary.Title
         content := LicenseDictionary.Content
