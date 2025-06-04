@@ -18,7 +18,7 @@ localVersion := "v6.4.12"
 scriptFolder := A_ScriptDir
 zipPath := A_Temp . "\update.zip"
 extractPath := A_Temp . "\update"
-intro := "Classic GUI"
+intro := "Classic GUI!"
 
 ; GUI dimensions constants
 global GUI_WIDTH := 377 ; Adjusted from 510 to 480
@@ -125,7 +125,7 @@ NextStep:
     IniRead, shownLicense, Settings.ini, UserSettings, shownLicense, 0
     global saveSignalFile
     saveSignalFile := A_ScriptDir "\Scripts\Include\save.signal"
-    if (!debugMode && !shownLicense && !FileExist(saveSignalFile))) ; <------------- New modify
+    if (!debugMode && !shownLicense && !FileExist(saveSignalFile)) ; <------------- New modify
     {
         title := LicenseDictionary.Title
         content := LicenseDictionary.Content
